@@ -18,39 +18,29 @@ package org.springmodules.validation.commons.taglib;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
-import org.apache.commons.validator.Arg;
-import org.apache.commons.validator.Field;
 import org.apache.commons.validator.Form;
 import org.apache.commons.validator.ValidatorAction;
 import org.apache.commons.validator.ValidatorResources;
-import org.apache.commons.validator.Var;
-import org.apache.commons.validator.util.ValidatorUtils;
 import org.appfuse.anno.AnnoInfo;
 import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.context.MessageSource;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.support.RequestContextUtils;
-import org.springmodules.validation.commons.MessageUtils;
 import org.springmodules.validation.commons.ValidatorFactory;
 
 import com.btxy.basis.cache.LibraryInfoCache;
 import com.btxy.basis.cache.cfg.CfgCustomPropertyCache;
-import com.btxy.basis.cache.cfg.CfgFixedPropertyDefineCache;
 import com.btxy.basis.cache.cfg.CfgFormInfoCache;
 import com.btxy.basis.model.CfgCustomProperty;
 import com.btxy.basis.util.list.ListUtil;
@@ -69,7 +59,12 @@ import com.btxy.basis.util.list.ListUtil;
  */
 public class JavascriptValidatorTag extends BodyTagSupport {
 
-    protected RequestContext requestContext;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3283128332362376285L;
+
+	protected RequestContext requestContext;
 
     /**
      * The name of the form that corresponds with the action name
@@ -404,7 +399,6 @@ public class JavascriptValidatorTag extends BodyTagSupport {
         if (form != null) {
         	
             if ("true".equalsIgnoreCase(dynamicJavascript)) {
-                MessageSource messages = getMessageSource();
 
                 
                 results.append("<script type=\"text/javascript\">");
@@ -515,7 +509,8 @@ public class JavascriptValidatorTag extends BodyTagSupport {
 
         sb.append("\n\n");
 
-        Iterator actions = resources.getValidatorActions().values().iterator();
+        @SuppressWarnings("rawtypes")
+		Iterator actions = resources.getValidatorActions().values().iterator();
         while (actions.hasNext()) {
             ValidatorAction va = (ValidatorAction) actions.next();
             if (va != null) {
@@ -550,54 +545,6 @@ public class JavascriptValidatorTag extends BodyTagSupport {
     }
 
     /**
-     * The value <code>null</code> will be returned at the end of the sequence.
-     * &nbsp;&nbsp;&nbsp; ex: "zz" will return <code>null</code>
-     */
-    private String getNextVar(String input) {
-        if (input == null) {
-            return "aa";
-        }
-
-        input = input.toLowerCase();
-
-        for (int i = input.length(); i > 0; i--) {
-            int pos = i - 1;
-
-            char c = input.charAt(pos);
-            c++;
-
-            if (c <= 'z') {
-                if (i == 0) {
-                    return c + input.substring(pos, input.length());
-                } else if (i == input.length()) {
-                    return input.substring(0, pos) + c;
-                } else {
-                    return input.substring(0, pos) + c + input.substring(pos, input.length() - 1);
-                }
-            } else {
-                input = replaceChar(input, pos, 'a');
-            }
-
-        }
-
-        return null;
-
-    }
-
-    /**
-     * Replaces a single character in a <code>String</code>
-     */
-    private String replaceChar(String input, int pos, char c) {
-        if (pos == 0) {
-            return c + input.substring(pos, input.length());
-        } else if (pos == input.length()) {
-            return input.substring(0, pos) + c;
-        } else {
-            return input.substring(0, pos) + c + input.substring(pos, input.length() - 1);
-        }
-    }
-
-    /**
      * Constructs the beginning &lt;script&gt; element depending on xhtml status.
      */
     private String getStartElement() {
@@ -623,22 +570,6 @@ public class JavascriptValidatorTag extends BodyTagSupport {
         return "true".equalsIgnoreCase(xhtml);
     }
 
-    /**
-     * Use the application context itself for default message resolution.
-     */
-    private MessageSource getMessageSource() {
-        try {
-            this.requestContext =
-                new RequestContext((HttpServletRequest) this.pageContext.getRequest());
-        }
-        catch (RuntimeException ex) {
-            throw ex;
-        }
-        catch (Exception ex) {
-            pageContext.getServletContext().log("Exception in custom tag", ex);
-        }
-        return requestContext.getWebApplicationContext();
-    }
 
     /**
      * Get the validator resources from a ValidatorFactory defined in the
@@ -660,104 +591,3 @@ public class JavascriptValidatorTag extends BodyTagSupport {
     }
 
 }
-/*
-public Form initExtendsForm(Form form1){
-    	Form form=new Form();
-        form.setName(form1.getName());
-        for(int i=0;i<form1.getFields().size();i++){
-        	form.addField((Field)form1.getFields().get(i));
-        }
-        System.out.println(this.pageContext.getAttribute("libraryPath"));
-        {
-	        List<CfgCustomProperty> flist=FormPropertyCache.getInstance().getCfgCustomPropertyListByFormCode(formName,
-	    			LibraryInfoCache.getInstance().getLibraryIdByPath((String)this.pageContext.getAttribute("libraryPath")));
-	        for(CfgCustomProperty ccp:flist){
-	        	Field field=new Field();
-	        	Arg a0=new Arg();
-	        	a0.setKey(ccp.getPropertyName());
-	        	field.addArg(a0);
-	        	
-	        	field.setProperty("customPropertyMap['"+ccp.getPropertyCode()+"']");
-	        	
-	        	List<String> requireds=new ArrayList<String>();
-	        	if("1AA".equals(ccp.getValueType())){
-	        		//requireds.add("long");
-	        	}else if("1AB".equals(ccp.getValueType())){
-	        		requireds.add("long");
-	        	}else if("1AC".equals(ccp.getValueType())){
-	        		requireds.add("double");
-	        	}else if("1AD".equals(ccp.getValueType()) || "1AE".equals(ccp.getValueType())){
-	        		if(ccp.getMaxlength()>0){
-		        		requireds.add("maxlength");
-		        		Arg a1=new Arg();
-		            	a1.setKey(Long.toString( ccp.getMaxlength()));
-		            	a1.setName("maxlength");
-		            	a1.setResource(false);
-		            	field.addArg(a1);
-		            	
-		            	Var var=new Var();
-		            	var.setName("maxlength");
-		            	var.setValue(Long.toString( ccp.getMaxlength()));
-		            	field.addVar(var);
-		        	}
-	        	}else if("1AF".equals(ccp.getValueType())){
-	        		//requireds.add("double");
-	        	}else if("1AG".equals(ccp.getValueType())){
-	        		requireds.add("date");
-	        	}else if("1AH".equals(ccp.getValueType())){
-	        		requireds.add("email");
-	        	}
-	        	if(ccp.isRequired()){
-	        		requireds.add("required");
-	        	}
-	        	
-	        	String dependsstr="";
-	        	for(int i=0;i<requireds.size();i++){
-	        		if(i==0){
-	        			dependsstr=dependsstr+requireds.get(i);
-	        		}else{
-	        			dependsstr=dependsstr+","+requireds.get(i);
-	        		}
-	        	}
-	        	field.setDepends(dependsstr);
-	        	
-	        	//field.setKey(ccp.getPropertyName());
-	        	form.addField(field);
-	        	
-	        }
-        }
-        {
-	        List<CfgFixedProperty> flist=FormPropertyCache.getInstance().getCfgFixedPropertyListByFormCode(formName);
-	        for(CfgFixedProperty ccp:flist){
-	        	Field field=new Field();
-	        	Arg a0=new Arg();
-	        	a0.setKey(ccp.getPropertyName());
-	        	field.addArg(a0);
-	        	
-	        	if("1CA".equals(ccp.getValueType())){
-	        		field.setProperty(ccp.getPropertyCode());
-	        	}else if("1CB".equals(ccp.getValueType())){
-	        		field.setProperty(ccp.getPropertyCode()+".fullValue");
-	        	}else if("1CC".equals(ccp.getValueType())){
-	        		field.setProperty(ccp.getPropertyCode()+".fullValue");
-	        	}
-	        	
-	        	
-	        	List<String> requireds=new ArrayList<String>();
-	        	
-	        	if(ccp.isRequired()){
-	        		requireds.add("required");
-	        		
-	        		field.setDepends("required");
-		        	
-		        	//field.setKey(ccp.getPropertyName());
-		        	form.addField(field);
-	        	}
-	        	
-	        	
-	        	
-	        }
-        }
-        return form;
-    }
- * */
