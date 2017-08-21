@@ -1,21 +1,11 @@
 package com.btxy.basis.webapp.taglib;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.validator.Field;
-import org.apache.commons.validator.Form;
-import org.apache.commons.validator.ValidatorResources;
-import org.displaytag.tags.el.ExpressionEvaluator;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.MessageSource;
-import org.springframework.context.NoSuchMessageException;
-import org.springframework.validation.Errors;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springmodules.validation.commons.ValidatorFactory;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 
 import com.btxy.basis.cache.LibraryInfoCache;
 import com.btxy.basis.cache.LookUpInfoCache;
@@ -24,22 +14,11 @@ import com.btxy.basis.cache.cfg.CfgEnumInfoCache;
 import com.btxy.basis.cache.cfg.CfgFixedPropertyDefineCache;
 import com.btxy.basis.cache.cfg.CfgStateMachineDefineCache;
 import com.btxy.basis.cache.model.FixedPropertyEnum;
-import com.btxy.basis.common.SpringContext;
 import com.btxy.basis.model.CfgCustomProperty;
 import com.btxy.basis.model.CfgEnumInfo;
 import com.btxy.basis.model.CfgEnumValueInfo;
-import com.btxy.basis.model.CfgFormInfo;
 import com.btxy.basis.model.CfgStateMachineDefine;
 import com.btxy.basis.model.LabelValue;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 
 /**
@@ -53,6 +32,10 @@ import java.util.Map;
  * @jsp.tag name="label" bodycontent="empty"
  */
 public class LookupSelectTag extends TagSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1496976754724601830L;
 	private String name;
     private String prompt;
     private String scope;
@@ -274,7 +257,6 @@ public class LookupSelectTag extends TagSupport {
 			return " ";
 		}
 	}
-	private static final int COMMON_SELECT_MAX_LENGTH=10;
 	 public int doStartTag() throws JspException {
 
 		 	
