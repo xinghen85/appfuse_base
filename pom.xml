@@ -1,40 +1,60 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.galebo</groupId>
-  <artifactId>appfuse_base</artifactId>
-  <version>1.0.0</version>
-  
-    <prerequisites>
-        <maven>2.2.1</maven>
-    </prerequisites>
-    
-     <build>
-        <defaultGoal>install</defaultGoal>
-        <pluginManagement>
-       	 <plugins>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.galebo</groupId>
+	<artifactId>appfuse_base</artifactId>
+	<version>1.0.0</version>
 
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <!-- clean-up previous hibernate-search indexed from integration tests, as there could be a lock -->
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${user.home}/${project.build.finalName}/index</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
+	<prerequisites>
+		<maven>2.2.1</maven>
+	</prerequisites>
+
+
+	<build>
+		<defaultGoal>compile</defaultGoal>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>native2ascii-maven-plugin</artifactId>
+					<version>1.0-alpha-1</version>
+					<executions>
+						<execution>
+						<id>native2ascii-utf8</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>native2ascii</goal>
+						</goals>
+						<configuration>
+							<encoding>UTF-8</encoding>
+							<src>src/main/resources/</src>
+							<dest>target/classes</dest>
+							<includes>*.properties</includes>
+						</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
         </plugins>
         </pluginManagement>
+        
+        
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>ApplicationResources*.properties</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     
     
@@ -247,11 +267,6 @@
             <version>3.2</version>
         </dependency>
         
-        <dependency>         
-        <groupId>org.wltea</groupId>
-            <artifactId>IKExpression</artifactId>
-            <version>2.0</version>
-        </dependency>
 		
 		<dependency>
 		    <groupId>com.belerweb</groupId>
