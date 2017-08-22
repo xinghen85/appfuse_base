@@ -33,7 +33,7 @@ import com.mongodb.MongoException;
 @Controller
 public class AuthAppUserController extends BaseFormController {
 	private static final String DM_FORM_NAME = "authAppUser";
-	private static final String FULL_FORM_NAME="st/AuthAppUser";
+	private static final String FORM_NAME="st/AuthAppUser";
 
 	@Autowired
 	private AuthAppUserManager dbManager;
@@ -61,21 +61,21 @@ public class AuthAppUserController extends BaseFormController {
 		
 		Model model = list(dbManager, DM_FORM_NAME, libraryPath, request, searchValue, listFlag, qcs);
 
-		return new ModelAndView(FULL_FORM_NAME, model.asMap());
+		return new ModelAndView(FORM_NAME+"List", model.asMap());
 	}
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/view/{id}/php*", method = RequestMethod.GET)
 	public ModelAndView view(@PathVariable String libraryPath, @PathVariable Long id, HttpServletRequest request) {
-        return super.view(dbManager, DM_FORM_NAME, FULL_FORM_NAME, libraryPath, id);
+        return super.view(dbManager, DM_FORM_NAME, FORM_NAME, libraryPath, id);
 	}
 
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/edit/{id}/php*", method = RequestMethod.GET)
 	public ModelAndView edit(@PathVariable String libraryPath, @PathVariable Long id) {
-        return super.edit(dbManager, DM_FORM_NAME, FULL_FORM_NAME, libraryPath, id);
+        return super.edit(dbManager, DM_FORM_NAME, FORM_NAME, libraryPath, id);
 	}
 
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/delete/{idList}/php*", method = RequestMethod.POST)
 	public ModelAndView delete(@PathVariable String libraryPath, HttpServletRequest request, HttpServletResponse response, @PathVariable String idList) {
-        return super.delete(dbManager, DM_FORM_NAME, FULL_FORM_NAME, libraryPath, request, idList);
+        return super.delete(dbManager, DM_FORM_NAME, FORM_NAME, libraryPath, request, idList);
 	}
 
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/add/php*", method = RequestMethod.GET)
@@ -91,7 +91,7 @@ public class AuthAppUserController extends BaseFormController {
 		model.addAttribute("formEditFlag", true);
 		model.addAttribute("addFlagOfAuthAppUserForm", "1");
 
-		return new ModelAndView(FULL_FORM_NAME, model.asMap());
+		return new ModelAndView(FORM_NAME, model.asMap());
 	}
 
 
@@ -110,7 +110,7 @@ public class AuthAppUserController extends BaseFormController {
 
 				if (svr.hasErrors()) { // don't validate when deleting
 					saveError(request, svr.getAllErrorMessage());
-					return new ModelAndView(FULL_FORM_NAME, model.asMap());
+					return new ModelAndView(FORM_NAME, model.asMap());
 				}
 			}
 

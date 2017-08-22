@@ -55,7 +55,7 @@ public class AuthAppRoleController extends BaseFormController{
 			}
 		};
 		Model model=super.list(dbManager, DM_FORM_NAME, libraryPath, request, searchValue, listFlag, qcs);
-        return new ModelAndView(FORM_NAME+"list", model.asMap());
+        return new ModelAndView(FORM_NAME+"List", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/authAppRole/view/{id}/php*",method = RequestMethod.GET)
