@@ -67,7 +67,7 @@ public class SignupController extends BaseFormController {
         model.addAttribute("authAppUser", authAppUser);
         
 
-        return new ModelAndView("signup/signup", model.asMap());
+        return new ModelAndView("base/signup/signup", model.asMap());
     }
     @RequestMapping(value = "/signup/{userId}/perfect*",method = RequestMethod.GET)
     public ModelAndView perfect(@PathVariable Long userId)throws Exception {
@@ -79,7 +79,7 @@ public class SignupController extends BaseFormController {
             model.addAttribute("authAppUser", authAppUser);
         }  
 
-        return new ModelAndView("signup/perfect", model.asMap());
+        return new ModelAndView("base/signup/perfect", model.asMap());
     }
     @RequestMapping(value = "/signup/{userId}/activation*",method = RequestMethod.GET)
     public ModelAndView activation(@PathVariable Long userId)throws Exception {
@@ -91,7 +91,7 @@ public class SignupController extends BaseFormController {
         }  
         
 
-        return new ModelAndView("signup/activation", model.asMap());
+        return new ModelAndView("base/signup/activation", model.asMap());
     }
 
     @RequestMapping(value = "/signup/{userId}/sensitize*",method = RequestMethod.GET)
@@ -115,7 +115,7 @@ public class SignupController extends BaseFormController {
         }  
         
 
-        return new ModelAndView("signup/sensitize", model.asMap());
+        return new ModelAndView("base/signup/sensitize", model.asMap());
     }
     
     @RequestMapping(value = "/signup/submit*",method = RequestMethod.POST)
@@ -133,7 +133,7 @@ public class SignupController extends BaseFormController {
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("signup/signup", model.asMap());
+        		return new ModelAndView("base/signup/signup", model.asMap());
             }
         }
         authAppUser.setEnabled(false);
@@ -175,7 +175,7 @@ public class SignupController extends BaseFormController {
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("signup/perfect", model.asMap());
+        		return new ModelAndView("base/signup/perfect", model.asMap());
             }
         }
         authAppUser.setEnabled(false);
@@ -210,7 +210,6 @@ public class SignupController extends BaseFormController {
  	   	try {
  			response.getWriter().write(resultb.toString());
  		} catch (IOException e1) {
- 			// TODO Auto-generated catch block
  			e1.printStackTrace();
  		}
     }
@@ -221,7 +220,6 @@ public class SignupController extends BaseFormController {
  	   	try {
  			response.getWriter().write(resultb.toString());
  		} catch (IOException e1) {
- 			// TODO Auto-generated catch block
  			e1.printStackTrace();
  		}
     }

@@ -109,7 +109,7 @@ public class AuthMenuListController extends BaseFormController {
 		
 		initSessionPrivilegeMap(request,user,currentLibrary.getLibraryId());
 		
-		return new ModelAndView("main/mainCanvas3.0", model.asMap());
+		return new ModelAndView("base/main/mainCanvas3.0", model.asMap());
 	}
 	@RequestMapping(value = "/lb/{libraryPath}/menuList/root/{parentId}/php*", method = RequestMethod.GET)
 	public ModelAndView viewByRootId(@PathVariable String libraryPath,@PathVariable Long parentId, HttpServletRequest request)
@@ -140,7 +140,7 @@ public class AuthMenuListController extends BaseFormController {
 
 		initSessionPrivilegeMap(request,user,currentLibrary.getLibraryId());
 		
-		return new ModelAndView("main/menu3.0", model.asMap());
+		return new ModelAndView("base/main/menu3.0", model.asMap());
 	}
 	private void initSessionPrivilegeMap(HttpServletRequest request,AuthUser user,Long library){
 		HttpSession session = request.getSession();
@@ -214,88 +214,4 @@ public class AuthMenuListController extends BaseFormController {
 
 		}
 	}
-	/*
-	 * @RequestMapping(value =
-	 * "/lb/{libraryPath}/authPrivilegeInfo/list/select/php*") public void
-	 * getSelect2Json(@PathVariable String libraryPath,HttpServletResponse
-	 * response)throws Exception { List<AuthPrivilegeInfo>
-	 * list=authPrivilegeInfoManager.getAll(); Map<Long,List<AuthPrivilegeInfo>>
-	 * map=new HashMap<Long,List<AuthPrivilegeInfo>>(); JSONArray array=new
-	 * JSONArray(); for(int i=0;list!=null && i<list.size();i++){
-	 * MapUtil.appendListEntityToMap(map, list.get(i).getParent(), list.get(i));
-	 * } initTree("",0l,array,map); returnJSON(array,response); }
-	 */
-/*
- * 
-@RequestMapping(value = "/lb/{libraryPath}/menuList/{menuType}/php*", method = RequestMethod.GET)
-	public ModelAndView view(@PathVariable String libraryPath,
-			@PathVariable String menuType, HttpServletRequest request)
-			throws Exception {
-
-		Model model = new ExtendedModelMap();
-
-		model.addAttribute("libraryPath", libraryPath);
-
-		LibraryInfo currentLibrary=LibraryInfoCache.getInstance().getLibraryInfoByPath(libraryPath);
-		AuthAppUser user = CurrentUserUtil.getCurrentUser();
-		
-		List<AuthPrivilegeView> listAll = AuthAppUserCache.getInstance(user.getUserId(), currentLibrary.getLibraryId()).getTreeList();//AuthPrivilegeInfoCache.getInstance().getTreeList();
-
-		List<AuthPrivilegeView> currentPrivilegeTreeCache = new ArrayList<AuthPrivilegeView>();
-
-		if (listAll != null) {
-			for (AuthPrivilegeView one : listAll) {
-				if ("AWA".equals(one.getAuthPrivilegeInfo().getPrivilegeType())) {
-					if ("work_console".equals(menuType)
-							&& "工作台".equals(one.getAuthPrivilegeInfo()
-									.getPrivilegeName())) {
-						currentPrivilegeTreeCache.addAll(one.getChilden());
-
-						model.addAttribute("rootMenuName", "工作台");
-					}
-					if ("profile".equals(menuType)
-							&& "用户中心".equals(one.getAuthPrivilegeInfo()
-									.getPrivilegeName())) {
-						currentPrivilegeTreeCache.addAll(one.getChilden());
-
-						model.addAttribute("rootMenuName", "用户中心");
-					}
-					if ("settings".equals(menuType)
-							&& "系统配置".equals(one.getAuthPrivilegeInfo()
-									.getPrivilegeName())) {
-						currentPrivilegeTreeCache.addAll(one.getChilden());
-
-						model.addAttribute("rootMenuName", "系统配置");
-					}
-					if ("super_settings".equals(menuType)
-							&& "超级管理权限".equals(one.getAuthPrivilegeInfo()
-									.getPrivilegeName())) {
-						currentPrivilegeTreeCache.addAll(one.getChilden());
-
-						model.addAttribute("rootMenuName", "超级管理权限");
-					}
-				}
-			}
-		}
-		model.addAttribute("currentPrivilegeTreeCache",
-				currentPrivilegeTreeCache);
-
-		HttpSession session = request.getSession();
-
-		if (session.getAttribute("currentUserPrivilegeMap") == null) {
-			Map<String, Boolean> privilegeMap = new HashMap<String, Boolean>();
-			CurrentUserPrivilegeMap cpm = new CurrentUserPrivilegeMap();
-			List<AuthPrivilegeView> list = AuthPrivilegeInfoCache.getInstance()
-					.getTreeList();
-			if (list != null) {
-				initPrivilegeMap(list, privilegeMap);
-			}
-			cpm.setUser(CurrentUserUtil.getCurrentUser());
-			cpm.setPrivilegeMap(privilegeMap);
-			session.setAttribute("currentUserPrivilegeMap", cpm);
-		}
-		return new ModelAndView("main/menu3.0", model.asMap());
-	}
- * 
- */
 }
