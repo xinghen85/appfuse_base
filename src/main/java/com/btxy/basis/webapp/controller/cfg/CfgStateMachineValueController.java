@@ -121,7 +121,7 @@ public class CfgStateMachineValueController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgStateMachineValueList", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineValueList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineValue/view/{statId}/cfgStateMachineDefine/{machineId}/php*",method = RequestMethod.GET)
@@ -139,7 +139,7 @@ public class CfgStateMachineValueController extends BaseFormController{
             CfgStateMachineValue cfgStateMachineValue= cfgStateMachineValueManager.get(statId);
             model.addAttribute("cfgStateMachineValue", cfgStateMachineValue);
         }
-        return new ModelAndView("cfg/CfgStateMachineValueForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineValueForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineValue/add/cfgStateMachineDefine/{machineId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable final Long machineId)throws Exception {
@@ -161,7 +161,7 @@ public class CfgStateMachineValueController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgStateMachineValueForm", "1");
 
-        return new ModelAndView("cfg/CfgStateMachineValueForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineValueForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineValue/edit/{statId}/cfgStateMachineDefine/{machineId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable final Long machineId,@PathVariable Long statId)throws Exception {
@@ -182,7 +182,7 @@ public class CfgStateMachineValueController extends BaseFormController{
             model.addAttribute("cfgStateMachineValue", cfgStateMachineValue);
             
         }
-        return new ModelAndView("cfg/CfgStateMachineValueForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineValueForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineValue/formSubmit/cfgStateMachineDefine/{machineId}/php*",method = RequestMethod.POST)
@@ -201,7 +201,7 @@ public class CfgStateMachineValueController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgStateMachineValueForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgStateMachineValueForm", model.asMap());
             }
         }
 

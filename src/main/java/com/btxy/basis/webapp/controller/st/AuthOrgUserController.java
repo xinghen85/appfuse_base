@@ -141,7 +141,7 @@ public class AuthOrgUserController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("st/AuthOrgUserList", model.asMap());
+        return new ModelAndView("base/st/AuthOrgUserList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/authOrgUser/view/{userId}/php*",method = RequestMethod.GET)
@@ -185,7 +185,7 @@ public class AuthOrgUserController extends BaseFormController{
             }
             model.addAttribute("roleNames", ListUtil.toString(roleNames, ","));
         }
-        return new ModelAndView("st/AuthOrgUserForm", model.asMap());
+        return new ModelAndView("base/st/AuthOrgUserForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authOrgUser/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -201,7 +201,7 @@ public class AuthOrgUserController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfAuthOrgUserForm", "1");
 
-        return new ModelAndView("st/AuthOrgUserForm", model.asMap());
+        return new ModelAndView("base/st/AuthOrgUserForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authOrgUser/edit/{userId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long userId,HttpServletRequest request)throws Exception {
@@ -244,7 +244,7 @@ public class AuthOrgUserController extends BaseFormController{
             }
             model.addAttribute("roleNames", ListUtil.toString(roleNames, ","));
         }
-        return new ModelAndView("st/AuthOrgUserForm", model.asMap());
+        return new ModelAndView("base/st/AuthOrgUserForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/authOrgUser/formSubmit/php*",method = RequestMethod.POST)
@@ -264,7 +264,7 @@ public class AuthOrgUserController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/AuthOrgUserForm", model.asMap());
+        		return new ModelAndView("base/st/AuthOrgUserForm", model.asMap());
             }
         }
 

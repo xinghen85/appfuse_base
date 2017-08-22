@@ -52,7 +52,7 @@ public class UserController extends BaseFormController{
     	AuthAppUser user=authAppUserManager.get(user1.getUserId());
         model.addAttribute("authAppUser", user);
     	model.addAttribute("formEditFlag", false);
-        return new ModelAndView("st/AuthAppUserFormForMe", model.asMap());
+        return new ModelAndView("base/st/AuthAppUserFormForMe", model.asMap());
     }
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/currentUser/edit/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath) {
@@ -63,7 +63,7 @@ public class UserController extends BaseFormController{
     	AuthAppUser user=authAppUserManager.get(user1.getUserId());
         model.addAttribute("authAppUser", user);
     	model.addAttribute("formEditFlag", true);
-        return new ModelAndView("st/AuthAppUserFormForMe", model.asMap());
+        return new ModelAndView("base/st/AuthAppUserFormForMe", model.asMap());
     }
 	
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/currentUser/changePassword/php*",method = RequestMethod.GET)
@@ -78,7 +78,7 @@ public class UserController extends BaseFormController{
     	user.setPasswordHint("");
         model.addAttribute("authAppUser", user);
     	model.addAttribute("formEditFlag", true);   
-        return new ModelAndView("st/AuthAppUserFormChangePasswordForMe", model.asMap());
+        return new ModelAndView("base/st/AuthAppUserFormChangePasswordForMe", model.asMap());
     }
     
 	
@@ -100,7 +100,7 @@ public class UserController extends BaseFormController{
 	            
 	            if (svr.hasErrors()) { // don't validate when deleting
 	            	saveError(request,svr.getAllErrorMessage());
-	        		return new ModelAndView("st/AuthAppUserForm", model.asMap());
+	        		return new ModelAndView("base/st/AuthAppUserForm", model.asMap());
 	            }
 	        }
 	
@@ -142,7 +142,7 @@ public class UserController extends BaseFormController{
 	            
 	            if (svr.hasErrors()) { // don't validate when deleting
 	            	saveError(request,svr.getAllErrorMessage());
-	        		return new ModelAndView("st/AuthAppUserForm", model.asMap());
+	        		return new ModelAndView("base/st/AuthAppUserForm", model.asMap());
 	            }
 	        }
 	
@@ -210,7 +210,7 @@ public class UserController extends BaseFormController{
         model.addAttribute("authAppUser", user);
         model.addAttribute("formEditFlag", true);
         
-        return new ModelAndView("st/AuthUserLibraryRoleFormForMe", model.asMap());
+        return new ModelAndView("base/st/AuthUserLibraryRoleFormForMe", model.asMap());
     }
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/currentUser/changeSetting/formSubmit/php*",method = RequestMethod.POST)
 
@@ -231,7 +231,7 @@ public class UserController extends BaseFormController{
 
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/AuthUserLibraryRoleForm", model.asMap());
+        		return new ModelAndView("base/st/AuthUserLibraryRoleForm", model.asMap());
             }
         }
         log.debug("entering 'onSubmit' method...");

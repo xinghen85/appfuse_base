@@ -90,7 +90,7 @@ public class LibraryInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("st/LibraryInfoList", model.asMap());
+        return new ModelAndView("base/st/LibraryInfoList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/libraryInfo/view/{libraryId}/php*",method = RequestMethod.GET)
@@ -103,7 +103,7 @@ public class LibraryInfoController extends BaseFormController{
             LibraryInfo libraryInfo= libraryInfoManager.get(libraryId);
             model.addAttribute("libraryInfo", libraryInfo);
         }
-        return new ModelAndView("st/LibraryInfoForm", model.asMap());
+        return new ModelAndView("base/st/LibraryInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/libraryInfo/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -117,7 +117,7 @@ public class LibraryInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfLibraryInfoForm", "1");
 
-        return new ModelAndView("st/LibraryInfoForm", model.asMap());
+        return new ModelAndView("base/st/LibraryInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/libraryInfo/edit/{libraryId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long libraryId)throws Exception {
@@ -130,7 +130,7 @@ public class LibraryInfoController extends BaseFormController{
             model.addAttribute("libraryInfo", libraryInfo);
             
         }
-        return new ModelAndView("st/LibraryInfoForm", model.asMap());
+        return new ModelAndView("base/st/LibraryInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/libraryInfo/formSubmit/php*",method = RequestMethod.POST)
@@ -149,7 +149,7 @@ public class LibraryInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/LibraryInfoForm", model.asMap());
+        		return new ModelAndView("base/st/LibraryInfoForm", model.asMap());
             }
         }
 

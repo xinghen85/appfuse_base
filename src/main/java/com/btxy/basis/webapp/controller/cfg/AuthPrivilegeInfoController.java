@@ -135,7 +135,7 @@ public class AuthPrivilegeInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/AuthPrivilegeInfoList", model.asMap());
+        return new ModelAndView("base/cfg/AuthPrivilegeInfoList", model.asMap());
      
     }
 
@@ -149,7 +149,7 @@ public class AuthPrivilegeInfoController extends BaseFormController{
             AuthPrivilegeInfo authPrivilegeInfo= authPrivilegeInfoManager.get(privilegeId);
             model.addAttribute("authPrivilegeInfo", authPrivilegeInfo);
         }
-        return new ModelAndView("cfg/AuthPrivilegeInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthPrivilegeInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authPrivilegeInfo/add/authPrivilegeInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -167,7 +167,7 @@ public class AuthPrivilegeInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfAuthPrivilegeInfoForm", "1");
 
-        return new ModelAndView("cfg/AuthPrivilegeInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthPrivilegeInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authPrivilegeInfo/edit/{privilegeId}/authPrivilegeInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long privilegeId,@PathVariable Long parentId)throws Exception {
@@ -181,7 +181,7 @@ public class AuthPrivilegeInfoController extends BaseFormController{
             model.addAttribute("authPrivilegeInfo", authPrivilegeInfo);
             
         }
-        return new ModelAndView("cfg/AuthPrivilegeInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthPrivilegeInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authPrivilegeInfo/edit/move/{privilegeId}/{moveType}/authPrivilegeInfo/{parentId}/php*",method = RequestMethod.POST)
     public ModelAndView editMove(@PathVariable String libraryPath,@PathVariable Long privilegeId,@PathVariable Integer moveType,@PathVariable Long parentId)throws Exception {
@@ -219,7 +219,7 @@ public class AuthPrivilegeInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/AuthPrivilegeInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/AuthPrivilegeInfoForm", model.asMap());
             }
         }
 

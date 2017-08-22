@@ -95,7 +95,7 @@ public class FileInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("st/FileInfoList", model.asMap());
+        return new ModelAndView("base/st/FileInfoList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/fileInfo/view/{id}/php*",method = RequestMethod.GET)
@@ -108,7 +108,7 @@ public class FileInfoController extends BaseFormController{
             FileInfo fileInfo= fileInfoManager.get(id);
             model.addAttribute("fileInfo", fileInfo);
         }
-        return new ModelAndView("st/FileInfoForm", model.asMap());
+        return new ModelAndView("base/st/FileInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/fileInfo/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -122,7 +122,7 @@ public class FileInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfFileInfoForm", "1");
 
-        return new ModelAndView("st/FileInfoForm", model.asMap());
+        return new ModelAndView("base/st/FileInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/fileInfo/edit/{id}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long id)throws Exception {
@@ -135,7 +135,7 @@ public class FileInfoController extends BaseFormController{
             model.addAttribute("fileInfo", fileInfo);
             
         }
-        return new ModelAndView("st/FileInfoForm", model.asMap());
+        return new ModelAndView("base/st/FileInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/fileInfo/formSubmit/php*",method = RequestMethod.POST)
@@ -154,7 +154,7 @@ public class FileInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/FileInfoForm", model.asMap());
+        		return new ModelAndView("base/st/FileInfoForm", model.asMap());
             }
         }
 

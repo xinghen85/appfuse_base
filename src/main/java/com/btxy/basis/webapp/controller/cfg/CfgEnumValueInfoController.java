@@ -77,7 +77,7 @@ public class CfgEnumValueInfoController extends BaseFormController{
             CfgEnumInfo cfgEnumInfo= cfgEnumInfoManager.get(parentId);
             model.addAttribute("cfgEnumInfo", cfgEnumInfo);
         }
-        return new ModelAndView("cfg/CfgEnumValueInfoList", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumValueInfoList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumValueInfo/view/{enumValueId}/php*",method = RequestMethod.GET)
@@ -89,7 +89,7 @@ public class CfgEnumValueInfoController extends BaseFormController{
             CfgEnumInfo cfgEnumInfo= cfgEnumInfoManager.get(enumValueId);
             model.addAttribute("cfgEnumInfo", cfgEnumInfo);
         }
-        return new ModelAndView("cfg/CfgEnumValueInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumValueInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumValueInfo/add/cfgEnumInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -104,7 +104,7 @@ public class CfgEnumValueInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgEnumValueInfoForm", "1");
 
-        return new ModelAndView("cfg/CfgEnumValueInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumValueInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumValueInfo/edit/{enumValueId}/cfgEnumInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long enumValueId,@PathVariable Long parentId)throws Exception {
@@ -126,7 +126,7 @@ public class CfgEnumValueInfoController extends BaseFormController{
             model.addAttribute("cfgEnumValueInfo", cfgEnumValueInfo);
             
         }
-        return new ModelAndView("cfg/CfgEnumValueInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumValueInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumValueInfo/formSubmit/cfgEnumInfo/{parentId}/php*",method = RequestMethod.POST)
@@ -145,7 +145,7 @@ public class CfgEnumValueInfoController extends BaseFormController{
 
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgEnumValueInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgEnumValueInfoForm", model.asMap());
             }
         }
         log.debug("entering 'onSubmit' method...");

@@ -111,7 +111,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/frame/EditFrame", model.asMap());
+        return new ModelAndView("base/cfg/frame/EditFrame", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyDefine/list/{listFlag}/php*")
     public ModelAndView list(@PathVariable String libraryPath,HttpServletRequest request,final SearchConditionValue searchValue,@PathVariable String listFlag)throws Exception {
@@ -147,7 +147,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgFixedPropertyDefineList", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyDefineList", model.asMap());
     }
     private void initFormIdListWhenLoad(CfgFixedPropertyDefine one){
     	if(one!=null && one.getFormList()!=null){
@@ -180,7 +180,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
             initFormIdListWhenLoad(cfgFixedPropertyDefine);
             model.addAttribute("cfgFixedPropertyDefine", cfgFixedPropertyDefine);
         }
-        return new ModelAndView("cfg/CfgFixedPropertyDefineForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyDefineForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyDefine/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -196,7 +196,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
 
         model.addAttribute("cfgFormInfoList",getAllCfgFormInfo());
         
-        return new ModelAndView("cfg/CfgFixedPropertyDefineForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyDefineForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyDefine/edit/{propertyId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long propertyId)throws Exception {
@@ -212,7 +212,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
             model.addAttribute("cfgFixedPropertyDefine", cfgFixedPropertyDefine);
             
         }
-        return new ModelAndView("cfg/CfgFixedPropertyDefineForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyDefineForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyDefine/formSubmit/php*",method = RequestMethod.POST)
@@ -231,7 +231,7 @@ public class CfgFixedPropertyDefineController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgFixedPropertyDefineForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgFixedPropertyDefineForm", model.asMap());
             }
         }
 

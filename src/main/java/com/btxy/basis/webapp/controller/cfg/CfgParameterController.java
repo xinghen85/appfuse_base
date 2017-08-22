@@ -98,7 +98,7 @@ public class CfgParameterController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgParameterList", model.asMap());
+        return new ModelAndView("base/cfg/CfgParameterList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgParameter/view/{parameterId}/php*",method = RequestMethod.GET)
@@ -111,7 +111,7 @@ public class CfgParameterController extends BaseFormController{
             CfgParameter cfgParameter= cfgParameterManager.get(parameterId);
             model.addAttribute("cfgParameter", cfgParameter);
         }
-        return new ModelAndView("cfg/CfgParameterForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgParameterForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgParameter/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -125,7 +125,7 @@ public class CfgParameterController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgParameterForm", "1");
 
-        return new ModelAndView("cfg/CfgParameterForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgParameterForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgParameter/edit/{parameterId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long parameterId)throws Exception {
@@ -138,7 +138,7 @@ public class CfgParameterController extends BaseFormController{
             model.addAttribute("cfgParameter", cfgParameter);
             
         }
-        return new ModelAndView("cfg/CfgParameterForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgParameterForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgParameter/formSubmit/php*",method = RequestMethod.POST)
@@ -157,7 +157,7 @@ public class CfgParameterController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgParameterForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgParameterForm", model.asMap());
             }
         }
 

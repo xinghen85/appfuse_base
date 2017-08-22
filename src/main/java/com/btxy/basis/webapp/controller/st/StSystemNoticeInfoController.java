@@ -124,7 +124,7 @@ public class StSystemNoticeInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("st/StSystemNoticeInfoList", model.asMap());
+        return new ModelAndView("base/st/StSystemNoticeInfoList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/stSystemNoticeInfo/view/{noticeId}/php*",method = RequestMethod.GET)
@@ -137,7 +137,7 @@ public class StSystemNoticeInfoController extends BaseFormController{
             StSystemNoticeInfo stSystemNoticeInfo= stSystemNoticeInfoManager.get(noticeId);
             model.addAttribute("stSystemNoticeInfo", stSystemNoticeInfo);
         }
-        return new ModelAndView("st/StSystemNoticeInfoForm", model.asMap());
+        return new ModelAndView("base/st/StSystemNoticeInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/stSystemNoticeInfo/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -154,7 +154,7 @@ public class StSystemNoticeInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfStSystemNoticeInfoForm", "1");
 
-        return new ModelAndView("st/StSystemNoticeInfoForm", model.asMap());
+        return new ModelAndView("base/st/StSystemNoticeInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/stSystemNoticeInfo/edit/{noticeId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long noticeId)throws Exception {
@@ -167,7 +167,7 @@ public class StSystemNoticeInfoController extends BaseFormController{
             model.addAttribute("stSystemNoticeInfo", stSystemNoticeInfo);
             
         }
-        return new ModelAndView("st/StSystemNoticeInfoForm", model.asMap());
+        return new ModelAndView("base/st/StSystemNoticeInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/stSystemNoticeInfo/formSubmit/php*",method = RequestMethod.POST)
@@ -186,7 +186,7 @@ public class StSystemNoticeInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/StSystemNoticeInfoForm", model.asMap());
+        		return new ModelAndView("base/st/StSystemNoticeInfoForm", model.asMap());
             }
         }
 

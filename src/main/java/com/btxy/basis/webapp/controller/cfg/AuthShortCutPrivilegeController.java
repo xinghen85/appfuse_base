@@ -91,7 +91,7 @@ public class AuthShortCutPrivilegeController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/AuthShortCutPrivilegeList", model.asMap());
+        return new ModelAndView("base/cfg/AuthShortCutPrivilegeList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/authShortCutPrivilege/view/{shortCutId}/php*",method = RequestMethod.GET)
@@ -104,7 +104,7 @@ public class AuthShortCutPrivilegeController extends BaseFormController{
             AuthShortCutPrivilege authShortCutPrivilege= authShortCutPrivilegeManager.get(shortCutId);
             model.addAttribute("authShortCutPrivilege", authShortCutPrivilege);
         }
-        return new ModelAndView("cfg/AuthShortCutPrivilegeForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthShortCutPrivilegeForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authShortCutPrivilege/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -118,7 +118,7 @@ public class AuthShortCutPrivilegeController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfAuthShortCutPrivilegeForm", "1");
 
-        return new ModelAndView("cfg/AuthShortCutPrivilegeForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthShortCutPrivilegeForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authShortCutPrivilege/edit/{shortCutId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long shortCutId)throws Exception {
@@ -131,7 +131,7 @@ public class AuthShortCutPrivilegeController extends BaseFormController{
             model.addAttribute("authShortCutPrivilege", authShortCutPrivilege);
             
         }
-        return new ModelAndView("cfg/AuthShortCutPrivilegeForm", model.asMap());
+        return new ModelAndView("base/cfg/AuthShortCutPrivilegeForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/authShortCutPrivilege/formSubmit/php*",method = RequestMethod.POST)
@@ -150,7 +150,7 @@ public class AuthShortCutPrivilegeController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/AuthShortCutPrivilegeForm", model.asMap());
+        		return new ModelAndView("base/cfg/AuthShortCutPrivilegeForm", model.asMap());
             }
         }
 

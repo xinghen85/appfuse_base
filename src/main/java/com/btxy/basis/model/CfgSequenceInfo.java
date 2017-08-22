@@ -9,7 +9,6 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.query.Query;
 
 import com.btxy.basis.common.SpringContext;
-import com.btxy.basis.common.util.SequenceUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;

@@ -85,7 +85,7 @@ public class CfgEnumInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgEnumInfoList", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumInfoList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumInfo/view/{enumId}/php*",method = RequestMethod.GET)
@@ -97,7 +97,7 @@ public class CfgEnumInfoController extends BaseFormController{
             CfgEnumInfo cfgEnumInfo= cfgEnumInfoManager.get(enumId);
             model.addAttribute("cfgEnumInfo", cfgEnumInfo);
         }
-        return new ModelAndView("cfg/CfgEnumInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumInfo/add*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -109,7 +109,7 @@ public class CfgEnumInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgEnumInfoForm", "1");
 
-        return new ModelAndView("cfg/CfgEnumInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumInfo/edit/{enumId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long enumId)throws Exception {
@@ -121,7 +121,7 @@ public class CfgEnumInfoController extends BaseFormController{
             model.addAttribute("cfgEnumInfo", cfgEnumInfo);
             
         }
-        return new ModelAndView("cfg/CfgEnumInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgEnumInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgEnumInfo/formSubmit/php*",method = RequestMethod.POST)
@@ -139,7 +139,7 @@ public class CfgEnumInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgEnumInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgEnumInfoForm", model.asMap());
             }
         }
 

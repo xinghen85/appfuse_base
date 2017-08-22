@@ -81,7 +81,7 @@ public class CfgStateMachineButtonController extends BaseFormController{
             CfgStateMachineValue cfgStateMachineValue= cfgStateMachineValueManager.get(parentId);
             model.addAttribute("cfgStateMachineValue", cfgStateMachineValue);
         }
-        return new ModelAndView("cfg/CfgStateMachineButtonList", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineButtonList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineButton/view/{buttonId}/php*",method = RequestMethod.GET)
@@ -99,7 +99,7 @@ public class CfgStateMachineButtonController extends BaseFormController{
             }
             model.addAttribute("cfgStateMachineValue", cfgStateMachineValue);
         }
-        return new ModelAndView("cfg/CfgStateMachineButtonForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineButtonForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineButton/add/cfgStateMachineValue/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -126,7 +126,7 @@ public class CfgStateMachineButtonController extends BaseFormController{
         
         
         
-        return new ModelAndView("cfg/CfgStateMachineButtonForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineButtonForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineButton/edit/{buttonId}/cfgStateMachineValue/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long buttonId,@PathVariable Long parentId)throws Exception {
@@ -158,7 +158,7 @@ public class CfgStateMachineButtonController extends BaseFormController{
             }
             model.addAttribute("cfgStateMachineValue", cfgStateMachineValue);
         }
-        return new ModelAndView("cfg/CfgStateMachineButtonForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgStateMachineButtonForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgStateMachineButton/formSubmit/cfgStateMachineValue/{parentId}/php*",method = RequestMethod.POST)
@@ -177,7 +177,7 @@ public class CfgStateMachineButtonController extends BaseFormController{
 
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgStateMachineButtonForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgStateMachineButtonForm", model.asMap());
             }
         }
         log.debug("entering 'onSubmit' method...");

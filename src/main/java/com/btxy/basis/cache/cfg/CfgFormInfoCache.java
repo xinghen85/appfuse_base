@@ -68,8 +68,6 @@ public class CfgFormInfoCache extends BaseCache<CfgFormInfo,Long>{
 		String formClassName=null;
 		if(eform!=null){
 			formClassName=eform.getModelClassName();
-		}else{
-			formClassName="com.btxy.basis.model."+(eform.getFormCode().substring(0, 1).toUpperCase()+eform.getFormCode().substring(1));
 		}
 		try {
 			Class<?> formClass=Class.forName(formClassName);
@@ -88,7 +86,6 @@ public class CfgFormInfoCache extends BaseCache<CfgFormInfo,Long>{
 					Field idField=field;
 					form.setIdField(idField);
 					try {
-						//System.out.println("form.getFormClass():"+form.getFormClass());
 						PropertyDescriptor pd = new PropertyDescriptor(idField.getName(),form.getFormClass());
 						Method idGetMethod = pd.getReadMethod();//获得get方法
 						if(idGetMethod!=null){

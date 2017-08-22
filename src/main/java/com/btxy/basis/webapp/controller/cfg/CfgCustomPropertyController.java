@@ -84,7 +84,7 @@ public class CfgCustomPropertyController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgCustomPropertyList", model.asMap());
+        return new ModelAndView("base/cfg/CfgCustomPropertyList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgCustomProperty/view/{propertyId}/php*",method = RequestMethod.GET)
@@ -96,7 +96,7 @@ public class CfgCustomPropertyController extends BaseFormController{
             CfgCustomProperty cfgCustomProperty= cfgCustomPropertyManager.get(propertyId);
             model.addAttribute("cfgCustomProperty", cfgCustomProperty);
         }
-        return new ModelAndView("cfg/CfgCustomPropertyForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgCustomPropertyForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgCustomProperty/add*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -110,7 +110,7 @@ public class CfgCustomPropertyController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgCustomPropertyForm", "1");
 
-        return new ModelAndView("cfg/CfgCustomPropertyForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgCustomPropertyForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgCustomProperty/edit/{propertyId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long propertyId)throws Exception {
@@ -122,7 +122,7 @@ public class CfgCustomPropertyController extends BaseFormController{
             model.addAttribute("cfgCustomProperty", cfgCustomProperty);
             
         }
-        return new ModelAndView("cfg/CfgCustomPropertyForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgCustomPropertyForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgCustomProperty/formSubmit*",method = RequestMethod.POST)
@@ -140,7 +140,7 @@ public class CfgCustomPropertyController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgCustomPropertyForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgCustomPropertyForm", model.asMap());
             }
         }
 

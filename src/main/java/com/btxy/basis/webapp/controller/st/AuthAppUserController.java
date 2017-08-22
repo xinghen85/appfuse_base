@@ -183,7 +183,7 @@ public class AuthAppUserController extends BaseFormController {
 		AuthAppUser user = dbManager.get(userId);
 		user.setPassword("");
 		model.addAttribute(DM_FORM_NAME, user);
-		return new ModelAndView("st/AuthAppUserFormChangePasswordForAdmin", model.asMap());
+		return new ModelAndView("base/st/AuthAppUserFormChangePasswordForAdmin", model.asMap());
 	}
 
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/edit/resetPassword/formSubmit/php*", method = RequestMethod.POST)

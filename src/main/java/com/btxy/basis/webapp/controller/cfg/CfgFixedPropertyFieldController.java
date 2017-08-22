@@ -77,7 +77,7 @@ public class CfgFixedPropertyFieldController extends BaseFormController{
             CfgFixedPropertyDefine cfgFixedPropertyDefine= cfgFixedPropertyDefineManager.get(parentId);
             model.addAttribute("cfgFixedPropertyDefine", cfgFixedPropertyDefine);
         }
-        return new ModelAndView("cfg/CfgFixedPropertyFieldList", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyFieldList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyField/view/{fieldId}/php*",method = RequestMethod.GET)
@@ -89,7 +89,7 @@ public class CfgFixedPropertyFieldController extends BaseFormController{
             CfgFixedPropertyDefine cfgFixedPropertyDefine= cfgFixedPropertyDefineManager.get(fieldId);
             model.addAttribute("cfgFixedPropertyDefine", cfgFixedPropertyDefine);
         }
-        return new ModelAndView("cfg/CfgFixedPropertyFieldForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyFieldForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyField/add/cfgFixedPropertyDefine/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -106,7 +106,7 @@ public class CfgFixedPropertyFieldController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgFixedPropertyFieldForm", "1");
 
-        return new ModelAndView("cfg/CfgFixedPropertyFieldForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyFieldForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyField/edit/{fieldId}/cfgFixedPropertyDefine/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long fieldId,@PathVariable Long parentId)throws Exception {
@@ -128,7 +128,7 @@ public class CfgFixedPropertyFieldController extends BaseFormController{
             model.addAttribute("cfgFixedPropertyField", cfgFixedPropertyField);
             
         }
-        return new ModelAndView("cfg/CfgFixedPropertyFieldForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFixedPropertyFieldForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgFixedPropertyField/formSubmit/cfgFixedPropertyDefine/{parentId}/php*",method = RequestMethod.POST)
@@ -147,7 +147,7 @@ public class CfgFixedPropertyFieldController extends BaseFormController{
 
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgFixedPropertyFieldForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgFixedPropertyFieldForm", model.asMap());
             }
         }
         log.debug("entering 'onSubmit' method...");

@@ -109,7 +109,7 @@ public class CfgIconInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgIconInfoList", model.asMap());
+        return new ModelAndView("base/cfg/CfgIconInfoList", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgIconInfo/list/forselect/select1/php*")
     public ModelAndView listForSelect(@PathVariable String libraryPath,HttpServletRequest request)throws Exception {
@@ -142,7 +142,7 @@ public class CfgIconInfoController extends BaseFormController{
             model.addAttribute("cfgIconInfoList",new ArrayList<CfgIconInfo>());
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgIconInfoListForSelect", model.asMap());
+        return new ModelAndView("base/cfg/CfgIconInfoListForSelect", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgIconInfo/view/{iconId}/php*",method = RequestMethod.GET)
     public ModelAndView view(@PathVariable String libraryPath,@PathVariable Long iconId)throws Exception {
@@ -154,7 +154,7 @@ public class CfgIconInfoController extends BaseFormController{
             CfgIconInfo cfgIconInfo= cfgIconInfoManager.get(iconId);
             model.addAttribute("cfgIconInfo", cfgIconInfo);
         }
-        return new ModelAndView("cfg/CfgIconInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgIconInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgIconInfo/add/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath)throws Exception {
@@ -170,7 +170,7 @@ public class CfgIconInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgIconInfoForm", "1");
 
-        return new ModelAndView("cfg/CfgIconInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgIconInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgIconInfo/edit/{iconId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long iconId)throws Exception {
@@ -183,7 +183,7 @@ public class CfgIconInfoController extends BaseFormController{
             model.addAttribute("cfgIconInfo", cfgIconInfo);
             
         }
-        return new ModelAndView("cfg/CfgIconInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgIconInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgIconInfo/formSubmit/php*",method = RequestMethod.POST)
@@ -202,7 +202,7 @@ public class CfgIconInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgIconInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgIconInfoForm", model.asMap());
             }
         }
 

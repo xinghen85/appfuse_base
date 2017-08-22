@@ -173,7 +173,7 @@ public class AuthAppRoleController extends BaseFormController{
             AuthAppRole authAppRole= dbManager.get(roleId);
             model.addAttribute(DM_FORM_NAME, authAppRole);
         }
-        return new ModelAndView("st/AuthAppRoleAndPrivilegeForm", model.asMap());
+        return new ModelAndView("base/st/AuthAppRoleAndPrivilegeForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authAppRole/edit/privilege/{roleId}/submit/php*",method = RequestMethod.POST)
     public ModelAndView editPrivilegeSubmit(@PathVariable String libraryPath,@PathVariable Long roleId, HttpServletRequest request,

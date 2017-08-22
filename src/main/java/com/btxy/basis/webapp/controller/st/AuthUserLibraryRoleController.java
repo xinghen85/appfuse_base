@@ -49,7 +49,7 @@ public class AuthUserLibraryRoleController extends BaseFormController{
             AuthAppUser authAppUser= authAppUserManager.get(parentId);
             model.addAttribute("authAppUser", authAppUser);
         }
-        return new ModelAndView("st/AuthUserLibraryRoleList", model.asMap());
+        return new ModelAndView("base/st/AuthUserLibraryRoleList", model.asMap());
     }
  
     @RequestMapping(value = "/lb/{libraryPath}/authUserLibraryRole/view/{libraryRoleId}/php*",method = RequestMethod.GET)
@@ -61,7 +61,7 @@ public class AuthUserLibraryRoleController extends BaseFormController{
             AuthAppUser authAppUser= authAppUserManager.get(libraryRoleId);
             model.addAttribute("authAppUser", authAppUser);
         }
-        return new ModelAndView("st/AuthUserLibraryRoleForm", model.asMap());
+        return new ModelAndView("base/st/AuthUserLibraryRoleForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authUserLibraryRole/add/authAppUser/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -76,7 +76,7 @@ public class AuthUserLibraryRoleController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfAuthUserLibraryRoleForm", "1");
 
-        return new ModelAndView("st/AuthUserLibraryRoleForm", model.asMap());
+        return new ModelAndView("base/st/AuthUserLibraryRoleForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/authUserLibraryRole/edit/{libraryRoleId}/authAppUser/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long libraryRoleId,@PathVariable Long parentId)throws Exception {
@@ -98,7 +98,7 @@ public class AuthUserLibraryRoleController extends BaseFormController{
             model.addAttribute("authUserLibraryRole", authUserLibraryRole);
             
         }
-        return new ModelAndView("st/AuthUserLibraryRoleForm", model.asMap());
+        return new ModelAndView("base/st/AuthUserLibraryRoleForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/authUserLibraryRole/formSubmit/authAppUser/{parentId}/php*",method = RequestMethod.POST)
@@ -117,7 +117,7 @@ public class AuthUserLibraryRoleController extends BaseFormController{
 
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("st/AuthUserLibraryRoleForm", model.asMap());
+        		return new ModelAndView("base/st/AuthUserLibraryRoleForm", model.asMap());
             }
         }
         log.debug("entering 'onSubmit' method...");

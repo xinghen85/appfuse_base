@@ -92,7 +92,7 @@ public class CfgFormInfoController extends BaseFormController{
             model.addAttribute("pageSize", pageSize);
         	model.addAttribute("totalSize", 0);
         }
-        return new ModelAndView("cfg/CfgFormInfoList", model.asMap());
+        return new ModelAndView("base/cfg/CfgFormInfoList", model.asMap());
      
     }
 
@@ -106,7 +106,7 @@ public class CfgFormInfoController extends BaseFormController{
             CfgFormInfo cfgFormInfo= cfgFormInfoManager.get(formId);
             model.addAttribute("cfgFormInfo", cfgFormInfo);
         }
-        return new ModelAndView("cfg/CfgFormInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFormInfo/add/cfgFormInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView add(@PathVariable String libraryPath,@PathVariable Long parentId)throws Exception {
@@ -120,7 +120,7 @@ public class CfgFormInfoController extends BaseFormController{
         model.addAttribute("formEditFlag", true);
         model.addAttribute("addFlagOfCfgFormInfoForm", "1");
 
-        return new ModelAndView("cfg/CfgFormInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
     }
     @RequestMapping(value = "/lb/{libraryPath}/cfgFormInfo/edit/{formId}/cfgFormInfo/{parentId}/php*",method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable String libraryPath,@PathVariable Long formId,@PathVariable Long parentId)throws Exception {
@@ -134,7 +134,7 @@ public class CfgFormInfoController extends BaseFormController{
             model.addAttribute("cfgFormInfo", cfgFormInfo);
             
         }
-        return new ModelAndView("cfg/CfgFormInfoForm", model.asMap());
+        return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
     }
     
     @RequestMapping(value = "/lb/{libraryPath}/cfgFormInfo/formSubmit/cfgFormInfo/{parentId}/php*",method = RequestMethod.POST)
@@ -153,14 +153,14 @@ public class CfgFormInfoController extends BaseFormController{
             
             if (svr.hasErrors()) { // don't validate when deleting
             	saveError(request,svr.getAllErrorMessage());
-        		return new ModelAndView("cfg/CfgFormInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
             }
             try{
             	Class c=Class.forName("com.letv.flow.manage.model."+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
             	cfgFormInfo.setModelClassName("com.letv.flow.manage.model."+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
             }catch(Exception e){
             	saveError(request,"form不存在");
-        		return new ModelAndView("cfg/CfgFormInfoForm", model.asMap());
+        		return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
             }
         }
 
