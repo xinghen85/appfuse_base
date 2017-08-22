@@ -33,7 +33,7 @@ import com.mongodb.MongoException;
 @Controller
 public class AuthAppUserController extends BaseFormController {
 	private static final String DM_FORM_NAME = "authAppUser";
-	private static final String FORM_NAME="st/AuthAppUser";
+	private static final String FORM_NAME="base/st/AuthAppUser";
 
 	@Autowired
 	private AuthAppUserManager dbManager;

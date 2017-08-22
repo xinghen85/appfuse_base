@@ -389,7 +389,6 @@ public class AuthOrgUserController extends BaseFormController{
  	   	try {
  			response.getWriter().write(resultb.toString());
  		} catch (IOException e1) {
- 			// TODO Auto-generated catch block
  			e1.printStackTrace();
  		}
     }

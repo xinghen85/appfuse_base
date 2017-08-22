@@ -34,7 +34,7 @@ import com.mongodb.MongoException;
 @Controller
 public class AuthAppRoleController extends BaseFormController{
 	private static final String DM_FORM_NAME="authAppRole";
-	private static final String FORM_NAME="st/AuthAppRole";
+	private static final String FORM_NAME="base/st/AuthAppRole";
 
     @Autowired
     private AuthAppRoleManager dbManager;
