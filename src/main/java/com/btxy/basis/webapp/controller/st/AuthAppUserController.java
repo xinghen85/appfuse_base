@@ -33,7 +33,8 @@ import com.mongodb.MongoException;
 @Controller
 public class AuthAppUserController extends BaseFormController {
 	private static final String DM_FORM_NAME = "authAppUser";
-	private static final String FORM_NAME="base/st/AuthAppUser";
+	private static final String LIST_NAME="base/st/AuthAppUserList";
+	private static final String FORM_NAME="base/st/AuthAppUserForm";
 
 	@Autowired
 	private AuthAppUserManager dbManager;
@@ -61,7 +62,7 @@ public class AuthAppUserController extends BaseFormController {
 		
 		Model model = list(dbManager, DM_FORM_NAME, libraryPath, request, searchValue, listFlag, qcs);
 
-		return new ModelAndView(FORM_NAME+"List", model.asMap());
+		return new ModelAndView(LIST_NAME, model.asMap());
 	}
 	@RequestMapping(value = "/lb/{libraryPath}/authAppUser/view/{id}/php*", method = RequestMethod.GET)
 	public ModelAndView view(@PathVariable String libraryPath, @PathVariable Long id, HttpServletRequest request) {
