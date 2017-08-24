@@ -48,7 +48,6 @@ public class ObjectUpdateMsgCache {
 	}
 
 	public boolean exists(String string) {
-		// TODO Auto-generated method stub
 		if( cache.get(string)==null){
 			return false;
 		}else{
@@ -57,7 +56,6 @@ public class ObjectUpdateMsgCache {
 	}
 
 	public Object get(String string) {
-		// TODO Auto-generated method stub
 		if( cache.get(string)==null || cache.get(string).getObjectValue()==null){
 			return null;
 		}else{
@@ -66,14 +64,12 @@ public class ObjectUpdateMsgCache {
 	}
 
 	public void set(String string, Object string2) {
-		// TODO Auto-generated method stub
 		Element element = new Element(string, string2);
 		cache.put(element);
 	
 	}
 	
 	public void del(String string) {
-		// TODO Auto-generated method stub
 		if( cache.get(string)!=null){
 			cache.remove(string);
 		}
