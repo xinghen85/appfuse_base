@@ -31,6 +31,8 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,6 +49,7 @@ import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.QueryContditionSet;
 import com.btxy.basis.common.model.SearchConditionValue;
 import com.btxy.basis.common.model.ServerValidataResult;
+import com.btxy.basis.model.AuthAppRole;
 import com.btxy.basis.model.AuthAppUser;
 import com.btxy.basis.model.CfgCustomProperty;
 import com.btxy.basis.model.User;
@@ -399,7 +402,7 @@ public class BaseFormController implements ServletContextAware {
 		model.addAttribute("formEditFlag", false);
 		if (id != null) {
 			T bean = dbManager.get(id);
-			model.addAttribute(DM_FORM_NAME+"Form", bean);
+			model.addAttribute(DM_FORM_NAME, bean);
 		}
 		return new ModelAndView(FORM_NAME+"", model.asMap());
 	}
@@ -410,7 +413,7 @@ public class BaseFormController implements ServletContextAware {
     		
         if (id!=null) {
             T bean= dbManager.get(id);
-            model.addAttribute(DM_FORM_NAME+"Form", bean);
+            model.addAttribute(DM_FORM_NAME, bean);
         }
         return new ModelAndView(FORM_NAME, model.asMap());
     }
