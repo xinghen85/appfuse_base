@@ -15,21 +15,12 @@ public class ConfigureContext  extends PropertyPlaceholderConfigurer{
 	
 	static Map<String,CfgParameter> cfgParameters=null;
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(1);
-		System.out.println(ConfigureContext.getDbCfgParemeters("deployType2"));
-		System.out.println(1);
-		
-	}
 	public static void refreshDbParameters(){
 		cfgParameters=new HashMap<String,CfgParameter>();
 		
 		List<CfgParameter> list=SpringContext.getDatastore().find(CfgParameter.class).asList();
-		if(list!=null){
-			for(CfgParameter one:list){
-				cfgParameters.put(one.getName(), one);
-			}
+		for(CfgParameter one:list){
+			cfgParameters.put(one.getName(), one);
 		}
 	}
 	public static CfgParameter getDbCfgParemeters(String name){
@@ -38,21 +29,11 @@ public class ConfigureContext  extends PropertyPlaceholderConfigurer{
 		}
 		return cfgParameters.get(name);
 	}
-	/*public static String getShareFilePath(){
-		CfgParameter cp=ConfigureContext.getDbCfgParemeters("shareFilePath");
-        if(cp==null|| cp.getValue()==null || "".equals(cp.getValue())){
-        	return "E:\\Tmp";
-        }else{
-        	return cp.getValue();
-        }
-	}
-	*/
 	
 	private static Map<String, Object> ctxPropertiesMap;  
 	  
     @Override  
-    protected void processProperties(ConfigurableListableBeanFactory beanFactory,  
-            Properties props)throws BeansException {  
+    protected void processProperties(ConfigurableListableBeanFactory beanFactory,Properties props)throws BeansException {  
   
         super.processProperties(beanFactory, props);  
         //load properties to ctxPropertiesMap  
