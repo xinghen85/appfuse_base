@@ -1,7 +1,6 @@
 package com.btxy.basis.morphia.aspect.base;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,10 +10,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import com.btxy.basis.cache.cfg.CfgFormInfoCache;
-import com.btxy.basis.cache.cfg.CfgFixedPropertyDefineCache;
 import com.btxy.basis.cache.model.ExtendFormInfo;
-import com.btxy.basis.common.SpringContext;
-import com.btxy.basis.model.CfgFormInfo;
 
 @Aspect
 @Component 
@@ -45,11 +41,9 @@ public class SaveInterceptor {
 	            				
 	            				
 	            				if("BBB".equals(cfi.getFormInfo().getValueChangeDoType())){
-	            					
 	            					ModelInterceptorImpl mii=new ModelInterceptorImpl();
 	            					doInterceptorMap.put(serviceFullName, mii);
 	            				}else if("BBC".equals(cfi.getFormInfo().getValueChangeDoType())){
-	            					//Object iiObj=SpringContext.getApplicationContext().getBean(serviceName+"InterceptorImpl");
 	            					String iiiname=serviceFullName.replaceFirst("com.btxy.basis.service", "com.btxy.basis.morphia.aspect");
 	            					iiiname=iiiname.substring(0,iiiname.length()-11)+"InterceptorImpl";
 	            					doInterceptorMap.put(serviceFullName, (ModelInterceptorInterface)Class.forName(iiiname).newInstance());

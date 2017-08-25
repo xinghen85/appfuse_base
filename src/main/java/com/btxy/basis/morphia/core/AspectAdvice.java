@@ -1,7 +1,5 @@
 package com.btxy.basis.morphia.core;
 
-import javax.servlet.http.HttpSession;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -61,7 +59,7 @@ public class AspectAdvice {
 		// 获取目标对象(形如：com.action.admin.LoginAction@1a2467a)
 		Object target = pjp.getTarget();
 		// 获取目标对象的类名(形如：com.action.admin.LoginAction)
-		String targetName = pjp.getTarget().getClass().getName();
+//		String targetName = pjp.getTarget().getClass().getName();
 		// 执行完方法的返回值：调用proceed()方法，就会触发切入点方法执行
 		Object result = pjp.proceed();// result的值就是被拦截方法的返回值
 

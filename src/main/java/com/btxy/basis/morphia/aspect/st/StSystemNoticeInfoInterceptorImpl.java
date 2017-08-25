@@ -10,7 +10,6 @@ public class StSystemNoticeInfoInterceptorImpl implements ModelInterceptorInterf
 
     @Override
 	public void onChange(StSystemNoticeInfo t, int type) {
-		// TODO Auto-generated method stub
 		System.out.println("======come here:StSystemNoticeInfoInterceptorImpl=====[t:"+t+",type:"+type+"]");
 	}  
 }

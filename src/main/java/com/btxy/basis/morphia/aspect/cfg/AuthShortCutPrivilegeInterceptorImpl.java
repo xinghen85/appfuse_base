@@ -13,7 +13,6 @@ public class AuthShortCutPrivilegeInterceptorImpl implements ModelInterceptorInt
 
     @Override
 	public void onChange(AuthShortCutPrivilege t, int type) {
-		// TODO Auto-generated method stub
 		System.out.println("======come here:AuthShortCutPrivilegeInterceptorImpl=====[t:"+t+",type:"+type+"]");
 		AuthShortCutPrivilegeCache.refresh(AuthShortCutPrivilegeCache.class);
 

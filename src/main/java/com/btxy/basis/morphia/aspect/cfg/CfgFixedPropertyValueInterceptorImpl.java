@@ -11,7 +11,6 @@ public class CfgFixedPropertyValueInterceptorImpl implements ModelInterceptorInt
 
     @Override
 	public void onChange(CfgFixedPropertyValue t, int type) {
-		// TODO Auto-generated method stub
 		System.out.println("======come CfgFixedPropertyValueInterceptorImpl=====[t:"+t+",type:"+type+"]");
 		CfgFixedPropertyDefineCache.refresh(CfgFixedPropertyDefineCache.class,t.getLibrary());
 	}  

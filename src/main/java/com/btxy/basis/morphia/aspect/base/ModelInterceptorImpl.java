@@ -15,7 +15,6 @@ public class ModelInterceptorImpl<T> implements ModelInterceptorInterface<T>{
 	
 	@Override
 	public void onChange(T t, int type) {
-		// TODO Auto-generated method stub
 		System.out.println("ModelInterceptorImpl"+t+"|"+type);
 		LogModelChangeInfo log1=new LogModelChangeInfo();
 		log1.setChangeType(type);
