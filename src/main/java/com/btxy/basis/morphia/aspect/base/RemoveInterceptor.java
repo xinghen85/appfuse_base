@@ -6,7 +6,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.btxy.basis.model.CfgFormInfo;
 
 @Aspect
 @Component 
@@ -20,7 +19,6 @@ public class RemoveInterceptor {
         
         
         Object object = pjp.proceed();//执行该方法  
-        Object[] objs=pjp.getArgs();
         
         System.out.println("退出方法");  
         return object;  
