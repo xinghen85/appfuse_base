@@ -160,7 +160,7 @@ public class CfgFormInfoController extends BaseFormController{
             try{
             	CfgParameter dbCfgParemeters = ConfigureContext.getDbCfgParemeters("model_package");
         		String packageName="com.btxy.basic.model.";
-            	if(dbCfgParemeters!=null&&dbCfgParemeters.getValue()==null){
+            	if(dbCfgParemeters!=null&&dbCfgParemeters.getValue()!=null){
             		packageName=dbCfgParemeters.getValue();
             	}
             	Class c=Class.forName(packageName+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
