@@ -22,12 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.btxy.basis.common.ConfigureContext;
 import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.QueryContditionSet;
 import com.btxy.basis.common.model.SearchConditionValue;
 import com.btxy.basis.common.model.ServerValidataResult;
 import com.btxy.basis.common.util.SequenceUtil;
 import com.btxy.basis.model.CfgFormInfo;
+import com.btxy.basis.model.CfgParameter;
 import com.btxy.basis.service.cfg.CfgFormInfoManager;
 import com.btxy.basis.util.map.MapUtil;
 import com.btxy.basis.webapp.controller.BaseFormController;
@@ -156,8 +158,13 @@ public class CfgFormInfoController extends BaseFormController{
         		return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
             }
             try{
-            	Class c=Class.forName("com.letv.flow.manage.model."+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
-            	cfgFormInfo.setModelClassName("com.letv.flow.manage.model."+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
+            	CfgParameter dbCfgParemeters = ConfigureContext.getDbCfgParemeters("model_package");
+        		String packageName="com.btxy.basic.model.";
+            	if(dbCfgParemeters!=null&&dbCfgParemeters.getValue()==null){
+            		packageName=dbCfgParemeters.getValue();
+            	}
+            	Class c=Class.forName(packageName+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
+            	cfgFormInfo.setModelClassName(packageName+cfgFormInfo.getFormCode().substring(0,1).toUpperCase()+cfgFormInfo.getFormCode().substring(1));
             }catch(Exception e){
             	saveError(request,"form不存在");
         		return new ModelAndView("base/cfg/CfgFormInfoForm", model.asMap());
