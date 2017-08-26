@@ -1,6 +1,7 @@
 package com.btxy.basis.cache.cfg;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -8,16 +9,12 @@ import java.util.Map;
 
 import org.mongodb.morphia.query.Query;
 
-import com.btxy.basis.cache.model.AuthPrivilegeView;
-import com.btxy.basis.cache.model.BaseCache;
 import com.btxy.basis.cache.model.BaseCacheByLibrary;
 import com.btxy.basis.cache.model.ExtendFormInfo;
 import com.btxy.basis.cache.model.FixedPropertyEnum;
 import com.btxy.basis.common.SpringContext;
-import com.btxy.basis.model.AuthPrivilegeInfo;
 import com.btxy.basis.model.CfgFixedPropertyDefine;
 import com.btxy.basis.model.CfgFixedPropertyValue;
-import com.btxy.basis.model.CfgStateMachineDefine;
 import com.btxy.basis.util.map.MapUtil;
 
 public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedPropertyDefine,Long>{
@@ -60,14 +57,22 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 	//private Map<Long,Map<String,List<FixedPropertyEnum>>> formCacheMap=new HashMap<Long,Map<String,List<FixedPropertyEnum>>>();
 	
 	public List<FixedPropertyEnum> getEnumListByPropertyId(Long id){
-		return this.fixedPropertyEnumMap.get(id);
+		return getNoNullList(this.fixedPropertyEnumMap.get(id));
 	}
 	
 	public List<FixedPropertyEnum> getEnumListByPropertyCode(String code){
+		List<FixedPropertyEnum> list =null;
 		if(this.defineMapWithCode.get(code)!=null){
-			return this.fixedPropertyEnumMap.get(this.defineMapWithCode.get(code).getPropertyId());
+			list = this.fixedPropertyEnumMap.get(this.defineMapWithCode.get(code).getPropertyId());
 		}
-		return null;
+		return getNoNullList(list);
+	}
+
+	private <T> List<T> getNoNullList(List<T> list) {
+		if(list==null){
+			list=Collections.emptyList();
+		}
+		return list;
 	}
 	private void init(CfgFixedPropertyDefine one) {
 		Long libraryId=library;

@@ -10,10 +10,8 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
-import org.mongodb.morphia.annotations.Transient;
 
 import com.btxy.basis.common.SpringContext;
-import com.btxy.basis.util.list.ListUtil;
 
 @Entity(value="cfg_custom_property", noClassnameStored=true) 
 @TableAnnoExtend(description="系统可变属性",textSearch=true)
@@ -171,7 +169,8 @@ public class CfgCustomProperty implements Serializable{
 		return valueList;
 	}
 	public void setValueList(List<String> valueList) {
-		this.valueList = valueList;
+		if(valueList!=null)
+			this.valueList = valueList;
 	}
 	public static void main(String[] args) {
 		Datastore ds=SpringContext.getDatastore();

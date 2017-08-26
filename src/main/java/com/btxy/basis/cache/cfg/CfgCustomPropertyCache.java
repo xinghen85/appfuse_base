@@ -44,13 +44,11 @@ public class CfgCustomPropertyCache extends BaseCacheByLibrary<CfgCustomProperty
 	Map<String,CfgCustomProperty> defineMapWithCode=new HashMap<String,CfgCustomProperty>();
 	public void init(){
 		List<CfgCustomProperty> list=dao.find().asList();
-		if(list!=null){
-			for(CfgCustomProperty one:list){
-				map.put(one.getPropertyId(), one);
-				defineMapWithCode.put(one.getPropertyCode(), one);
-				if(one.getFormInfo()!=null){
-					MapUtil.appendListEntityToMap(cfgFixedPropertyWithFormCode, one.getFormInfo().getFormId(), one);
-				}
+		for(CfgCustomProperty one:list){
+			map.put(one.getPropertyId(), one);
+			defineMapWithCode.put(one.getPropertyCode(), one);
+			if(one.getFormInfo()!=null){
+				MapUtil.appendListEntityToMap(cfgFixedPropertyWithFormCode, one.getFormInfo().getFormId(), one);
 			}
 		}
 		
