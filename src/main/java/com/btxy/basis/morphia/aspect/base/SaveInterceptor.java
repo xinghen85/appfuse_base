@@ -1,5 +1,6 @@
 package com.btxy.basis.morphia.aspect.base;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ import com.btxy.basis.cache.model.ExtendFormInfo;
 
 @Aspect
 @Component 
-public class SaveInterceptor {
-	private static Map<String,ModelInterceptorInterface> doInterceptorMap=new HashMap<String,ModelInterceptorInterface>();
+public class SaveInterceptor<T> {
+	private static Map<String,ModelInterceptorInterface<Serializable>> doInterceptorMap=new HashMap<String,ModelInterceptorInterface<Serializable>>();
 	
 	@Pointcut("execution(* com.btxy.basis.service.base.MgGenericManagerImpl.save(..)) ||"
 			+ "execution(* com.btxy.basis.service.base.MgGenericManagerImpl.saveMainBody(..)) ")  
@@ -41,12 +42,12 @@ public class SaveInterceptor {
 	            				
 	            				
 	            				if("BBB".equals(cfi.getFormInfo().getValueChangeDoType())){
-	            					ModelInterceptorImpl mii=new ModelInterceptorImpl();
+	            					ModelInterceptorImpl<Serializable> mii=new ModelInterceptorImpl();
 	            					doInterceptorMap.put(serviceFullName, mii);
 	            				}else if("BBC".equals(cfi.getFormInfo().getValueChangeDoType())){
 	            					String iiiname=serviceFullName.replaceFirst("com.btxy.basis.service", "com.btxy.basis.morphia.aspect");
 	            					iiiname=iiiname.substring(0,iiiname.length()-11)+"InterceptorImpl";
-	            					doInterceptorMap.put(serviceFullName, (ModelInterceptorInterface)Class.forName(iiiname).newInstance());
+	            					doInterceptorMap.put(serviceFullName, (ModelInterceptorInterface<Serializable>)Class.forName(iiiname).newInstance());
 	            				}
 	            			}
 	            			
@@ -56,22 +57,23 @@ public class SaveInterceptor {
 	        }
 	        	
         	if(doInterceptorMap.get(serviceFullName)!=null && pjp.getArgs()!=null && pjp.getArgs().length>0){
-        		if("save".equals(pjp.getSignature().getName())){
+        		Serializable ddd =(Serializable) pjp.getArgs()[0];
+				if("save".equals(pjp.getSignature().getName())){
         			if(pjp.getArgs().length>1){
         				if(pjp.getArgs()[1]!=null){
         					Boolean b=Boolean.parseBoolean(pjp.getArgs()[1].toString());
         					if(b){
-        						doInterceptorMap.get(serviceFullName).onChange(pjp.getArgs()[0], ModelInterceptorImpl.CHANGE_TYPE_INSERT);
+        						doInterceptorMap.get(serviceFullName).onChange(ddd, ModelInterceptorImpl.CHANGE_TYPE_INSERT);
         					}else{
-        						doInterceptorMap.get(serviceFullName).onChange(pjp.getArgs()[0], ModelInterceptorImpl.CHANGE_TYPE_UPDATE);
+        						doInterceptorMap.get(serviceFullName).onChange(ddd, ModelInterceptorImpl.CHANGE_TYPE_UPDATE);
         					}
         				}
         				
         			}else{
-        				doInterceptorMap.get(serviceFullName).onChange(pjp.getArgs()[0], ModelInterceptorImpl.CHANGE_TYPE_SAVE);
+        				doInterceptorMap.get(serviceFullName).onChange(ddd, ModelInterceptorImpl.CHANGE_TYPE_SAVE);
         			}
         		}else if("saveMainBody".equals(pjp.getSignature().getName())){
-        			doInterceptorMap.get(serviceFullName).onChange(pjp.getArgs()[0], ModelInterceptorImpl.CHANGE_TYPE_UPDATE);
+        			doInterceptorMap.get(serviceFullName).onChange(ddd, ModelInterceptorImpl.CHANGE_TYPE_UPDATE);
         		}
         		
         	}

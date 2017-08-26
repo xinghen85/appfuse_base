@@ -13,20 +13,20 @@ import com.btxy.basis.common.model.OrderedMap;
 
 public class BaseCache<T,PK> {
 	
-	protected static synchronized void  initIncrease(Class<?> c){
+	private static synchronized void  initIncrease(Class<?> c){
 		if(!initSizeMap.containsKey(c)){
 			initSizeMap.put(c, 0);
 		}
 		initSizeMap.put(c, initSizeMap.get(c)+1);
 	}
-	protected static synchronized void  destroyIncrease(Class<?> c){
+	private static synchronized void  destroyIncrease(Class<?> c){
 		if(!destroySizeMap.containsKey(c)){
 			destroySizeMap.put(c, 0);
 		}
 		destroySizeMap.put(c, destroySizeMap.get(c)+1);
 	}
-	public static volatile  Map<Class<?>,Integer> initSizeMap=new Hashtable<Class<?>,Integer>();
-	public static volatile  Map<Class<?>,Integer> destroySizeMap=new Hashtable<Class<?>,Integer>();
+	private static volatile  Map<Class<?>,Integer> initSizeMap=new Hashtable<Class<?>,Integer>();
+	private static volatile  Map<Class<?>,Integer> destroySizeMap=new Hashtable<Class<?>,Integer>();
 	protected static volatile  Map<Class<?>,Object> instanceMap=new Hashtable<Class<?>,Object>();
 	
 	protected static  Object getInstance(Class<?> c){
@@ -54,59 +54,43 @@ public class BaseCache<T,PK> {
 	}
 	
 	protected DAO<T, PK> dao;
-	
-	
-	
-	Class<T> entityClass;
-	
-	ExtendFormInfo form;
+	private ExtendFormInfo form;
+	protected OrderedMap<PK,T> map=new OrderedMap<PK,T>();
 	
 	public BaseCache(){
 		
 	}
 	
-	public BaseCache(final Class<T> entityClass1){
-		initIncrease(entityClass1);
-		dao=new BasicDAO<T,PK>(entityClass1,SpringContext.getDatastore());
-		entityClass=entityClass1;
-		form=CfgFormInfoCache.getInstance().getCfgFormInfoByClass(entityClass);
-		
-		init();
+	public BaseCache(final Class<T> entityClass){
+		this(entityClass,true);
 	}
 	
-	public BaseCache(final Class<T> entityClass1,boolean init){
-		initIncrease(entityClass1);
-		dao=new BasicDAO<T,PK>(entityClass1,SpringContext.getDatastore());
-		entityClass=entityClass1;
+	public BaseCache(final Class<T> entityClass,boolean init){
+		initIncrease(entityClass);
+		dao=new BasicDAO<T,PK>(entityClass,SpringContext.getDatastore());
 		form=CfgFormInfoCache.getInstance().getCfgFormInfoByClass(entityClass);
 		if(init){
 			init();
 		}
-		
 	}
 	
-	protected OrderedMap<PK,T> map=new OrderedMap<PK,T>();
 	
 	private void init(){
 		if(form!=null && form.getIdGetMethod()!=null){
 			List<T> list=dao.find().asList();
-			if(list!=null){
-				for(int i=0;i<list.size();i++){
-					try {
-						PK id = (PK) form.getIdGetMethod().invoke(list.get(i));
-						map.put(id,list.get(i));
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+			for(int i=0;i<list.size();i++){
+				try {
+					PK id = (PK) form.getIdGetMethod().invoke(list.get(i));
+					map.put(id,list.get(i));
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}else{
 			List<T> list=dao.find().asList();
 			List<PK> list1=dao.findIds();
-			if(list!=null){
-				for(int i=0;i<list1.size();i++){
-					map.put(list1.get(i),list.get(i));
-				}
+			for(int i=0;i<list1.size();i++){
+				map.put(list1.get(i),list.get(i));
 			}
 		}
 		
@@ -123,5 +107,8 @@ public class BaseCache<T,PK> {
 			return null;
 		}
 	}
-	
+
+	public String print() {
+		return "总计初始化"+initSizeMap+"次，总计销毁"+destroySizeMap+"次";
+	}
 }

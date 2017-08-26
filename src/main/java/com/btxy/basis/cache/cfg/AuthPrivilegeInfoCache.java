@@ -197,5 +197,6 @@ public class AuthPrivilegeInfoCache extends BaseCache<AuthPrivilegeInfo,Long>{
 	public Map<String, List<AuthPrivilegeView>> getTableTreePrivilegeMap() {
 		return privilegeMap;
 	}
+
 	 
 }

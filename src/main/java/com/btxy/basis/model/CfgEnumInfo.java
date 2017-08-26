@@ -81,12 +81,13 @@ public class CfgEnumInfo implements Serializable{
 	}
 
 	public void setValues(List<CfgEnumValueInfo> values) {
-		this.values = values;
+		if(values!=null){
+			this.values = values;
+		}
 	}
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		//SpringContext.getDatastore();
 		Datastore ds=SpringContext.getDatastore();
@@ -98,7 +99,7 @@ public class CfgEnumInfo implements Serializable{
 	    	if(!map.containsKey(one.getEnumId())){
 	    		if(one.getConstantName()!=null && !"".equals(one.getConstantName().trim()) && one.getEnumCode()!=null && !"".equals(one.getEnumCode().trim())){
 	    			
-	    			if(one.getValues()!=null && one.getValues().size()>0){
+	    			if(one.getValues().size()>0){
 	    				sb.append("    /******"+one.getEnumName()+"******/\r\n");
 	    				for(CfgEnumValueInfo v1:one.getValues()){
 	    					if(v1.getConstantName()!=null && v1.getCode()!=null ){

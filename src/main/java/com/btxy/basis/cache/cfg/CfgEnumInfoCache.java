@@ -13,6 +13,8 @@ import com.btxy.basis.model.CfgStateMachineValue;
 
 public class CfgEnumInfoCache extends BaseCache<CfgEnumInfo,Long>{
 	//private static AuthPrivilegeInfoCache instance;
+	private Map<String,String> cfgAllEnumValueMap=new HashMap<String,String>();
+	private Map<String,CfgEnumInfo> cfgEnumInfoMap=new HashMap<String,CfgEnumInfo>();
 	
 	public static CfgEnumInfoCache getInstance(){
 		return (CfgEnumInfoCache) getInstance(CfgEnumInfoCache.class);	
@@ -33,9 +35,7 @@ public class CfgEnumInfoCache extends BaseCache<CfgEnumInfo,Long>{
 			
 			if(machineValue!=null && machineValue.getButtons()!=null){
 				
-				if(cfgEnumInfo!=null){
-					if(cfgEnumInfo.getValues()!=null){
-						
+				if(cfgEnumInfo!=null && cfgEnumInfo.getValues()!=null){
 						for(CfgEnumValueInfo one:cfgEnumInfo.getValues()){
 							if(state!=null && state.equals(one.getFullCode())){
 								list.add(one);
@@ -49,14 +49,12 @@ public class CfgEnumInfoCache extends BaseCache<CfgEnumInfo,Long>{
 							
 						}
 						return list;
-					}
 				}
 			}else{
 				for(CfgEnumValueInfo one:cfgEnumInfo.getValues()){
 					if(state!=null && state.equals(one.getFullCode())){
 						list.add(one);
 					}
-					
 				}
 				return list;
 			}
@@ -73,25 +71,21 @@ public class CfgEnumInfoCache extends BaseCache<CfgEnumInfo,Long>{
 		}
 		return null;
 	}
-	private Map<String,String> cfgAllEnumValueMap=new HashMap<String,String>();
-	Map<String,CfgEnumInfo> cfgEnumInfoMap=new HashMap<String,CfgEnumInfo>();
-	public void init(){
-		if(map.getList()!=null){
-			for(CfgEnumInfo one:map.getList()){
-				for(int j=0;one.getValues()!=null && j<one.getValues().size();j++){
-					one.getValues().get(j).setFullCode(one.getEnumCode()+one.getValues().get(j).getCode());
-				}
+	protected void init(){
+		for(CfgEnumInfo cfgEnumInfo:map.getList()){
+			for(int j=0;j<cfgEnumInfo.getValues().size();j++){
+				cfgEnumInfo.getValues().get(j).setFullCode(cfgEnumInfo.getEnumCode()+cfgEnumInfo.getValues().get(j).getCode());
 			}
 		}
 		List<CfgEnumInfo> list2=dao.find().asList();
 		for(int i=0;i<list2.size();i++){
-			CfgEnumInfo one=list2.get(i);
+			CfgEnumInfo cfgEnumInfo=list2.get(i);
 			
-			for(int j=0;one.getValues()!=null && j<one.getValues().size();j++){
-				one.getValues().get(j).setFullCode(one.getEnumCode()+one.getValues().get(j).getCode());				
-				cfgAllEnumValueMap.put(one.getValues().get(j).getFullCode(), one.getValues().get(j).getValue());
+			for(int j=0;j<cfgEnumInfo.getValues().size();j++){
+				cfgEnumInfo.getValues().get(j).setFullCode(cfgEnumInfo.getEnumCode()+cfgEnumInfo.getValues().get(j).getCode());				
+				cfgAllEnumValueMap.put(cfgEnumInfo.getValues().get(j).getFullCode(), cfgEnumInfo.getValues().get(j).getValue());
 			}
-			cfgEnumInfoMap.put(one.getEnumCode(), one);
+			cfgEnumInfoMap.put(cfgEnumInfo.getEnumCode(), cfgEnumInfo);
 		}
 	}
 	public CfgEnumInfo getCfgEnumInfoById(Long enumId) {

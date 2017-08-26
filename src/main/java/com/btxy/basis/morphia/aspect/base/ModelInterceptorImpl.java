@@ -1,5 +1,6 @@
 package com.btxy.basis.morphia.aspect.base;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.btxy.basis.cache.ehcache.ObjectUpdateMsgCache;
@@ -7,7 +8,7 @@ import com.btxy.basis.common.util.SequenceUtil;
 import com.btxy.basis.model.LogModelChangeInfo;
 
 
-public class ModelInterceptorImpl<T> implements ModelInterceptorInterface<T>{
+public class ModelInterceptorImpl<T extends Serializable> implements ModelInterceptorInterface<T>{
 	public final static int CHANGE_TYPE_SAVE=0;
 	public final static int CHANGE_TYPE_REMOVE=1;
 	static final int CHANGE_TYPE_INSERT=1;
