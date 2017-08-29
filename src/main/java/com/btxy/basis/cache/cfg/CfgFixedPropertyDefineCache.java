@@ -62,8 +62,9 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 	
 	public List<FixedPropertyEnum> getEnumListByPropertyCode(String code){
 		List<FixedPropertyEnum> list =null;
-		if(this.defineMapWithCode.get(code)!=null){
-			list = this.fixedPropertyEnumMap.get(this.defineMapWithCode.get(code).getPropertyId());
+		CfgFixedPropertyDefine cfgFixedPropertyDefine = this.defineMapWithCode.get(code);
+		if(cfgFixedPropertyDefine!=null){
+			list = this.fixedPropertyEnumMap.get(cfgFixedPropertyDefine.getPropertyId());
 		}
 		return getNoNullList(list);
 	}
@@ -74,12 +75,11 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 		}
 		return list;
 	}
-	private void init(CfgFixedPropertyDefine one) {
+	private void init(CfgFixedPropertyDefine oneCfgFixedPropertyDefine) {
 		Long libraryId=library;
-		// TODO Auto-generated method stub
-		if("AXA".equals(one.getValueType())){
+		if("AXA".equals(oneCfgFixedPropertyDefine.getValueType())){
 			Query<CfgFixedPropertyValue>  query=SpringContext.getDatastore().createQuery(CfgFixedPropertyValue.class);
-			query.field("cfgFixedPropertyDefineId").equal(one.getPropertyId());
+			query.field("cfgFixedPropertyDefineId").equal(oneCfgFixedPropertyDefine.getPropertyId());
 			query.and(query.criteria("library").equal(libraryId));
 			List<CfgFixedPropertyValue> list1=query.asList();
 			if(list1!=null){
@@ -89,16 +89,16 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 					fpe.setId(o1.getPropertyValueId());
 					fpe.setName(o1.getPropertyName());
 					fpe.setFullName(o1.getPropertyName());
-					MapUtil.appendListEntityToMap(fixedPropertyEnumMap, one.getPropertyId(), fpe);
+					MapUtil.appendListEntityToMap(fixedPropertyEnumMap, oneCfgFixedPropertyDefine.getPropertyId(), fpe);
 					
 					allMapWithId.put(fpe.getId(), o1.getPropertyName());
 					
 				}
 			}
 			
-		}else if("AXB".equals(one.getValueType())){
+		}else if("AXB".equals(oneCfgFixedPropertyDefine.getValueType())){
 			Query<CfgFixedPropertyValue>  query=SpringContext.getDatastore().createQuery(CfgFixedPropertyValue.class);
-			query.field("cfgFixedPropertyDefineId").equal(one.getPropertyId());
+			query.field("cfgFixedPropertyDefineId").equal(oneCfgFixedPropertyDefine.getPropertyId());
 			query.and(query.criteria("library").equal(libraryId));
 			List<CfgFixedPropertyValue> list1=query.asList();
 			if(list1!=null){
@@ -110,7 +110,7 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 								fpe.setId(o1.getPropertyValueId());
 								fpe.setFullId(o2.getPropertyValueId()+"-"+o1.getPropertyValueId());
 								fpe.setName(o2.getPropertyName()+"->"+o1.getPropertyName());
-								MapUtil.appendListEntityToMap(fixedPropertyEnumMap, one.getPropertyId(), fpe);
+								MapUtil.appendListEntityToMap(fixedPropertyEnumMap, oneCfgFixedPropertyDefine.getPropertyId(), fpe);
 								
 								allMapWithId.put(fpe.getId(), fpe.getName());
 								
@@ -122,9 +122,9 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 					
 				}
 			}
-		}else if("AXC".equals(one.getValueType())){
+		}else if("AXC".equals(oneCfgFixedPropertyDefine.getValueType())){
 			Query<CfgFixedPropertyValue>  query=SpringContext.getDatastore().createQuery(CfgFixedPropertyValue.class);
-			query.field("cfgFixedPropertyDefineId").equal(one.getPropertyId());
+			query.field("cfgFixedPropertyDefineId").equal(oneCfgFixedPropertyDefine.getPropertyId());
 			query.and(query.criteria("library").equal(libraryId));
 			List<CfgFixedPropertyValue> list1=query.asList();
 			if(list1!=null){
@@ -132,7 +132,7 @@ public class CfgFixedPropertyDefineCache extends BaseCacheByLibrary<CfgFixedProp
 		    	for(int i=0;list1!=null && i<list1.size();i++){
 		    		 MapUtil.appendListEntityToMap(map, list1.get(i).getParent(), list1.get(i));
 		    	}
-		    	initTree("","",0l,map,one.getPropertyId(),libraryId);
+		    	initTree("","",0l,map,oneCfgFixedPropertyDefine.getPropertyId(),libraryId);
 			}
 		}
 	}

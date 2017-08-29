@@ -11,6 +11,8 @@ public class FixedPropertyEnum implements Serializable{
 	
 	Long id;
 	String fullId;
+	String name;
+	String fullName;
 	
 	public String getFullId() {
 		return fullId;
@@ -18,8 +20,6 @@ public class FixedPropertyEnum implements Serializable{
 	public void setFullId(String fullId) {
 		this.fullId = fullId;
 	}
-	String name;
-	String fullName;
 	
 	public String getFullName() {
 		return fullName;
