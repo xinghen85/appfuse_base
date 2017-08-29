@@ -1,65 +1,50 @@
- <#macro ddd bean>
+
+<@exe bean=bean/>
+ <#macro exe bean>
 	 <div >
-     	<#if bean.type ==1>
-     		
+     	<#if bean.type =="1">
 	        	<#list values as one>
-			        		
-			        <label class=' <@getSelectCode value=value setVal=one.fullCode rtn="active"/> '>
-			        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='${one.fullCode}' <@getSelectCode value=value setVal=one.fullCod rtn="checked"/> name="${one.name}"> ${one.value}+"
-			        </label>
+			        <@label1 bean=bean value=one.fullCode label=one.value/>
 				</#list>
-	        	
-	       <#elseif bean.type ==2>
-	        		<#list FixedPropertyEnums as one>
-		        <label class=' <@getSelectCode value=value setVal=one.Id rtn="active"/> '>
-		        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='"+${one.Id}' <@getSelectCode value=value setVal=one.Id rtn="checked"/> name="${one.name}"> "+${one.Name}
-		        </label>
+	       <#elseif bean.type =="2" || bean.type =="4">
+        		<#list FixedPropertyEnums as one>
+			        <@label bean=bean value=one.id selVal=one.Id label=one.name/>
 				</#list>
-	       <#elseif bean.type ==3>
-	        		<#list FixedPropertyEnums as one>
-		        		
-		        		<#if "true"==useFullId>
-				        	<label class=' <@getSelectCode value=value setVal=one.FullId rtn="active"/> '>
-					        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='"+${one.Id}' <@getSelectCode value=value setVal=one.FullId rtn="checked"/> name="${one.name}"> "+${one.Name}
-					        </label>
-			        	<#else>
-					        <label class=' <@getSelectCode value=value setVal=one.Id rtn="active"/> '>
-					        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='"+${one.Id}' <@getSelectCode value=value setVal=one.Id rtn="checked"/> name="${one.name}"> "+${one.Name}
-					        </label>
-			        	</#if>
+	       <#elseif bean.type =="3">
+        		<#list FixedPropertyEnums as one>
+	        		<#if "true"== bean.useFullId>
+			        	<@label bean=bean value=one.id selVal=one.FullId label=one.name/>
+		        	<#else>
+			        	<@label bean=bean value=one.id selVal=one.Id label=one.name/>
+		        	</#if>
 				</#list>
-	       <#elseif bean.type ==4>
-	        		<#list FixedPropertyEnums as one>
-	        	
-		        <label class=' <@getSelectCode value=value setVal=one.Id rtn="active"/> '>
-		        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='"+${one.Id}' <@getSelectCode value=value setVal=one.Id rtn="checked"/> name="${one.name}"> "+${one.Name}
-		        </label>
-		        		
+	       <#elseif bean.type =="6" || bean.type=="9">
+        		<#list labelValues as one>
+			        <@label1 bean=bean value=one.value label=one.label/>
 				</#list>
-	       <#elseif bean.type ==6 || bean.type==9>
-	        		<#list labelValues as one>
-			        <label class=' <@getSelectCode value=value setVal=one.value rtn="active"/> '>
-			        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='${one.value}' <@getSelectCode value=value setVal=one.value rtn="checked"/> name="${one.name}"> ${one.label}
-			        </label>
-			        		
-				</#list>
-	        	
-	       <#elseif bean.type ==100>
-	        	<#if !useSelect2 && "true" =bean.pleaseSelect>
+	       <#elseif bean.type =="100">
+	        	<#if !useSelect2 && "true" == bean.pleaseSelect>
      		       <option value="">请选择</option>
      			</#if>
-        		<#list labelValues as labelValue>
-			        <label class=' <@getSelectCode value=value setVal=one rtn="active"/> '>
-			        <input type='<#if mt==null>checkbox<#else>radio</#if>' value='${one}' <@getSelectCode value=value setVal=one rtn="checked"/> name="${one.name}"> ${one}
-			        </label>
+        		<#list labelValues as one>
+			        <@label1 bean=bean value=one label=one/>
 				</#list>
-	        }
-     	</#if>
+     		</#if>
 	</div>
 			    
 </#macro>
 <#macro getSelectCode  value selVal rtn>
-		 <#if value!=null && value==selVal>
-			 ${rtn}
-		 </#if>
+		 <#if value?? && value == selVal>${rtn}</#if>
+</#macro>
+
+<#macro label bean value selVal label>
+	<label class='<#if bean.value?? && bean.value == value>active</#if>'>
+    <input type='<#if bean.multiple1>checkbox<#else>radio</#if>' value='${value}' <#if bean.value?? && bean.value == value>checked</#if> name="${bean.name}"> ${label}
+    </label>
+</#macro>
+
+<#macro label1 bean value label>
+    <label class='<#if bean.value?? && bean.value == value>active</#if>'>
+    <input type='<#if bean.multiple1>checkbox<#else>radio</#if>' value='${value}' <#if bean.value?? && bean.value == value>checked</#if> name="${bean.name}"> ${label}
+    </label>
 </#macro>
