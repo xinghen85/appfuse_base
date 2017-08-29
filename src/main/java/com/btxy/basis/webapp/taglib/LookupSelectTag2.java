@@ -1,11 +1,14 @@
 package com.btxy.basis.webapp.taglib;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import com.btxy.basis.cache.LibraryInfoCache;
@@ -21,21 +24,12 @@ import com.btxy.basis.model.CfgEnumValueInfo;
 import com.btxy.basis.model.CfgStateMachineDefine;
 import com.btxy.basis.model.LabelValue;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
-/**
- * <p>This class is designed to render a <label> tag for labeling your forms and
- * adds an asterik (*) for required fields.  It was originally written by Erik
- * Hatcher (http://www.ehatchersolutions.com/JavaDevWithAnt/).
- * <p/>
- * <p>It is designed to be used as follows:
- * <pre>&lt;tag:label key="userForm.username"/&gt;</pre>
- *
- * @jsp.tag name="label" bodycontent="empty"
- */
+
 public class LookupSelectTag2 extends TagSupport {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1496976754724601830L;
 	private String name;
     private String prompt;
@@ -44,16 +38,12 @@ public class LookupSelectTag2 extends TagSupport {
     private String type;
     private String formName;
     private String refresh;
-    
-    
     private String libraryPath;
-    
     private String multiple;
-    private String pleaseSelect;
+    private String pleaseSelect="false";
     private String id;
-    private String ajax;
+    private String ajax="false";
     private String url;
-    
     private String enumCode;
     private String propertyCode;
     private String propertyId;
@@ -61,13 +51,13 @@ public class LookupSelectTag2 extends TagSupport {
     private String selectModel;//0:普通下拉框 1：select2下拉框 
     
     private String cssClass="";
-    private String cssStyle;
+    private String cssStyle="";
     
 	private String useFullId;
 	
-	private String onSelectChange;
+	private String onSelectChange="";
 	
-	private String placeholder;
+	private String placeholder="";
 	private String allowClear;
 	private String stateMachineCode;
 	
@@ -93,7 +83,9 @@ public class LookupSelectTag2 extends TagSupport {
 		return placeholder;
 	}
 	public void setPlaceholder(String placeholder) {
-		this.placeholder = placeholder;
+		if(placeholder!=null && !"".equals(placeholder.trim())){
+			this.placeholder = placeholder;
+		}
 	}
 	public String getAllowClear() {
 		return allowClear;
@@ -105,13 +97,16 @@ public class LookupSelectTag2 extends TagSupport {
 		return onSelectChange;
 	}
 	public void setOnSelectChange(String onSelectChange) {
-		this.onSelectChange = onSelectChange;
+		if(onSelectChange!=null)
+			this.onSelectChange = onSelectChange;
 	}
 	public String getCssStyle() {
 		return cssStyle;
 	}
 	public void setCssStyle(String cssStyle) {
-		this.cssStyle = cssStyle;
+		if(cssStyle!=null&&cssStyle.trim().length()>0){
+			this.cssStyle = cssStyle.trim();
+		}
 	}
 	public String getCssClass() {
 		return cssClass;
@@ -121,20 +116,17 @@ public class LookupSelectTag2 extends TagSupport {
 			this.cssClass = cssClass.trim();
 		}
 	}
-	public String getPleaseSelect() {
-		return pleaseSelect;
-	}
 	public String getSelectModel() {
 		return selectModel;
 	}
 	public void setSelectModel(String selectModel) {
 		this.selectModel = selectModel;
 	}
-	public String isPleaseSelect() {
+	public String getPleaseSelect() {
 		return pleaseSelect;
 	}
 	public void setPleaseSelect(String pleaseSelect) {
-		this.pleaseSelect = pleaseSelect;
+		this.pleaseSelect=("true".equals(pleaseSelect)?"false":"true");
 	}
 	public String getEnumCode() {
 		return enumCode;
@@ -148,8 +140,15 @@ public class LookupSelectTag2 extends TagSupport {
 	public void setPropertyCode(String propertyCode) {
 		this.propertyCode = propertyCode;
 	}
+	public Boolean getMultiple1() {
+		boolean mt=false;
+	    if("true".equals(this.multiple)){
+	    	mt=true;
+	    };
+		return mt;
+	}
 	public String getMultiple() {
-		return multiple;
+		return this.multiple;
 	}
 	public void setMultiple(String multiple) {
 		this.multiple = multiple;
@@ -164,7 +163,8 @@ public class LookupSelectTag2 extends TagSupport {
 		return ajax;
 	}
 	public void setAjax(String ajax) {
-		this.ajax = ajax;
+		if(ajax!=null && "true".equals(ajax.trim()))
+			this.ajax = "true";
 	}
 	public String getUrl() {
 		return url;
@@ -243,20 +243,15 @@ public class LookupSelectTag2 extends TagSupport {
 	public void setDataSource(String dataSource) {
 		this.dataSource = dataSource;
 	}
-	private String getPlaceholderCode(){
+	public String getPlaceholderCode(){
 		if(this.placeholder==null || "".equals(this.placeholder.trim())){
 			return "";
 		}else{
 			return "placeholder: \""+this.placeholder+"\" ,";
 		}
 	}
-	private String getAllowClearCode(){
-		boolean mt=false;
-	    if("true".equals(this.multiple)){
-	    	mt=true;
-	    }
-	    
-		if("true".equals(this.allowClear) && !mt){
+	public String getAllowClearCode(){
+		if("true".equals(this.allowClear) && !getMultiple1()){
 			return " allowClear: true ,";
 		}else{
 			return " ";
@@ -264,35 +259,28 @@ public class LookupSelectTag2 extends TagSupport {
 	}
 	 public int doStartTag() throws JspException {
 
-		 	
-		    boolean mt=false;
-		    if("true".equals(this.multiple)){
-		    	mt=true;
-		    }
-		    StringBuffer sbCommon=new StringBuffer();
-	        StringBuffer sbSelect2=new StringBuffer();
-
 	        /*
+	         * type
 	    	 * 0:基本类型;
 	    	 * 1:基本枚举类型;
 	    	 * 2:固定变量-enum;
 	    	 * 3:固定变量-muliti;
 	    	 * 4:固定变量-tree;
-	    	 * 5: child List;
+	    	 * 5:child List;
 	    	 * 6:foreignKey  此类型慎用
 	    	 * 7:TreeParentKey 
 	    	 * 8:foreignParentKey 
 	    	 * 9:foreighKey 普通外键，非lazy加载的对象外键
 	    	 * 10.文件
-	    	 * 
+	    	 
 	    	 * select model 0:普通下拉框 1:select2下拉框  3:弹出对话框选择数据 4:按钮组
 	    	 * */
 	        boolean useSelect2=true;
-	        if((!mt && "1".equals(type)) || "0".equals(this.selectModel)){
+	        if((!getMultiple1() && "1".equals(type)) || "0".equals(this.selectModel)){
         		useSelect2=false;
         	}
 	        
-	        if(mt && value!=null){
+	        if(getMultiple1() && value!=null){
 	        	int start=value.trim().indexOf('[');
 	        	int end=value.trim().indexOf(']');
 	        	if(start+1==end){
@@ -300,84 +288,44 @@ public class LookupSelectTag2 extends TagSupport {
 	        	}else if(start<end){
 	        		value=value.trim().substring(start+1,end);
 	        	}
-	        	
 	        }
 	        
 	        Long library=LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath);
 	        
-	        
+
+	 		Map<String,Object> map=new HashMap<String,Object>();
+			map.put("bean", this);
+	     	map.put("useSelect2", useSelect2);
 	        if("4".equals(this.selectModel)){
-	        	this.getCodeOfGroupButton(sbSelect2, sbCommon, mt, library, useSelect2);
-	        }else if(ajax!=null && "true".equals(ajax.trim())){
-	        	this.getCodeOfAjax(sbSelect2, sbCommon, mt, library, useSelect2);
+	        	this.getCodeOfGroupButton(library, map);
+	        }else if( "true".equals(ajax)){
+	        	this.getCodeOfAjax(library, map);
 	        }else{
-	        	getCodeOfCommon(sbSelect2,sbCommon,mt,library,useSelect2);
+	        	getCodeOfCommon(library,map);
 	        }
-	        
-        	
-        	
-           /* StringBuffer sb = new StringBuffer();
-            sb.append(lookupvalue.getLabel());*/
-           
-            
 
 	        return super.doStartTag();
 	    }
-	 private void getCodeOfGroupButton(StringBuffer sbSelect2,StringBuffer sbCommon,boolean mt,Long library,boolean useSelect2) throws JspException{
-		 		Map<String,Object> maps=new HashMap<String,Object>();
+	 private void getCodeOfAjax(Long library,Map<String,Object> map) throws JspException{
+		 print("ajax",map,pageContext);
+	 }
+	 private void getCodeOfGroupButton(Long library,Map<String,Object> maps) throws JspException{
+	        if(library!=null){
 	     		if("1".equals(type)){//form
-	     		
-		        	Map<String, CfgEnumInfo> map=CfgEnumInfoCache.getInstance().getCfgEnumInfoMap();
-		        	CfgEnumInfo enumInfo=map.get(enumCode);
-	        		if(enumInfo!=null && enumInfo.getValues()!=null){
+	     	 		
+	            	Map<String, CfgEnumInfo> map=CfgEnumInfoCache.getInstance().getCfgEnumInfoMap();
+	            	CfgEnumInfo enumInfo=map.get(enumCode);
+	        		if(enumInfo!=null){
 	        			maps.put("values", enumInfo.getValues());
-			        }
-		        	
-		        }else if("2".equals(type)){
-		        	List<FixedPropertyEnum> list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-
-        			maps.put("fixedPropertyEnums",list1);
-		        }else if("3".equals(type)){
-		        	List<FixedPropertyEnum> list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-
-        			maps.put("fixedPropertyEnums",list1);
-		        }else if("4".equals(type)){
-		        	//List<FixedPropertyEnum> list1=FormPropertyCache.getInstance().getFixedPropertyEnumByPropertyCodeAndLibrary(propertyCode, library);
-		        	List<FixedPropertyEnum> list1=null;
-		        	if(propertyCode!=null){
-		        		list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-		        	}else if(propertyId!=null){
-		        		list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyId(new Long(propertyId));
-		        	}
-        			maps.put("fixedPropertyEnums",list1);
-		        }else if("6".equals(type) || "9".equals(type)){
-		        	if(formName!=null){
-		        		formName=formName.substring(0,1).toLowerCase()+formName.substring(1);
-		        		List<LabelValue> list=LookUpInfoCache.getInstance(formName).getIdNameList(filter,dataSource);
-	        			maps.put("labelValue",list);
-		        	}
-		        }else if("100".equals(type)){
-		        	CfgCustomProperty cp=CfgCustomPropertyCache.getInstance(library).getCfgCustomProperty(propertyCode);
-		        	if(cp!=null){
-	        			maps.put("labelValue",cp.getValueList());
-		        	}
-		        }
-	     	maps.put("useCommon", true);
-			maps.put("bean", this);
-			new Dee().main("groupButton",maps,pageContext);
+	    	        }
+	            	
+	            }else {
+	            	setFixedPropertyEnum(library, maps);
+	            }
+	        }
+	        print("groupButton.ftl",maps,pageContext);
 	 }
-	 private void getCodeOfAjax(StringBuffer sbSelect2,StringBuffer sbCommon,boolean mt,Long library,boolean useSelect2) throws JspException{
-	 		Map<String,Object> map=new HashMap<String,Object>();
-	     	map.put("useCommon", !useSelect2);
-			map.put("bean", this);
-         new Dee().main("ajax",map,pageContext);
-	 }
-	 private void getCodeOfCommon(StringBuffer sbSelect2,StringBuffer sbCommon,boolean mt,Long library,boolean useSelect2) throws JspException{
-	 		Map<String,Object> maps=new HashMap<String,Object>();
-	     	maps.put("useCommon", !useSelect2);
-			maps.put("bean", this);
-		 
-		       
+	 private void getCodeOfCommon(Long library,Map<String,Object> maps) throws JspException{
 	        if(library!=null){
 	        	if("1".equals(type)){//form
 	        		
@@ -389,7 +337,7 @@ public class LookupSelectTag2 extends TagSupport {
 	    			}
 	    			
 	        		List<CfgEnumValueInfo> valueList=null;
-	        		if(!mt && stateMachineId!=null && stateMachineId!=0){
+	        		if(!getMultiple1() && stateMachineId!=null && stateMachineId!=0){
 	        			valueList=CfgEnumInfoCache.getInstance().getEnumValueList(enumCode,stateMachineId,value);
 	        		}else{
 	        			valueList=CfgEnumInfoCache.getInstance().getEnumValueList(enumCode);
@@ -397,48 +345,65 @@ public class LookupSelectTag2 extends TagSupport {
 
         			maps.put("valueList", valueList);
 		        	
-		        }else if("2".equals(type)){
-		        	List<FixedPropertyEnum> list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-
-        			maps.put("fixedPropertyEnums",list1);
-		        	
-		        }else if("3".equals(type)){
-		        	List<FixedPropertyEnum> list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-
-        			maps.put("fixedPropertyEnums",list1);
-		        }else if("4".equals(type)){
-		        	List<FixedPropertyEnum> list1=null;
-		        	if(propertyCode!=null){
-		        		list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
-		        	}else if(propertyId!=null){
-		        		list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyId(new Long(propertyId));
-		        	}
-        			maps.put("fixedPropertyEnums",list1);
-		        }else if("6".equals(type) || "9".equals(type)){
-		        	
-		        	if(formName!=null){
-		        		formName=formName.substring(0,1).toLowerCase()+formName.substring(1);
-		        		List<LabelValue> list=LookUpInfoCache.getInstance(formName).getIdNameList(filter,dataSource);
-	        			maps.put("labelValue",list);
-		        	}
-		        	
-		        }else if("100".equals(type)){
-		        	
-		        	CfgCustomProperty cp=CfgCustomPropertyCache.getInstance(library).getCfgCustomProperty(propertyCode);
-		        	if(cp!=null ){
-	        			maps.put("labelValue",cp.getValueList());
-		        	}
+		        }else{
+		        	setFixedPropertyEnum(library, maps);
 		        }
 	        }
-         new Dee().main("common",maps,pageContext);
+         print("common.ftl",maps,pageContext);
 	 }
-		public String getPleaseSelect1() {
-			return "true".equals(this.pleaseSelect)?"false":"true";
+
+		private void setFixedPropertyEnum(Long library, Map<String, Object> maps) {
+			if("2".equals(type) || "3".equals(type)){
+				List<FixedPropertyEnum> list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
+				maps.put("fixedPropertyEnums",list1);
+			}else if("4".equals(type)){
+				List<FixedPropertyEnum> list1=null;
+				if(propertyCode!=null){
+					list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyCode(propertyCode);
+				}else if(propertyId!=null){
+					list1=CfgFixedPropertyDefineCache.getInstance(library).getEnumListByPropertyId(new Long(propertyId));
+				}
+				maps.put("fixedPropertyEnums",list1);
+			}else if("6".equals(type) || "9".equals(type)){
+				if(formName!=null){
+					formName=formName.substring(0,1).toLowerCase()+formName.substring(1);
+					List<LabelValue> list=LookUpInfoCache.getInstance(formName).getIdNameList(filter,dataSource);
+					maps.put("labelValues",list);
+				}
+			}else if("100".equals(type)){
+				CfgCustomProperty cp=CfgCustomPropertyCache.getInstance(library).getCfgCustomProperty(propertyCode);
+				if(cp!=null){
+					maps.put("valueList",cp.getValueList());
+				}
+			}
 		}
-		private String getCssClass1() {
+	public String getCssClass1() {
 			return cssClass.replaceFirst("form-control","");
+	}
+	
+	static Configuration cfg = null;
+	private void print(String ftlName,Map<String,Object> map, PageContext pageContext) throws JspException {
+		String vstr = null;
+		try {
+			Template temp = getConfiguration().getTemplate(ftlName, "utf-8");
+			Writer out = new StringWriter();
+			temp.process(map, out);
+			vstr = out.toString();
+			pageContext.getOut().write(vstr);
+		} catch (IOException io) {
+			throw new JspException(io);
+		} catch (TemplateException e) {
+			throw new JspException(e);
 		}
-	 public void release() {
-	        super.release();
-	 }
+	}
+    
+      
+    private Configuration getConfiguration() {  
+        if (null == cfg) {  
+            cfg = new Configuration();  
+            //通过classpath加载方式  
+            cfg.setClassForTemplateLoading(this.getClass(), "/ftl/");  
+        }  
+        return cfg;  
+    } 
 }
