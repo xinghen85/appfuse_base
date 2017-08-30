@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.btxy.basis.cache.cfg.CfgFormInfoCache;
 import com.btxy.basis.cache.model.ExtendFormInfo;
+import com.btxy.basis.common.Constant;
 
 @Aspect
 @Component 
@@ -41,10 +42,10 @@ public class SaveInterceptor<T> {
 	            				ExtendFormInfo cfi=CfgFormInfoCache.getInstance().getCfgFormInfoByFormCode(formPowerName);
 	            				
 	            				
-	            				if("BBB".equals(cfi.getFormInfo().getValueChangeDoType())){
+	            				if(Constant.FORM_DATA_CHANGE_DOTYPE_COMMON.equals(cfi.getFormInfo().getValueChangeDoType())){//通用拦截
 	            					ModelInterceptorImpl<Serializable> mii=new ModelInterceptorImpl();
 	            					doInterceptorMap.put(serviceFullName, mii);
-	            				}else if("BBC".equals(cfi.getFormInfo().getValueChangeDoType())){
+	            				}else if(Constant.FORM_DATA_CHANGE_DOTYPE_SPECIAL.equals(cfi.getFormInfo().getValueChangeDoType())){//自定义拦截
 	            					String iiiname=serviceFullName.replaceFirst("com.btxy.basis.service", "com.btxy.basis.morphia.aspect");
 	            					iiiname=iiiname.substring(0,iiiname.length()-11)+"InterceptorImpl";
 	            					doInterceptorMap.put(serviceFullName, (ModelInterceptorInterface<Serializable>)Class.forName(iiiname).newInstance());
