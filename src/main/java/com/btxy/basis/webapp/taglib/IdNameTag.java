@@ -13,7 +13,7 @@ public class IdNameTag extends TagSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = -5554976925892116536L;
-	private String formName;
+	private String key;
 	private String id;
 
 	
@@ -24,17 +24,17 @@ public class IdNameTag extends TagSupport {
 		this.id = id;
 	}
 	
-	public String getFormName() {
-		return formName;
+	public String getKey() {
+		return key;
 	}
-	public void setFormName(String formName) {
-		this.formName = formName;
+	public void setKey(String key) {
+		this.key = key;
 	}
 	
 	
 	 public int doStartTag() throws JspException {
 
-	    String name=	IdNameCache.getInstance().getMap().get(formName+id);
+	    String name=	IdNameCache.getInstance().getMap().get(key+id);
      	if(name==null) {
      		name=id;
      	}

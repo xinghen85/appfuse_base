@@ -13,16 +13,22 @@ import org.springframework.jdbc.core.RowMapper;
 import com.btxy.basis.model.LabelValue;
 
 public class IdNameCache {
-	//private static AuthPrivilegeInfoCache instance;
 	private static Map<String,String> idNameMap=new HashMap<String,String>();
-	static IdNameCache instance=null;
+	private static List<LabelValue> dbList=new ArrayList<LabelValue>();
+	private static Map<String,LabelValue> dbMap=new HashMap<String,LabelValue>();
+	private static IdNameCache instance=null;
 	public static IdNameCache getInstance(){
 		if(instance==null) {
 			instance=new IdNameCache();
 		}
 		return instance;
 	}
-	
+	public static interface DD{
+		void set(List<LabelValue> dbList,Map<String,LabelValue> dbMap);
+	}
+	public void init(DD dd) {
+		dd.set(dbList, dbMap);
+	}
 	///////////////////////////////////////////////////////////////////////////////
 	
 	class RowMapp implements RowMapper<LabelValue>{
@@ -35,13 +41,7 @@ public class IdNameCache {
 			return lableValue;
 		}
 	}
-	public IdNameCache() {
-	}
-	static List<LabelValue> dbList=new ArrayList<LabelValue>();
-	static List<LabelValue> dbMap=new ArrayList<LabelValue>();
-	static{
-		dbList.add(new LabelValue("colColumn","select id,col_name from col_column"));
-	}
+	
 	public void init(JdbcTemplate jdbcTemplate){
 		for (LabelValue labelValue : dbList) {
 			List<LabelValue> list=jdbcTemplate.query(labelValue.getValue(), new RowMapp());
