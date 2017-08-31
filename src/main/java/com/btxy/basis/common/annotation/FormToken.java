@@ -1,4 +1,4 @@
-package com.fargo.basis.common.annotation;
+package com.btxy.basis.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

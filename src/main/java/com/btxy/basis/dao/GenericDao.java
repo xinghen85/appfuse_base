@@ -1,20 +1,15 @@
-package com.btxy.basis.service;
+package com.btxy.basis.dao;
 
 import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
+import org.mongodb.morphia.Key;
 
 import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.SearchConditionValue;
 
-
-public interface GenericManager<T, PK extends Serializable> {
-	  /**
-     * Generic method used to get all objects of a particular type. This
-     * is the same as lookup up all rows in a table.
-     * @return List of populated objects
-     */
+public interface GenericDao<T,PK extends Serializable> {
     List<T> find(SearchConditionValue searchValue);
     List<T> find(Long library,SearchConditionValue searchValue);
     
@@ -34,13 +29,12 @@ public interface GenericManager<T, PK extends Serializable> {
 
     boolean exists(PK id);
     void saveMainBody(T object);
-    T save(T object);
-    T save(T object,boolean ifNew);
+    public T save(T object,boolean ifNew);
     void remove(T object);
 
     void remove(PK id);
     @Deprecated
     public List<T> findByDetachedCriteria(DetachedCriteria detachedCriteria);
     
-
+    
 }

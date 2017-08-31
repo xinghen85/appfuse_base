@@ -1,4 +1,4 @@
-package com.fargo.basis.webapp.interceptor;
+package com.btxy.basis.webapp.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.fargo.basis.common.annotation.FormToken;
+import com.btxy.basis.common.annotation.FormToken;
 
 public class FormTokenInterceptor extends HandlerInterceptorAdapter {
 
