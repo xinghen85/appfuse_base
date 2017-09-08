@@ -30,27 +30,29 @@ public class SearchConditionValue implements Serializable{
 		return combinedConditionValue;
 	}
 	public void setCombinedConditionValue(Map<String, Object> combinedConditionValue) {
-		this.combinedConditionValue = combinedConditionValue;
+		if(combinedConditionValue!=null)
+			this.combinedConditionValue = combinedConditionValue;
 	}
 	public Map<String, Object> getCustomPropertyValue() {
 		return customPropertyValue;
 	}
 	public void setCustomPropertyValue(Map<String, Object> customPropertyValue) {
-		this.customPropertyValue = customPropertyValue;
+		if(customPropertyValue!=null)
+			this.customPropertyValue = customPropertyValue;
 	}
 	public Map<String, List<Long>> getCombinedConditionValueOfLongList() {
 		return combinedConditionValueOfLongList;
 	}
-	public void setCombinedConditionValueOfLongList(
-			Map<String, List<Long>> combinedConditionValueOfLongList) {
-		this.combinedConditionValueOfLongList = combinedConditionValueOfLongList;
+	public void setCombinedConditionValueOfLongList(Map<String, List<Long>> combinedConditionValueOfLongList) {
+		if(combinedConditionValueOfLongList!=null)
+			this.combinedConditionValueOfLongList = combinedConditionValueOfLongList;
 	}
 	public Map<String, List<String>> getCombinedConditionValueOfStringList() {
 		return combinedConditionValueOfStringList;
 	}
-	public void setCombinedConditionValueOfStringList(
-			Map<String, List<String>> combinedConditionValueOfStringList) {
-		this.combinedConditionValueOfStringList = combinedConditionValueOfStringList;
+	public void setCombinedConditionValueOfStringList(Map<String, List<String>> combinedConditionValueOfStringList) {
+		if(combinedConditionValueOfStringList!=null)
+			this.combinedConditionValueOfStringList = combinedConditionValueOfStringList;
 	}
 	
 	

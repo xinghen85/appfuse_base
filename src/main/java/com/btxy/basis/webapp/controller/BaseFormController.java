@@ -31,12 +31,9 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
-import org.tuckey.web.filters.urlrewrite.utils.StringUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -49,7 +46,6 @@ import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.QueryContditionSet;
 import com.btxy.basis.common.model.SearchConditionValue;
 import com.btxy.basis.common.model.ServerValidataResult;
-import com.btxy.basis.model.AuthAppRole;
 import com.btxy.basis.model.AuthAppUser;
 import com.btxy.basis.model.CfgCustomProperty;
 import com.btxy.basis.model.User;
@@ -68,6 +64,39 @@ import com.btxy.basis.webapp.util.displaytable.PageTools;
  * @author <a href="mailto:matt@raibledesigns.com">Matt Raible</a>
  */
 public class BaseFormController implements ServletContextAware {
+
+    public static class IdText{
+		Object id;
+		Object text;
+		public IdText(Object id, Object text) {
+			super();
+			this.id = id;
+			this.text = text;
+		}
+		public Object getId() {
+			return id;
+		}
+		public Object getText() {
+			return text;
+		}
+    }
+    public static class Rtn{
+		int rtnValue;
+		String rtnDescription;
+    		public int getRtnValue() {
+			return rtnValue;
+		}
+		public String getRtnDescription() {
+			return rtnDescription;
+		}
+		public Rtn(int rtnValue, String rtnDescription) {
+			super();
+			this.rtnValue = rtnValue;
+			this.rtnDescription = rtnDescription;
+		}
+    }
+    
+    
     protected final transient Log log = LogFactory.getLog(getClass());
     public static final String MESSAGES_KEY = "successMessages";
     protected MailEngine mailEngine = null;
@@ -296,30 +325,6 @@ public class BaseFormController implements ServletContextAware {
     	model.addAttribute("allEnumValueInfoMap",CfgEnumInfoCache.getInstance().getCfgAllEnumValueMap());
 
     }
-    public void returnJson(JSONObject json,HttpServletResponse response){
-    	 try {
-			response.getWriter().write(json==null?"{}":json.toJSONString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-    public void returnJson(String key,String message,HttpServletResponse response){
-   	 try {
-   		 	JSONObject json=new JSONObject();
-   		 	json.put(key, message);
-			response.getWriter().write(json==null?"{}":json.toJSONString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-   }
-    
-    public void returnJson(String message,HttpServletResponse response){
-      	 try {
-   			response.getWriter().write(StringUtils.isBlank(message)?"":message);
-   		} catch (IOException e) {
-   			e.printStackTrace();
-   		}
-      }
     
    public void validate(Object form,ServerValidataResult svr){
 	   
