@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.btxy.basis.common.model.SearchConditionValue;
 import com.btxy.basis.util.list.ListUtil;
 
 public class Sql{
+	static Logger log=Logger.getLogger(Sql.class);
 	String and=null;
 	String or=null;
 	List<Object> objs=new ArrayList<Object>();
@@ -17,18 +19,20 @@ public class Sql{
 	boolean isAddLimit=false;
 	public String getLimitSql() {
 		String limitsql="select * from "+tableName+getWhere()+" limit ?,?";
-		System.out.println(limitsql);
+		log.info(limitsql);
 		return limitsql.replaceAll("  ", " ").trim();
 	}
 	public String getSql() {
 		String nolimitsql="select count(*) from "+tableName+getWhere();
-		System.out.println("no:"+nolimitsql);
+		log.info(nolimitsql);
 		return nolimitsql.replaceAll("  ", " ").trim();
 	}
 	public Object[] getLimitObject(long offset,long limit) {
 		List<Object> rtn=new ArrayList<Object>();
 		rtn.addAll(objs);
 		rtn.addAll(orObjs);
+		rtn.add(offset);
+		rtn.add(limit);
 		return rtn.toArray();
 	}
 	public Object[] getObject() {
