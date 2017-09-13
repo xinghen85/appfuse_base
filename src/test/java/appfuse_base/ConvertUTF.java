@@ -10,10 +10,9 @@ public class ConvertUTF {
 	private static final String DIR = "/Volumes/WORK/workspace/java/lenovo-cms/src/main/java/com/lenovo/cms/model/";
 
 	public static void main(String[] args) throws IOException {
-		Collection<File> listFiles = FileUtils.listFiles(new File(DIR),new String[] {"java"}, false);
-		for (File object : listFiles) {
-			eee(object.getName());
-		}
+		eee("ConAlbum.java");
+		eee("ConContent.java");
+		eee("ConCopyRight.java");
 	}
 
 	private static void eee(String file) throws IOException {
