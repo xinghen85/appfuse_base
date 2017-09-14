@@ -19,12 +19,12 @@ public class Sql{
 	boolean isAddLimit=false;
 	public String getLimitSql() {
 		String limitsql="select * from "+tableName+getWhere()+" limit ?,?";
-		log.info(limitsql);
+		log.debug(limitsql);
 		return limitsql.replaceAll("  ", " ").trim();
 	}
 	public String getSql() {
 		String nolimitsql="select count(*) from "+tableName+getWhere();
-		log.info(nolimitsql);
+		log.debug(nolimitsql);
 		return nolimitsql.replaceAll("  ", " ").trim();
 	}
 	public Object[] getLimitObject(long offset,long limit) {
