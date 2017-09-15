@@ -71,4 +71,18 @@ public class Dao {
 		else
 			return null;
 	}
+
+	protected <T> T queryForObjectCanNull(String sql, Object[] args, RowMapper<T> rowMapper) {
+		List<T> list = jdbcTemplate.query(sql,args,rowMapper);
+		if(list.size()>1)
+		{
+			//String sqlMsg="sql:"+sql+args==null?"":args.toString();
+			//log.error(sqlMsg);
+			throw new RuntimeException("sql exe result size>1");
+		}
+		else if(list.size()==0)
+			return null;
+		else
+			return list.get(0);
+	}
 }
