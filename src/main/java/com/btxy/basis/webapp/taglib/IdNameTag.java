@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.btxy.basis.cache.cfg.IdNameCache;
 
 public class IdNameTag extends TagSupport {
@@ -33,17 +35,25 @@ public class IdNameTag extends TagSupport {
 	
 	
 	 public int doStartTag() throws JspException {
-
-	    String name=	IdNameCache.getInstance().getMap().get(key+id);
-     	if(name==null) {
-     		name=id;
-     	}
-     	try {
-			pageContext.getOut().write(name);
-		} catch (IOException e) {
-			throw new JspException(e);
+		 String[] d=id.split(",");
+		 String rtn="";
+		 for (String string : d) {
+			    String name=	IdNameCache.getInstance().getMap().get(key+string);
+		     	if(name==null) {
+		     		name=string;
+		     	}
+		     	if(StringUtils.isNotEmpty(rtn)) {
+		     		rtn=rtn+","+name;
+		     	}else {
+		     		rtn=rtn+name;
+		     	}
 		}
 
+	     	try {
+				pageContext.getOut().write(rtn);
+			} catch (IOException e) {
+				throw new JspException(e);
+			}
         return super.doStartTag();
     }
 	
