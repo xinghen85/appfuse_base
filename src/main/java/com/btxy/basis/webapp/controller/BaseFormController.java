@@ -201,19 +201,13 @@ public class BaseFormController implements ServletContextAware {
      * @param binder the data binder
      */
     @InitBinder
-    protected void initBinder(HttpServletRequest request,
-                              ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Integer.class, null,
-                                    new CustomNumberEditor(Integer.class, null, true));
-        binder.registerCustomEditor(Long.class, null,
-                                    new CustomNumberEditor(Long.class, null, true));
-        binder.registerCustomEditor(byte[].class,
-                                    new ByteArrayMultipartFileEditor());
-        SimpleDateFormat dateFormat = 
-            new SimpleDateFormat(getText("date.format", request.getLocale()));
+    protected void initBinder(HttpServletRequest request,ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(Integer.class, null,new CustomNumberEditor(Integer.class, null, true));
+        binder.registerCustomEditor(Long.class, null, new CustomNumberEditor(Long.class, null, true));
+        binder.registerCustomEditor(byte[].class,new ByteArrayMultipartFileEditor());
+        SimpleDateFormat dateFormat = new SimpleDateFormat(getText("date.format", request.getLocale()));
         dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, null, 
-                                    new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
     }
 
     /**
@@ -282,47 +276,42 @@ public class BaseFormController implements ServletContextAware {
     }
     
     public int getDisplayTagCurrentPage(HttpServletRequest request,String displayTableId){
-    	String strP=request.getParameter((new ParamEncoder(displayTableId).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-    	
-    	int currentPage=0;
-    	if(strP==null){
-    		currentPage=1;
-    	}else{
-    		currentPage=Integer.parseInt(strP);
-    	}
-    	//当前页
-    	//System.out.println("currentPage:"+currentPage);
-    	return currentPage;
+	    	String strP=request.getParameter((new ParamEncoder(displayTableId).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+	    	
+	    	int currentPage=0;
+	    	if(strP==null){
+	    		currentPage=1;
+	    	}else{
+	    		currentPage=Integer.parseInt(strP);
+	    	}
+	    	//当前页
+	    	//System.out.println("currentPage:"+currentPage);
+	    	return currentPage;
     }
-    
+	    
     public void libraryAndPropertyPass(HttpServletRequest request,String formName,String libraryPath){
-    	request.setAttribute("libraryPath", libraryPath);
-    	request.setAttribute("customPropertyList",CfgCustomPropertyCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgCustomPropertyList(formName));
-    	request.setAttribute("fixedPropertyList",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyListByFormCode(formName));
+	    	request.setAttribute("libraryPath", libraryPath);
+	    	request.setAttribute("customPropertyList",CfgCustomPropertyCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgCustomPropertyList(formName));
+	    	request.setAttribute("fixedPropertyList",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyListByFormCode(formName));
     }
     
     public void libraryAndPropertyPass(Model model,String formName){
-    	
-    	//model.addAttribute("fixedPropertyList",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyListByFormCode(formName));
-    	
-    	
-    	
-    	model.addAttribute("allEnumInfoMap",CfgEnumInfoCache.getInstance().getCfgEnumInfoMap());
-    	model.addAttribute("allEnumValueInfoMap",CfgEnumInfoCache.getInstance().getCfgAllEnumValueMap());
+	    model.addAttribute("allEnumInfoMap",CfgEnumInfoCache.getInstance().getCfgEnumInfoMap());
+	    	model.addAttribute("allEnumValueInfoMap",CfgEnumInfoCache.getInstance().getCfgAllEnumValueMap());
 
     }
     public void libraryAndPropertyPass(Model model,String formName,String libraryPath){
-    	model.addAttribute("libraryPath", libraryPath);
-    	model.addAttribute("libraryId", LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath));
-    	model.addAttribute("customPropertyList",CfgCustomPropertyCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgCustomPropertyList(formName));
-    	
-    	model.addAttribute("fixedPropertyList",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyListByFormCode(formName));
-    	
-    	model.addAttribute("fixedPropertyEnumMap",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyEnumMap(formName));
-    	model.addAttribute("allFixedPropertyEnumValueInfoMap",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getAllFixedPropertyEnumValueInfoMap(formName));
-    	
-    	model.addAttribute("allEnumInfoMap",CfgEnumInfoCache.getInstance().getCfgEnumInfoMap());
-    	model.addAttribute("allEnumValueInfoMap",CfgEnumInfoCache.getInstance().getCfgAllEnumValueMap());
+	    	model.addAttribute("libraryPath", libraryPath);
+	    	model.addAttribute("libraryId", LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath));
+	    	model.addAttribute("customPropertyList",CfgCustomPropertyCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgCustomPropertyList(formName));
+	    	
+	    	model.addAttribute("fixedPropertyList",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyListByFormCode(formName));
+	    	
+	    	model.addAttribute("fixedPropertyEnumMap",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getCfgFixedPropertyEnumMap(formName));
+	    	model.addAttribute("allFixedPropertyEnumValueInfoMap",CfgFixedPropertyDefineCache.getInstance(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath)).getAllFixedPropertyEnumValueInfoMap(formName));
+	    	
+	    	model.addAttribute("allEnumInfoMap",CfgEnumInfoCache.getInstance().getCfgEnumInfoMap());
+	    	model.addAttribute("allEnumValueInfoMap",CfgEnumInfoCache.getInstance().getCfgAllEnumValueMap());
 
     }
     
@@ -412,9 +401,9 @@ public class BaseFormController implements ServletContextAware {
 		return new ModelAndView(FORM_NAME+"", model.asMap());
 	}
     public <T> ModelAndView edit(MgGenericManager<T, Long> dbManager,String DM_FORM_NAME,String FORM_NAME,String libraryPath,Long id){
-    	Model model = new ExtendedModelMap();
-    	libraryAndPropertyPass(model, DM_FORM_NAME, libraryPath);
-    	model.addAttribute("formEditFlag", true);   
+	    	Model model = new ExtendedModelMap();
+	    	libraryAndPropertyPass(model, DM_FORM_NAME, libraryPath);
+	    	model.addAttribute("formEditFlag", true);   
     		
         if (id!=null) {
             T bean= dbManager.get(id);
@@ -426,15 +415,15 @@ public class BaseFormController implements ServletContextAware {
         Model model = new ExtendedModelMap(); 
         libraryAndPropertyPass(model, DM_FORM_NAME, libraryPath);
         
-    	Locale locale = request.getLocale();
-    	if(idList!=null){
-    		String[] a=idList.split("-");
-    		if(a!=null){
-    			for(String one:a){
-    				dbManager.remove(new Long(one));
-    			}
-    		}
-    	}
+	    	Locale locale = request.getLocale();
+	    	if(idList!=null){
+	    		String[] a=idList.split("-");
+	    		if(a!=null){
+	    			for(String one:a){
+	    				dbManager.remove(new Long(one));
+	    			}
+	    		}
+	    	}
         saveMessage(request, getText(DM_FORM_NAME+".deleted", locale));
         
         String success = "redirect:/lb/{libraryPath}/"+DM_FORM_NAME+"/list/mt/php?pageGroupType=back";
