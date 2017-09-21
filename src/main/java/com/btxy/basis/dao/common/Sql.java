@@ -90,6 +90,10 @@ public class Sql{
 			}
 		}
 	}
+	public void addAndList(Object object, String dbKey) {
+		and=and+dbKey+" =?";
+		objs.add(object);
+	}
 	public void addSearch(SearchConditionValue searchValue, String dbColumn) {
 		if (searchValue.getTextValue() != null) {
 			if(!StringUtils.isEmpty(or)) {
