@@ -91,6 +91,11 @@ public class Sql{
 		}
 	}
 	public void addAndList(Object object, String dbKey) {
+		if(!StringUtils.isEmpty(and)) {
+			and=and+" and ";
+		}else {
+			and="";
+		}
 		and=and+dbKey+" =?";
 		objs.add(object);
 	}
