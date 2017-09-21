@@ -8,13 +8,11 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Date;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -39,7 +37,6 @@ public final class HttpTookit {
 		String response = null;
 		HttpClient client = new HttpClient();
 		HttpMethod method = new GetMethod(url);
-		HttpMethod tt = new PostMethod();
 		try {
 			HttpConnectionManagerParams params = client.getHttpConnectionManager().getParams();
 			params.setConnectionTimeout(1000 * 10);// 连接超时
@@ -49,18 +46,18 @@ public final class HttpTookit {
 				response =IOUtils.toString(method.getResponseBodyAsStream());
 			} else {
 				logger.error("执行HTTP Get请求" + url + "时，发生异常！" + method.getResponseBodyAsString());
+				throw new RuntimeException("StatusCode!=200");
 			}
 		} catch (IOException e) {
 			logger.error("执行HTTP Get请求" + url + "时，发生异常！", e);
+			throw new RuntimeException("网络请求遇到异常"+e.getMessage());
 		} finally {
 			method.releaseConnection();
 		}
 		return response;
 	} 
-    
 	public static JSONObject getJsonFromUrl(String url) {
 		InputStream is = null;
-		Date begin=new Date();
 		try {
 			is = new URL(url).openStream();
 			BufferedReader rd = new BufferedReader(new InputStreamReader(is,Charset.forName("UTF-8")));
