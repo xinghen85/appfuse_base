@@ -17,8 +17,9 @@ public class Sql{
 	List<Object> orObjs=new ArrayList<Object>();
 	String tableName="";
 	boolean isAddLimit=false;
+	String orderList = null;
 	public String getLimitSql() {
-		String limitsql="select * from "+tableName+getWhere()+" limit ?,?";
+		String limitsql="select * from "+tableName+getWhere()+orderList +" limit ?,?";
 		log.debug(limitsql);
 		return limitsql.replaceAll("  ", " ").trim();
 	}
@@ -27,6 +28,13 @@ public class Sql{
 		log.debug(nolimitsql);
 		return nolimitsql.replaceAll("  ", " ").trim();
 	}
+	/**
+	  * 添加排序
+	  * @param orders name desc,age asc
+	  */
+	 public void addOrderList(String orders){ 
+	   orderList = " order by "+orders; 
+	 }
 	public Object[] getLimitObject(long offset,long limit) {
 		List<Object> rtn=new ArrayList<Object>();
 		rtn.addAll(objs);

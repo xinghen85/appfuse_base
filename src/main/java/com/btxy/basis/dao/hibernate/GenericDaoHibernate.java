@@ -104,7 +104,15 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 			if (StringUtils.isBlank(orderType)) {
 				cr.addOrder(Order.desc("id"));// add by liuxf 2016-07-25
 			} else {
-				cr.addOrder(Order.asc(orderType));
+				String[] orders = orderType.split(",");// module|1,channel|0(1正序0倒序)
+				for (String str : orders) {
+					String[] aa = str.split("\\|");
+					if (aa[1].equals("1")) {
+						cr.addOrder(Order.asc(aa[0]));
+					} else {
+						cr.addOrder(Order.desc(aa[0]));
+					}
+				}
 			}
 			ph.setList(cr.list());
 			return ph;
