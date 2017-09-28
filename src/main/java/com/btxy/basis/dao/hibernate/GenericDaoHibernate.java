@@ -112,7 +112,11 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 			return ph;
 		}
 	}
-	
+
+	@Override
+	public Long count(Long library, SearchConditionValue searchValue) {
+		return 0L;
+	}
 	@Override
 	public PaginatedListHelper<T> find(int currentPage, int pageSize,SearchConditionValue searchValue) {
 		return this.find(currentPage,pageSize,"",searchValue);
