@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.lucene.analysis.Analyzer;
@@ -87,31 +88,33 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 	//implements by subclass @Cre 2016-03-07
 	protected abstract void assembleQryParam(SearchConditionValue searchValue,Criteria cr);
 	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,
-		String orderType, SearchConditionValue searchValue) {
+	public PaginatedListHelper<T> find(int currentPage, int pageSize,String orderType, SearchConditionValue searchValue) {
 		Criteria cr = getSession().createCriteria(persistentClass); 
 		PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
     	
 		assembleQryParam(searchValue,cr);
 		
-    	Long totalSize=this.count(searchValue);
-    	ph.setFullListSize(totalSize.intValue());
-    	ph.setPageNumber(currentPage);
-        ph.setObjectsPerPage(pageSize); 
-    	if(totalSize>(currentPage-1)*pageSize){
-    		int startIndex = (currentPage-1)*pageSize;
-    		cr.setFirstResult(startIndex).setMaxResults(pageSize);
-    		cr.addOrder(Order.desc("id"));//add by liuxf 2016-07-25
-            ph.setList(cr.list());
-            return ph;
-    	}else{
-            return ph;
-    	}
+		Long totalSize = this.count(searchValue);
+		ph.setFullListSize(totalSize.intValue());
+		ph.setPageNumber(currentPage);
+		ph.setObjectsPerPage(pageSize);
+		if (totalSize > (currentPage - 1) * pageSize) {
+			int startIndex = (currentPage - 1) * pageSize;
+			cr.setFirstResult(startIndex).setMaxResults(pageSize);
+			if (StringUtils.isBlank(orderType)) {
+				cr.addOrder(Order.desc("id"));// add by liuxf 2016-07-25
+			} else {
+				cr.addOrder(Order.asc(orderType));
+			}
+			ph.setList(cr.list());
+			return ph;
+		} else {
+			return ph;
+		}
 	}
 	
 	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,
-			SearchConditionValue searchValue) {
+	public PaginatedListHelper<T> find(int currentPage, int pageSize,SearchConditionValue searchValue) {
 		return this.find(currentPage,pageSize,"",searchValue);
 	}
 	
@@ -177,106 +180,27 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 	public Long count(SearchConditionValue searchValue) {
 		Criteria cr = getSession().createCriteria(persistentClass);
 		
-    	assembleQryParam(searchValue,cr);
-    	cr.setProjection(Projections.rowCount());
-    	return (Long)(cr.list().get(0));
+	    	assembleQryParam(searchValue,cr);
+	    	cr.setProjection(Projections.rowCount());
+	    	return (Long)(cr.list().get(0));
 
-	}
-
-	@Override
-	public Long count(Long library, SearchConditionValue searchValue) {
-		// TODO Auto-generated method stub
-		/*Query<T> q = super.createQuery(); 
-    	q.or(q.criteria("library").equal(library),q.criteria("overt").equal(true));
-
-    	assembleQryParam(searchValue,q);
-    	
-    	Long totalSize=super.count(q);
-		return totalSize;*/
-		return 0L;
 	}
 	
 	@Override
 	public List<T> find(Long library, SearchConditionValue searchValue) {
-		/*Query<T> q = super.createQuery(); 
-    	q.or(q.criteria("library").equal(library),q.criteria("overt").equal(true));
-		assembleQryParam(searchValue,q);
-    	q.order("-"+Mapper.ID_KEY);
-        return super.find(q).asList();*/
 		return null;
 	}
 	
 	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,
-			Long library, SearchConditionValue searchValue) {
-		// TODO Auto-generated method stub
-			/*PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
-	    	
-	    	Query<T> q = super.createQuery(); 
-	    	q.or(q.criteria("library").equal(library),q.criteria("overt").equal(true));
-	    	
-	    	assembleQryParam(searchValue,q);
-	    	
-	    	Long totalSize=super.count(q);
-	    	ph.setFullListSize(totalSize.intValue());
-	    	ph.setPageNumber(currentPage);
-	        ph.setObjectsPerPage(pageSize);
-	    	if(totalSize>(currentPage-1)*pageSize){
-	    		q.order("-"+Mapper.ID_KEY);
-	        	q.offset((currentPage-1)*pageSize);
-	        	q.limit(pageSize);
-	        	ph.setList(super.find(q).asList());
-	        	return ph;
-	    	}else{
-	    		return ph;
-	    	}*/
-				return null;
-		}
-	@Override
-	public PaginatedListHelper<T> getAll(int currentPage, int pageSize,
-			Long library) {
-    	/*PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
-    	
-    	Query<T> q = super.createQuery(); 
-    	q.or(q.criteria("library").equal(library),q.criteria("overt").equal(true));
-    	
-    	Long totalSize=super.count(q);
-    	ph.setFullListSize(totalSize.intValue());
-    	ph.setPageNumber(currentPage);
-        ph.setObjectsPerPage(pageSize);
-    	if(totalSize>(currentPage-1)*pageSize){
-    		q.order("-"+Mapper.ID_KEY);
-        	q.offset((currentPage-1)*pageSize);
-        	q.limit(pageSize);
-        	ph.setList(super.find(q).asList());
-        	return ph;
-    	}else{
-    		return ph;
-    	}*/
+	public PaginatedListHelper<T> find(int currentPage, int pageSize,Long library, SearchConditionValue searchValue) {
 		return null;
 	}
 	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,
-			Long library, String orderType, SearchConditionValue searchValue) {
-		/*PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
-    	Query<T> q = super.createQuery(); 
-    	q.or(q.criteria("library").equal(library),q.criteria("overt").equal(true));
-    	
-    	assembleQryParam(searchValue,q);
-    	
-    	Long totalSize=super.count(q);
-    	ph.setFullListSize(totalSize.intValue());
-    	ph.setPageNumber(currentPage);
-        ph.setObjectsPerPage(pageSize);
-    	if(totalSize>(currentPage-1)*pageSize){
-    		q.order(orderType);
-        	q.offset((currentPage-1)*pageSize);
-        	q.limit(pageSize);
-        	ph.setList(super.find(q).asList());
-        	return ph;
-    	}else{
-    		return ph;
-    	}*/
+	public PaginatedListHelper<T> getAll(int currentPage, int pageSize,Long library) {
+		return null;
+	}
+	@Override
+	public PaginatedListHelper<T> find(int currentPage, int pageSize,Long library, String orderType, SearchConditionValue searchValue) {
 		return null;
 	}	
    
