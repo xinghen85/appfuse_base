@@ -113,7 +113,7 @@ public class Sql{
 			}
 			and = and + dbKey + " like ?";
 			if(hasComma) {
-				orObjs.add(",%" + text + ",%");
+				orObjs.add("%," + text + ",%");
 			}else {
 				orObjs.add("%" + text + "%");
 			}
