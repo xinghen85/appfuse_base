@@ -87,6 +87,8 @@ public class StartupListener implements ServletContextListener {
      * @param servletContextEvent The servlet context event
      */
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-    	ObjectUpdateMsgCache.getInstance().shuttdown();
+    		if(ObjectUpdateMsgCache.getInstance()!=null) {
+        		ObjectUpdateMsgCache.getInstance().shuttdown();
+    		}
     }
 }
