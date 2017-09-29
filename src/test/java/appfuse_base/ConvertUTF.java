@@ -10,9 +10,7 @@ public class ConvertUTF {
 	private static final String DIR = "/Volumes/WORK/workspace/java/lenovo-cms/src/main/java/com/lenovo/cms/model/";
 
 	public static void main(String[] args) throws IOException {
-		eee("ConAlbum.java");
-		eee("ConContent.java");
-		eee("ConCopyRight.java");
+		eee("ConCategory.java");
 	}
 
 	private static void eee(String file) throws IOException {

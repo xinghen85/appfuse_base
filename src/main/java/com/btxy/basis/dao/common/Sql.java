@@ -17,7 +17,7 @@ public class Sql{
 	List<Object> orObjs=new ArrayList<Object>();
 	String tableName="";
 	boolean isAddLimit=false;
-	String orderList = null;
+	String orderList = "";
 	public String getLimitSql() {
 		String limitsql="select * from "+tableName+getWhere()+orderList +" limit ?,?";
 		log.debug(limitsql);
@@ -33,7 +33,9 @@ public class Sql{
 	  * @param orders name desc,age asc
 	  */
 	 public void addOrderList(String orders){ 
-	   orderList = " order by "+orders; 
+		 if(!StringUtils.isEmpty(orders)) {
+			   orderList = " order by "+orders; 
+		 }
 	 }
 	public Object[] getLimitObject(long offset,long limit) {
 		List<Object> rtn=new ArrayList<Object>();
