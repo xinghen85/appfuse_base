@@ -71,33 +71,41 @@ public class Sql{
 		return where;
 	}
 	public void addAndList(SearchConditionValue searchValue, String key, String dbKey) {
-		if (searchValue.getCombinedConditionValue().containsKey(key)) {
-			Object cvalue = searchValue.getCombinedConditionValue().get(key);
-			if (cvalue != null && !cvalue.toString().trim().equals("")) {
-				List<String> list = ListUtil.pasreStringList(cvalue.toString(), ",");
-				if(list.size()>0) {
-					if(!StringUtils.isEmpty(and)) {
-						and=and+" and ";
-					}else {
-						and="";
-					}
-					if(list.size()>1) {
-						and=and+dbKey+" in(";
-						for (int i = 0; i < list.size(); i++) {
-							if(i==0) {
-								and=and+"?";
-							}else {
-								and=and+",?";
-							}
-							objs.add(list.get(i));
-						}
-						and=and+")";
-					}else if(list.size()==1) {
-						and=and+dbKey+" =?";
-						objs.add(list.get(0));
-					}
-				}
+		List<String>list=_getList(searchValue, key);
+		if(list.size()>0) {
+			if(!StringUtils.isEmpty(and)) {
+				and=and+" and ";
+			}else {
+				and="";
 			}
+			if(list.size()>1) {
+				and=and+dbKey+" in(";
+				for (int i = 0; i < list.size(); i++) {
+					if(i==0) {
+						and=and+"?";
+					}else {
+						and=and+",?";
+					}
+					objs.add(list.get(i));
+				}
+				and=and+")";
+			}else if(list.size()==1) {
+				and=and+dbKey+" =?";
+				objs.add(list.get(0));
+			}
+		}
+	}
+
+	public void addAndLike(SearchConditionValue searchValue, String key, String dbKey) {
+		List<String>list=_getList(searchValue, key);
+		if (list.size() > 0) {
+			if (!StringUtils.isEmpty(and)) {
+				and = and + " and ";
+			} else {
+				and = "";
+			}
+			and = and + dbKey + " like ?";
+			orObjs.add("%" + list.get(0) + "%");
 		}
 	}
 	public void addAndList(Object object, String dbKey) {
@@ -119,5 +127,15 @@ public class Sql{
 			or=or+dbColumn+" like ? ";
 			orObjs.add("%"+searchValue.getTextValue()+"%");
 		}
+	}
+	private List<String> _getList(SearchConditionValue searchValue, String key) {
+		if (searchValue.getCombinedConditionValue().containsKey(key)) {
+			Object cvalue = searchValue.getCombinedConditionValue().get(key);
+			if (cvalue != null && !cvalue.toString().trim().equals("")) {
+				List<String> list = ListUtil.pasreStringList(cvalue.toString(), ",");
+				return list;
+			}
+		}
+		return new ArrayList<String>();
 	}
 }
