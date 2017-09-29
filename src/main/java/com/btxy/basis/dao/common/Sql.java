@@ -6,9 +6,6 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.btxy.basis.common.model.SearchConditionValue;
-import com.btxy.basis.util.list.ListUtil;
-
 public class Sql{
 	static Logger log=Logger.getLogger(Sql.class);
 	String and=null;
@@ -70,8 +67,7 @@ public class Sql{
 		}
 		return where;
 	}
-	public void addAndList(SearchConditionValue searchValue, String key, String dbKey) {
-		List<String>list=_getList(searchValue, key);
+	public void addAndList(List<String>list,String dbKey) {
 		if(list.size()>0) {
 			if(!StringUtils.isEmpty(and)) {
 				and=and+" and ";
@@ -95,19 +91,6 @@ public class Sql{
 			}
 		}
 	}
-
-	public void addAndLike(SearchConditionValue searchValue, String key, String dbKey) {
-		List<String>list=_getList(searchValue, key);
-		if (list.size() > 0) {
-			if (!StringUtils.isEmpty(and)) {
-				and = and + " and ";
-			} else {
-				and = "";
-			}
-			and = and + dbKey + " like ?";
-			orObjs.add("%" + list.get(0) + "%");
-		}
-	}
 	public void addAndList(Object object, String dbKey) {
 		if(!StringUtils.isEmpty(and)) {
 			and=and+" and ";
@@ -117,25 +100,27 @@ public class Sql{
 		and=and+dbKey+" =?";
 		objs.add(object);
 	}
-	public void addSearch(SearchConditionValue searchValue, String dbColumn) {
-		if (searchValue.getTextValue() != null) {
+
+	public void addAndLike(String text,String dbKey) {
+		if (text != null) {
+			if (!StringUtils.isEmpty(and)) {
+				and = and + " and ";
+			} else {
+				and = "";
+			}
+			and = and + dbKey + " like ?";
+			orObjs.add("%" + text + "%");
+		}
+	}
+	public void addOrLike(String textValue, String dbColumn) {
+		if (textValue != null) {
 			if(!StringUtils.isEmpty(or)) {
 				or=or+" or ";
 			}else {
 				or="";
 			}
 			or=or+dbColumn+" like ? ";
-			orObjs.add("%"+searchValue.getTextValue()+"%");
+			orObjs.add("%"+textValue+"%");
 		}
-	}
-	private List<String> _getList(SearchConditionValue searchValue, String key) {
-		if (searchValue.getCombinedConditionValue().containsKey(key)) {
-			Object cvalue = searchValue.getCombinedConditionValue().get(key);
-			if (cvalue != null && !cvalue.toString().trim().equals("")) {
-				List<String> list = ListUtil.pasreStringList(cvalue.toString(), ",");
-				return list;
-			}
-		}
-		return new ArrayList<String>();
 	}
 }

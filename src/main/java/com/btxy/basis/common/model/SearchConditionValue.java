@@ -1,9 +1,12 @@
 package com.btxy.basis.common.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.btxy.basis.util.list.ListUtil;
 
 public class SearchConditionValue implements Serializable{
 	/**
@@ -55,5 +58,15 @@ public class SearchConditionValue implements Serializable{
 			this.combinedConditionValueOfStringList = combinedConditionValueOfStringList;
 	}
 	
-	
+
+	public List<String> getList(String key) {
+		if (combinedConditionValue.containsKey(key)) {
+			Object cvalue = combinedConditionValue.get(key);
+			if (cvalue != null && !cvalue.toString().trim().equals("")) {
+				List<String> list = ListUtil.pasreStringList(cvalue.toString(), ",");
+				return list;
+			}
+		}
+		return new ArrayList<String>();
+	}
 }

@@ -18,6 +18,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.btxy.basis.cache.ehcache.ObjectCache;
 import com.btxy.basis.cache.ehcache.ObjectUpdateMsgCache;
 
+import net.sf.ehcache.Cache;
+
 
 
 @Controller
@@ -50,15 +52,16 @@ public class ResourceApiController  {
 			
 			if("objectUpdateMsgCache".equals(request.getParameter("cache"))){
 				ObjectUpdateMsgCache cache=ObjectUpdateMsgCache.getInstance();
-				jo.put("diskStoreSize", cache.getCache().getDiskStoreSize());
-				jo.put("mMemoryStoreSize", cache.getCache().getMemoryStoreSize());
-				jo.put("objectCount", cache.getCache().getStatistics().getObjectCount());
-				jo.put("status", cache.getCache().getStatus());
+				Cache cache2 = cache.getCache();
+				jo.put("diskStoreSize", cache2.getDiskStoreSize());
+				jo.put("mMemoryStoreSize", cache2.getMemoryStoreSize());
+				jo.put("objectCount", cache2.getStatistics().getObjectCount());
+				jo.put("status", cache2.getStatus());
 				
 				try {
 					JSONObject jo1=new JSONObject();
-					if(cache.getCache().getKeys()!=null){
-						for(Object one:cache.getCache().getKeys()){
+					if(cache2.getKeys()!=null){
+						for(Object one:cache2.getKeys()){
 							jo1.put(one.toString(), cache.get(one.toString()));
 						}
 					}
