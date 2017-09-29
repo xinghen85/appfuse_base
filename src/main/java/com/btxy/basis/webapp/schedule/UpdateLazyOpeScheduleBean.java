@@ -5,17 +5,15 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 
-import net.sf.ehcache.Cache;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.btxy.basis.cache.ehcache.ObjectUpdateMsgCache;
 import com.btxy.basis.common.ScheduleBean;
-import com.btxy.basis.common.SpringContext;
-import com.btxy.basis.common.util.BatchUpdateCtl;
 import com.btxy.basis.model.LogModelChangeInfo;
 import com.mongodb.BasicDBObject;
+
+import net.sf.ehcache.Cache;
 
 
 public class UpdateLazyOpeScheduleBean extends ScheduleBean {
@@ -29,7 +27,6 @@ public class UpdateLazyOpeScheduleBean extends ScheduleBean {
 	SimpleDateFormat sdf=new SimpleDateFormat("yyMM");
 	@Override
 	public void dojob() {
-		// TODO Auto-generated method stub
 		log.info("==========UpdateLazyOpeScheduleBean come here["+new Date()+"]===========");
 		Cache cache=ObjectUpdateMsgCache.getInstance().getCache();
 		
@@ -50,7 +47,6 @@ public class UpdateLazyOpeScheduleBean extends ScheduleBean {
 					
 					doc.put("detail", cache.get(key).getObjectValue());
 					
-					BatchUpdateCtl.getInstance(SpringContext.getDbForLog(), "dt_object_instance_log_"+logId).appendItem(doc);
 				}else if(keystr!=null && keystr.startsWith("md_")){
 					
 					LogModelChangeInfo log1=(LogModelChangeInfo)cache.get(key).getObjectValue();
@@ -62,12 +58,9 @@ public class UpdateLazyOpeScheduleBean extends ScheduleBean {
 					
 					doc.put("detail", log1.getObject()!=null?log1.getObject().toString():"");
 					
-					BatchUpdateCtl.getInstance(SpringContext.getDbForLog(), "dt_model_log_"+logId).appendItem(doc);
 				}
 				cache.remove(key);
 			}
-			BatchUpdateCtl.getInstance(SpringContext.getDbForLog(), "dt_object_instance_log_"+logId).flush();
-			BatchUpdateCtl.getInstance(SpringContext.getDbForLog(), "dt_model_log_"+logId).flush();
 		}
 	}
 
