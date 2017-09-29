@@ -57,7 +57,7 @@ public class SearchConditionValue implements Serializable{
 		if(combinedConditionValueOfStringList!=null)
 			this.combinedConditionValueOfStringList = combinedConditionValueOfStringList;
 	}
-	
+
 
 	public List<String> getList(String key) {
 		if (combinedConditionValue.containsKey(key)) {
@@ -68,5 +68,15 @@ public class SearchConditionValue implements Serializable{
 			}
 		}
 		return new ArrayList<String>();
+	}
+
+	public String getText(String key) {
+		if (combinedConditionValue.containsKey(key)) {
+			Object cvalue = combinedConditionValue.get(key);
+			if (cvalue != null && !cvalue.toString().trim().equals("")) {
+				return cvalue.toString().trim();
+			}
+		}
+		return null;
 	}
 }
