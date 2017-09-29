@@ -102,6 +102,9 @@ public class Sql{
 	}
 
 	public void addAndLike(String text,String dbKey) {
+		addAndLike(text,dbKey,false);
+	}
+	public void addAndLike(String text,String dbKey,boolean hasComma) {
 		if (text != null) {
 			if (!StringUtils.isEmpty(and)) {
 				and = and + " and ";
@@ -109,7 +112,11 @@ public class Sql{
 				and = "";
 			}
 			and = and + dbKey + " like ?";
-			orObjs.add("%" + text + "%");
+			if(hasComma) {
+				orObjs.add(",%" + text + ",%");
+			}else {
+				orObjs.add("%" + text + "%");
+			}
 		}
 	}
 	public void addOrLike(String textValue, String dbColumn) {
