@@ -22,6 +22,7 @@ import com.btxy.basis.Constants;
 import com.btxy.basis.cache.LibraryInfoCache;
 import com.btxy.basis.cache.cfg.Cache;
 import com.btxy.basis.cache.ehcache.ObjectUpdateMsgCache;
+import com.btxy.basis.common.SpringContext;
 
 public class StartupListener implements ServletContextListener {
     private static final Log log = LogFactory.getLog(StartupListener.class);
@@ -64,6 +65,7 @@ public class StartupListener implements ServletContextListener {
         }
 
         context.setAttribute(Constants.CONFIG, config);
+        SpringContext.setApplicationContext(ctx);
 
         // output the retrieved values for the Init and Context Parameters
         if (log.isDebugEnabled()) {

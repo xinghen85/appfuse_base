@@ -11,19 +11,8 @@ public class SpringContext {
 	private SpringContext() {
 	};
 
-	static public void setSpringContext(ApplicationContext _content) {
-		content = _content;
-	}
-	static public void setServletContext(ServletContext _content) {
-		servletContext = _content;
-	}
-
-	public static ServletContext getServletContext() {
-		return servletContext;
-	}
 
 	protected static ApplicationContext content = null;
-	protected static ServletContext servletContext = null;
 
 	public static void setApplicationContext(ApplicationContext ac1) {
 		content=ac1;
@@ -33,14 +22,10 @@ public class SpringContext {
 		return content;
 	}
 	protected static JdbcTemplate jdbcTemplate = null;
-	protected static JdbcTemplate jdbcTemplateForBsquiz = null;
-	
-	
-	
 	
 	static public JdbcTemplate getJdbcTemplate() {
 		if (jdbcTemplate == null) {
-			jdbcTemplate = (JdbcTemplate) SpringContext.getApplicationContext().getBean("jdbcTemplate");
+			jdbcTemplate = (JdbcTemplate) content.getBean("jdbcTemplate");
 		}
 		return jdbcTemplate;
 	}
@@ -51,7 +36,7 @@ public class SpringContext {
 	
 	static public Datastore getDatastore() {
 		if (mongoDbDatastore == null) {
-			mongoDbDatastore = (Datastore) SpringContext.getApplicationContext().getBean("datastore");
+			mongoDbDatastore = (Datastore) content.getBean("datastore");
 		}
 		return mongoDbDatastore;
 	}
