@@ -8,15 +8,11 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +29,14 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
     private Class<T> persistentClass;
     @Resource
     private SessionFactory sessionFactory;
-    private Analyzer defaultAnalyzer;
     
     public GenericDaoHibernate(final Class<T> persistentClass) {
         this.persistentClass = persistentClass;
-        defaultAnalyzer = new StandardAnalyzer(Version.LUCENE_35);
     }
     
     public GenericDaoHibernate(final Class<T> persistentClass, SessionFactory sessionFactory) {
         this.persistentClass = persistentClass;
         this.sessionFactory = sessionFactory;
-        defaultAnalyzer = new StandardAnalyzer(Version.LUCENE_35);
     }
     public SessionFactory getSessionFactory() {
         return this.sessionFactory;
@@ -70,20 +63,10 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 	}
 
 	@Override
-	public List<T> getAll(Long library) {
-    	return null;
-	}
-	@Override
 	public List<T> find(SearchConditionValue searchValue) {
 		Criteria cr = getSession().createCriteria(persistentClass);
 		assembleQryParam(searchValue,cr);
         return cr.list();
-	}
-	@Deprecated
-	@Override
-	public List<T> findByDetachedCriteria(DetachedCriteria detachedCriteria) {
-		Criteria criteria = detachedCriteria.getExecutableCriteria(this.getSession());
-		return  (List<T>) criteria.list();
 	}
 	//implements by subclass @Cre 2016-03-07
 	protected abstract void assembleQryParam(SearchConditionValue searchValue,Criteria cr);
@@ -122,19 +105,10 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 	}
 
 	@Override
-	public Long count(Long library, SearchConditionValue searchValue) {
-		return 0L;
-	}
-	@Override
 	public PaginatedListHelper<T> find(int currentPage, int pageSize,SearchConditionValue searchValue) {
 		return this.find(currentPage,pageSize,"",searchValue);
 	}
 	
-
-	@Override
-	public PaginatedListHelper<T> getAll(int currentPage, int pageSize) {
-    	return this.getAll(currentPage, pageSize,null);
-	}
 
 	
 	@Override
@@ -197,23 +171,5 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
 	    	return (Long)(cr.list().get(0));
 
 	}
-	
-	@Override
-	public List<T> find(Long library, SearchConditionValue searchValue) {
-		return null;
-	}
-	
-	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,Long library, SearchConditionValue searchValue) {
-		return null;
-	}
-	@Override
-	public PaginatedListHelper<T> getAll(int currentPage, int pageSize,Long library) {
-		return null;
-	}
-	@Override
-	public PaginatedListHelper<T> find(int currentPage, int pageSize,Long library, String orderType, SearchConditionValue searchValue) {
-		return null;
-	}	
    
 }
