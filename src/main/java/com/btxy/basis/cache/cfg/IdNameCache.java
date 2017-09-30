@@ -13,38 +13,25 @@ import org.springframework.jdbc.core.RowMapper;
 import com.btxy.basis.model.LabelValue;
 
 public class IdNameCache {
-	private static Map<String,String> idNameMap=new HashMap<String,String>();
+	private Map<String,String> idNameMap=new HashMap<String,String>();
 	private List<LabelValue> sqlList=new ArrayList<LabelValue>();
-	private static Map<String,LabelValue> sqlMap=new HashMap<String,LabelValue>();
+	private Map<String,LabelValue> sqlMap=new HashMap<String,LabelValue>();
+	private Map<String, List<String>> classMap=new HashMap<String, List<String>>();
 	private static IdNameCache instance=null;
 	public static IdNameCache getInstance(){
+		if(instance==null) {
+			instance=new IdNameCache();
+		}
 		return instance;
-	}
-	public void init(InitSqlList initSqlList) {
-		initSqlList.exe(sqlList,sqlMap);
 	}
 	///////////////////////////////////////////////////////////////////////////////
 
 
 	public void init(JdbcTemplate jdbcTemplate){
-		if(instance==null) {
-			instance=new IdNameCache();
-		}
 		for (LabelValue sqlDefine : sqlList) {
 			List<LabelValue> list=jdbcTemplate.query(sqlDefine.getValue(), new RowMapp());
 			for (LabelValue idName : list) {
 				idNameMap.put(sqlDefine.getLabel()+idName.getLabel(), idName.getValue());
-			}
-		}
-	}
-	public void reset(JdbcTemplate jdbcTemplate,String key){
-		if(instance==null) {
-			instance=new IdNameCache();
-		}
-		if(sqlMap.get(key)!=null) {
-			List<LabelValue> list=jdbcTemplate.query(sqlMap.get(key).getValue(), new RowMapp());
-			for (LabelValue idName : list) {
-				idNameMap.put(key+idName.getLabel(), idName.getValue());
 			}
 		}
 	}
@@ -53,12 +40,6 @@ public class IdNameCache {
 	}
 	
 	
-	
-	
-	
-	public interface InitSqlList{
-		void exe(List<LabelValue> sqlList,Map<String,LabelValue> sqlMap);
-	}
 	class RowMapp implements RowMapper<LabelValue>{
 		@Override
 		public LabelValue mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -68,5 +49,30 @@ public class IdNameCache {
 			return lableValue;
 		}
 	}
-	
+
+	public void add(String key,String sql,String className) {
+		LabelValue e= new LabelValue(key,sql);
+		sqlList.add(e);
+		sqlMap.put(e.getLabel(),e);
+		if(classMap.get(className)==null) {
+			classMap.put(className,new ArrayList<String>());
+		}
+		classMap.get(className).add(key);
+	}
+	public void reset(JdbcTemplate jdbcTemplate,String key){
+		if(sqlMap.get(key)!=null) {
+			List<LabelValue> list=jdbcTemplate.query(sqlMap.get(key).getValue(), new RowMapp());
+			for (LabelValue idName : list) {
+				idNameMap.put(key+idName.getLabel(), idName.getValue());
+			}
+		}
+	}
+	public void reset(JdbcTemplate jdbcTemplate, Class<? extends Object> class1) {
+		List<String> list = classMap.get(class1);
+		if(list!=null) {
+			for (String string : list) {
+				reset(jdbcTemplate,string);
+			}
+		}
+	}
 }

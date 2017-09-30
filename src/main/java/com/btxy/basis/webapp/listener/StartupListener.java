@@ -44,9 +44,9 @@ public class StartupListener implements ServletContextListener {
         }
 
         ApplicationContext ctx =WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-    	Datastore ds=(Datastore) ctx.getBean("datastore");
-    	LibraryInfoCache.startUpInit(ds);
-    	Cache.startupInit(ctx);
+	    	Datastore ds=(Datastore) ctx.getBean("datastore");
+	    	LibraryInfoCache.startUpInit(ds);
+	    	Cache.startupInit(ctx);
         PasswordEncoder passwordEncoder = null;
         
         try {
@@ -87,7 +87,7 @@ public class StartupListener implements ServletContextListener {
      * @param servletContextEvent The servlet context event
      */
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-    		if(ObjectUpdateMsgCache.getInstance()!=null) {
+    		if(SpringContext.getApplicationContext()!=null) {
         		ObjectUpdateMsgCache.getInstance().shuttdown();
     		}
     }

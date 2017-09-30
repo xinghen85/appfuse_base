@@ -3,18 +3,17 @@ package com.btxy.basis.dao.common;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.btxy.basis.common.model.PaginatedListHelper;
 
 public class Dao {
+	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
-	}
-	public Dao(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
 	}
 	public interface PageData<T> {
 		public List<T> getList(long offset, long limit);
