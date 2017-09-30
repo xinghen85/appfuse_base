@@ -69,7 +69,7 @@ public class IdNameCache {
 			}
 		}
 	}
-	public void reset2(JdbcTemplate jdbcTemplate, String className) {
+	public void resetByClassName(JdbcTemplate jdbcTemplate, String className) {
 		log.info("idName:"+className);
 		List<String> list = classMap.get(className);
 		if(list!=null) {
