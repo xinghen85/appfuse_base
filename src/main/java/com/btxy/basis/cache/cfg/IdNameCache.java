@@ -15,24 +15,36 @@ import com.btxy.basis.model.LabelValue;
 public class IdNameCache {
 	private static Map<String,String> idNameMap=new HashMap<String,String>();
 	private List<LabelValue> sqlList=new ArrayList<LabelValue>();
+	private static Map<String,LabelValue> sqlMap=new HashMap<String,LabelValue>();
 	private static IdNameCache instance=null;
 	public static IdNameCache getInstance(){
 		return instance;
 	}
 	public void init(InitSqlList initSqlList) {
-		initSqlList.exe(sqlList);
+		initSqlList.exe(sqlList,sqlMap);
 	}
 	///////////////////////////////////////////////////////////////////////////////
 
-	
+
 	public void init(JdbcTemplate jdbcTemplate){
 		if(instance==null) {
 			instance=new IdNameCache();
 		}
 		for (LabelValue sqlDefine : sqlList) {
 			List<LabelValue> list=jdbcTemplate.query(sqlDefine.getValue(), new RowMapp());
-			for (LabelValue labelValue1 : list) {
-				idNameMap.put(sqlDefine.getLabel()+labelValue1.getLabel(), labelValue1.getValue());
+			for (LabelValue idName : list) {
+				idNameMap.put(sqlDefine.getLabel()+idName.getLabel(), idName.getValue());
+			}
+		}
+	}
+	public void reset(JdbcTemplate jdbcTemplate,String key){
+		if(instance==null) {
+			instance=new IdNameCache();
+		}
+		if(sqlMap.get(key)!=null) {
+			List<LabelValue> list=jdbcTemplate.query(sqlMap.get(key).getValue(), new RowMapp());
+			for (LabelValue idName : list) {
+				idNameMap.put(key+idName.getLabel(), idName.getValue());
 			}
 		}
 	}
@@ -45,7 +57,7 @@ public class IdNameCache {
 	
 	
 	public interface InitSqlList{
-		void exe(List<LabelValue> sqlList);
+		void exe(List<LabelValue> sqlList,Map<String,LabelValue> sqlMap);
 	}
 	class RowMapp implements RowMapper<LabelValue>{
 		@Override
