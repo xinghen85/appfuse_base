@@ -7,12 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import com.btxy.basis.model.LabelValue;
 
 public class IdNameCache {
+	static Logger log =Logger.getLogger(IdNameCache.class);
 	private Map<String,String> idNameMap=new HashMap<String,String>();
 	private List<LabelValue> sqlList=new ArrayList<LabelValue>();
 	private Map<String,LabelValue> sqlMap=new HashMap<String,LabelValue>();
@@ -67,8 +69,9 @@ public class IdNameCache {
 			}
 		}
 	}
-	public void reset(JdbcTemplate jdbcTemplate, Class<? extends Object> class1) {
-		List<String> list = classMap.get(class1);
+	public void reset2(JdbcTemplate jdbcTemplate, String className) {
+		log.info("idName:"+className);
+		List<String> list = classMap.get(className);
 		if(list!=null) {
 			for (String string : list) {
 				reset(jdbcTemplate,string);
