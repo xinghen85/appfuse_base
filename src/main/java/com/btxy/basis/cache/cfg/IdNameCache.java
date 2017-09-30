@@ -14,25 +14,40 @@ import com.btxy.basis.model.LabelValue;
 
 public class IdNameCache {
 	private static Map<String,String> idNameMap=new HashMap<String,String>();
-	private static List<LabelValue> dbList=new ArrayList<LabelValue>();
-	private static Map<String,LabelValue> dbMap=new HashMap<String,LabelValue>();
+	private List<LabelValue> sqlList=new ArrayList<LabelValue>();
 	private static IdNameCache instance=null;
 	public static IdNameCache getInstance(){
+		return instance;
+	}
+	public void init(InitSqlList initSqlList) {
+		initSqlList.exe(sqlList);
+	}
+	///////////////////////////////////////////////////////////////////////////////
+
+	
+	public void init(JdbcTemplate jdbcTemplate){
 		if(instance==null) {
 			instance=new IdNameCache();
 		}
-		return instance;
+		for (LabelValue sqlDefine : sqlList) {
+			List<LabelValue> list=jdbcTemplate.query(sqlDefine.getValue(), new RowMapp());
+			for (LabelValue labelValue1 : list) {
+				idNameMap.put(sqlDefine.getLabel()+labelValue1.getLabel(), labelValue1.getValue());
+			}
+		}
 	}
-	public static interface DD{
-		void set(List<LabelValue> dbList,Map<String,LabelValue> dbMap);
+	public Map<String, String> getMap() {
+		return idNameMap;
 	}
-	public void init(DD dd) {
-		dd.set(dbList, dbMap);
-	}
-	///////////////////////////////////////////////////////////////////////////////
 	
+	
+	
+	
+	
+	public interface InitSqlList{
+		void exe(List<LabelValue> sqlList);
+	}
 	class RowMapp implements RowMapper<LabelValue>{
-
 		@Override
 		public LabelValue mapRow(ResultSet rs, int arg1) throws SQLException {
 			LabelValue lableValue=new LabelValue();
@@ -42,15 +57,4 @@ public class IdNameCache {
 		}
 	}
 	
-	public void init(JdbcTemplate jdbcTemplate){
-		for (LabelValue labelValue : dbList) {
-			List<LabelValue> list=jdbcTemplate.query(labelValue.getValue(), new RowMapp());
-			for (LabelValue labelValue1 : list) {
-				idNameMap.put(labelValue.getLabel()+labelValue1.getLabel(), labelValue1.getValue());
-			}
-		}
-	}
-	public Map<String, String> getMap() {
-		return idNameMap;
-	}
 }
