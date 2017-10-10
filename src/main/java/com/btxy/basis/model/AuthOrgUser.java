@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.appfuse.anno.FieldAnnoExtend;
 import org.appfuse.anno.TableAnnoExtend;
-import org.json.JSONException;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
@@ -314,14 +313,6 @@ public class AuthOrgUser implements AuthUser,Serializable, UserDetails{
 	}
 	
 	
-	
-	
-	public static void main(String[] args) throws JSONException {
-		// TODO Auto-generated method stub
-		
-		
-	}
-
 
 	public List<Long> getRoleList() {
 		return roleList;
