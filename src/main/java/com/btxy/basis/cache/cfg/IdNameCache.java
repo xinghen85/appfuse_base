@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -77,5 +78,22 @@ public class IdNameCache {
 				reset(jdbcTemplate,string);
 			}
 		}
+	}
+
+	public String getName(String id, String key) {
+		String[] d = id.split(",");
+		StringBuilder rtn = new StringBuilder("");
+		for (String string : d) {
+			String name = idNameMap.get(key + string);
+			if (name == null) {
+				name = string;
+			}
+			if (StringUtils.isNotEmpty(rtn.toString())) {
+				rtn.append("," + name);
+			} else {
+				rtn.append(name);
+			}
+		}
+		return rtn.toString();
 	}
 }
