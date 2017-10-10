@@ -1,10 +1,5 @@
 package com.btxy.basis;
 
-import java.io.File;
-
-import com.btxy.basis.util.DateUtil;
-
-
 /**
  * Constant values used throughout the application.
  *
@@ -81,22 +76,4 @@ public final class Constants {
      */
     public static final String AVAILABLE_ROLES = "availableRoles";
 
-    /**
-     * The name of the CSS Theme setting.
-     * @deprecated No longer used to set themes.
-     */
-    public static final String CSS_THEME = "csstheme";
-    
-    
-    public static final String BMAP_FILE_HOME = System.getenv("BMAP_FILE_HOME");
-    
-    public static final String REPORT_CHART_VBA_PATH = BMAP_FILE_HOME + FILE_SEP + "adminServer" + FILE_SEP + "chart" + FILE_SEP + "vba" + Constants.FILE_SEP + DateUtil.fomatDate("yyyy") + Constants.FILE_SEP + DateUtil.fomatDate("MM");
-    public static final String REPORT_CHART_PATH = BMAP_FILE_HOME + FILE_SEP + "adminServer" + FILE_SEP + "chart" + FILE_SEP + "image" + Constants.FILE_SEP + DateUtil.fomatDate("yyyy") + Constants.FILE_SEP + DateUtil.fomatDate("MM");
-    
-    public static final String REPORT_VBA_PATH = BMAP_FILE_HOME + FILE_SEP + "adminServer" + FILE_SEP + "report" + FILE_SEP + "vba" + Constants.FILE_SEP + DateUtil.fomatDate("yyyy") + Constants.FILE_SEP + DateUtil.fomatDate("MM");
-    public static final String REPORT_PATH = BMAP_FILE_HOME + FILE_SEP + "adminServer" + FILE_SEP + "report" + FILE_SEP + "report" + Constants.FILE_SEP + DateUtil.fomatDate("yyyy") + Constants.FILE_SEP + DateUtil.fomatDate("MM");
-    
-    public static final String BMAP_LOG_FILE_HOME = System.getenv("BMAP_FILE_HOME")+File.separator+"log";
-    public static final String BMAP_UPLOAD_FILE_HOME = System.getenv("BMAP_FILE_HOME")+File.separator+"upload";
-    public static final String BMAP_DOWNLOAD_FILE_HOME = System.getenv("BMAP_FILE_HOME")+File.separator+"download";
 }
