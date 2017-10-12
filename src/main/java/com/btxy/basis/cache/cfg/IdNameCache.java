@@ -80,18 +80,27 @@ public class IdNameCache {
 		}
 	}
 
-	public String getName(String id, String key) {
-		String[] d = id.split(",");
+	public String getName(String sIds, String key) {
+		return getName(sIds,key,false);
+	}
+	public String getName(String sIds, String key,Boolean addId) {
+		if(StringUtils.isEmpty(sIds)) {
+			return "";
+		}
+		String[] ids = sIds.split(",");
 		StringBuilder rtn = new StringBuilder("");
-		for (String string : d) {
-			String name = idNameMap.get(key + string);
+		for (String id : ids) {
+			String name = idNameMap.get(key + id);
 			if (name == null) {
-				name = string;
+				name = id;
 			}
 			if (StringUtils.isNotEmpty(rtn.toString())) {
 				rtn.append("," + name);
 			} else {
 				rtn.append(name);
+			}
+			if(addId) {
+				rtn.append(""+id);
 			}
 		}
 		return rtn.toString();
