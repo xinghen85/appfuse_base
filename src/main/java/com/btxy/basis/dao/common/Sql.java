@@ -92,13 +92,15 @@ public class Sql{
 		}
 	}
 	public void addAndList(Object object, String dbKey) {
-		if(!StringUtils.isEmpty(and)) {
-			and=and+" and ";
-		}else {
-			and="";
+		if(object !=null) {
+			if(!StringUtils.isEmpty(and)) {
+				and=and+" and ";
+			}else {
+				and="";
+			}
+			and=and+dbKey+" =?";
+			andObjs.add(object);
 		}
-		and=and+dbKey+" =?";
-		andObjs.add(object);
 	}
 
 	public void addAndLike(String text,String dbKey) {
