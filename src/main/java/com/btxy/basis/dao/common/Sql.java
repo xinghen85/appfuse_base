@@ -20,6 +20,11 @@ public class Sql{
 		log.debug(limitsql);
 		return limitsql.replaceAll("  ", " ").trim();
 	}
+
+	public String getNoLimitSql() {
+		String nolimitsql = "select * from " + tableName + getWhere() + orderList;
+		return nolimitsql.replaceAll("  ", " ").trim();
+	}
 	public String getSql() {
 		String nolimitsql="select count(*) from "+tableName+getWhere();
 		log.debug(nolimitsql);
