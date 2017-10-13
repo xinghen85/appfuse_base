@@ -10,7 +10,7 @@ public class Sql{
 	static Logger log=Logger.getLogger(Sql.class);
 	String and=null;
 	String or=null;
-	List<Object> objs=new ArrayList<Object>();
+	List<Object> andObjs=new ArrayList<Object>();
 	List<Object> orObjs=new ArrayList<Object>();
 	String tableName="";
 	boolean isAddLimit=false;
@@ -36,7 +36,7 @@ public class Sql{
 	 }
 	public Object[] getLimitObject(long offset,long limit) {
 		List<Object> rtn=new ArrayList<Object>();
-		rtn.addAll(objs);
+		rtn.addAll(andObjs);
 		rtn.addAll(orObjs);
 		rtn.add(offset);
 		rtn.add(limit);
@@ -44,7 +44,7 @@ public class Sql{
 	}
 	public Object[] getObject() {
 		List<Object> rtn=new ArrayList<Object>();
-		rtn.addAll(objs);
+		rtn.addAll(andObjs);
 		rtn.addAll(orObjs);
 		return rtn.toArray();
 	}
@@ -82,12 +82,12 @@ public class Sql{
 					}else {
 						and=and+",?";
 					}
-					objs.add(list.get(i));
+					andObjs.add(list.get(i));
 				}
 				and=and+")";
 			}else if(list.size()==1) {
 				and=and+dbKey+" =?";
-				objs.add(list.get(0));
+				andObjs.add(list.get(0));
 			}
 		}
 	}
@@ -98,7 +98,7 @@ public class Sql{
 			and="";
 		}
 		and=and+dbKey+" =?";
-		objs.add(object);
+		andObjs.add(object);
 	}
 
 	public void addAndLike(String text,String dbKey) {
@@ -113,9 +113,9 @@ public class Sql{
 			}
 			and = and + dbKey + " like ?";
 			if(hasComma) {
-				orObjs.add("%," + text + ",%");
+				andObjs.add("%," + text + ",%");
 			}else {
-				orObjs.add("%" + text + "%");
+				andObjs.add("%" + text + "%");
 			}
 		}
 	}
