@@ -121,15 +121,24 @@ public class Sql{
 			}
 		}
 	}
+
 	public void addOrLike(String textValue, String dbColumn) {
+		addOrLike(textValue, dbColumn, false);
+	}
+
+	public void addOrLike(String textValue, String dbColumn, boolean hasComma) {
 		if (textValue != null) {
-			if(!StringUtils.isEmpty(or)) {
-				or=or+" or ";
-			}else {
-				or="";
+			if (!StringUtils.isEmpty(or)) {
+				or = or + " or ";
+			} else {
+				or = "";
 			}
-			or=or+dbColumn+" like ? ";
-			orObjs.add("%"+textValue+"%");
+			or = or + dbColumn + " like ? ";
+			if (hasComma) {
+				orObjs.add("%," + textValue + ",%");
+			} else {
+				orObjs.add("%" + textValue + "%");
+			}
 		}
 	}
 }
