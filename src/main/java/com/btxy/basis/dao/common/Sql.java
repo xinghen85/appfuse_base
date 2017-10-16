@@ -73,7 +73,7 @@ public class Sql{
 		return where;
 	}
 	public void addAndList(List<String>list,String dbKey) {
-		if(list.size()>0) {
+		if(list !=null && list.size()>0) {
 			if(list.size()>1) {
 				and=_getAnd()+dbKey+" in(";
 				for (int i = 0; i < list.size(); i++) {
@@ -102,9 +102,11 @@ public class Sql{
 		addAndLike(text,dbKey,false);
 	}
 	public void addAndLike(String text,String dbKey,boolean hasComma) {
-		List<String> texts=new ArrayList<String>();
-		texts.add(text);
-		addAndLikes(texts,dbKey,false);
+		if(!StringUtils.isEmpty(text)) {
+			List<String> texts=new ArrayList<String>();
+			texts.add(text);
+			addAndLikes(texts,dbKey,false);
+		}
 	}
 	public void addAndLikes(List<String> texts,String dbKey) {
 		addAndLikes(texts, dbKey,false);
