@@ -70,6 +70,12 @@ public class Dao {
 		else
 			return null;
 	}
+	protected long l(Long long_) {
+		if(long_==null)
+			return 0L;
+		else
+			return long_;
+	}
 
 	protected <T> T queryForObjectCanNull(String sql, Object[] args, RowMapper<T> rowMapper) {
 		List<T> list = jdbcTemplate.query(sql,args,rowMapper);
