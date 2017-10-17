@@ -40,7 +40,7 @@ public class IdNameTag extends TagSupport {
 		 for (String string : d) {
 			    String name=	IdNameCache.getInstance().getMap().get(key+string);
 		     	if(name==null) {
-		     		name=string;
+		     		name="";
 		     	}
 		     	if(StringUtils.isNotEmpty(rtn)) {
 		     		rtn=rtn+","+name;
