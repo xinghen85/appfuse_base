@@ -1,5 +1,6 @@
 package com.btxy.basis.service.st;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mongodb.morphia.mapping.Mapper;
@@ -29,12 +30,13 @@ public class StSystemNoticeInfoManagerImpl extends MgGenericManagerImpl<StSystem
 	@Override
 	public List<StSystemNoticeInfo> getNoticeByUser(AuthUser user, Long library) {
 		Query<StSystemNoticeInfo> q=dao.createQuery();
-		
+		List<Long> ids=new ArrayList<Long>();
+		ids.add(user.getUserId());
 		if(user.getRoleList(library)!=null && user.getRoleList(library).size()>0){
 			q.and(q.criteria("status").equal("BVF"),q.or(
 					q.criteria("overt").equal(true),q.and(
 							q.criteria("library").equal(library),q.or(
-									q.criteria("roleList").hasAnyOf(user.getRoleList(library)),q.criteria("userList").hasThisOne(user.getUserId())
+									q.criteria("roleList").hasAnyOf(user.getRoleList(library)),q.criteria("userList").hasAnyOf(ids)
 							)
 					)
 			));
@@ -42,7 +44,7 @@ public class StSystemNoticeInfoManagerImpl extends MgGenericManagerImpl<StSystem
 		}else{
 			q.and(q.criteria("status").equal("BVF"),q.or(
 					q.criteria("overt").equal(true),q.and(
-							q.criteria("library").equal(library),q.criteria("userList").hasThisOne(user.getUserId())
+							q.criteria("library").equal(library),q.criteria("userList").hasAnyOf(ids)
 					)
 			));
 
