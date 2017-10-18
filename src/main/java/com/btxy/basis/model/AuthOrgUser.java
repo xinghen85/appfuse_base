@@ -320,7 +320,9 @@ public class AuthOrgUser implements AuthUser,Serializable, UserDetails{
 
 
 	public void setRoleList(List<Long> roleList) {
-		this.roleList = roleList;
+		if(roleList!=null) {
+			this.roleList = roleList;
+		}
 	}
 	
 	public Long getDefaultLibrary(){

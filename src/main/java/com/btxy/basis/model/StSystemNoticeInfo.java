@@ -122,7 +122,9 @@ public class StSystemNoticeInfo implements Serializable{
 	}
 
 	public void setUserList(List<Long> userList) {
-		this.userList = userList;
+		if(userList!=null) {
+			this.userList = userList;
+		}
 	}
 
 	public String getStatus() {

@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.IdentifierLoadAccess;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,6 +17,7 @@ import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.ObjectRetrievalFailureException;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.SearchConditionValue;
@@ -38,11 +38,11 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
         this.persistentClass = persistentClass;
         this.sessionFactory = sessionFactory;
     }
-    public SessionFactory getSessionFactory() {
+    private SessionFactory getSessionFactory() {
         return this.sessionFactory;
     }
 
-    public Session getSession() throws HibernateException {
+    private Session getSession() {
         Session sess = getSessionFactory().getCurrentSession();
         if (sess == null) {
             sess = getSessionFactory().openSession();
@@ -62,6 +62,7 @@ public abstract class GenericDaoHibernate<T,PK extends Serializable> implements 
         return sess.createCriteria(persistentClass).list();
 	}
 
+    @Transactional
 	@Override
 	public List<T> find(SearchConditionValue searchValue) {
 		Criteria cr = getSession().createCriteria(persistentClass);
