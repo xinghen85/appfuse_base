@@ -60,6 +60,7 @@ public class AuthMenuListController extends BaseFormController {
 
 		model.addAttribute("libraryPath", libraryPath);
 		model.addAttribute("currentUser", user);
+		model.addAttribute("userName", user.getUsername());
 
 		LibraryInfo currentLibrary=LibraryInfoCache.getInstance().getLibraryInfoByPath(libraryPath);
 		{
