@@ -27,7 +27,7 @@ public class CommonHibernateDao {
         }
         return sess;
     }
-	public <T> Long count(final Class<T> persistentClass,SearchConditionValue searchValue,Para Para) {
+    private <T> Long count(final Class<T> persistentClass,SearchConditionValue searchValue,Para Para) {
 		Criteria cr = getSession().createCriteria(persistentClass);
 		
 		Para.assembleQryParam(searchValue,cr);
@@ -42,11 +42,11 @@ public class CommonHibernateDao {
 	@Transactional
 	public <T> PaginatedListHelper<T> find(final Class<T> persistentClass,int currentPage, int pageSize,String orderType, SearchConditionValue searchValue,Para para) {
 		Criteria cr = getSession().createCriteria(persistentClass); 
-		PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
     	
 		para.assembleQryParam(searchValue,cr);
 		
 		Long totalSize = this.count(persistentClass,searchValue,para);
+		PaginatedListHelper<T> ph = new PaginatedListHelper<T>();
 		ph.setFullListSize(totalSize.intValue());
 		ph.setPageNumber(currentPage);
 		ph.setObjectsPerPage(pageSize);
