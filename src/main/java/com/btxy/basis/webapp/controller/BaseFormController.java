@@ -2,6 +2,7 @@ package com.btxy.basis.webapp.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +49,7 @@ import com.btxy.basis.common.model.SearchConditionValue;
 import com.btxy.basis.common.model.ServerValidataResult;
 import com.btxy.basis.model.AuthAppUser;
 import com.btxy.basis.model.CfgCustomProperty;
+import com.btxy.basis.model.CfgStateMachineButton;
 import com.btxy.basis.model.User;
 import com.btxy.basis.service.MailEngine;
 import com.btxy.basis.service.base.MgGenericManager;
@@ -95,6 +97,13 @@ public class BaseFormController implements ServletContextAware {
 			this.rtnDescription = rtnDescription;
 		}
     }
+    protected void invoke(Method setMethod, Object cfgRelative, CfgStateMachineButton button) {
+		try {
+			setMethod.invoke(cfgRelative, new Object[]{button.getTargetStat()});
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
     
     
     protected final transient Log log = LogFactory.getLog(getClass());
