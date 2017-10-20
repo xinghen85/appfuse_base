@@ -43,6 +43,8 @@ import com.btxy.basis.cache.LibraryInfoCache;
 import com.btxy.basis.cache.cfg.CfgCustomPropertyCache;
 import com.btxy.basis.cache.cfg.CfgEnumInfoCache;
 import com.btxy.basis.cache.cfg.CfgFixedPropertyDefineCache;
+import com.btxy.basis.cache.cfg.CfgStateMachineDefineCache;
+import com.btxy.basis.cache.cfg.CfgStateMachineValueCache;
 import com.btxy.basis.common.model.PaginatedListHelper;
 import com.btxy.basis.common.model.QueryContditionSet;
 import com.btxy.basis.common.model.SearchConditionValue;
@@ -50,6 +52,7 @@ import com.btxy.basis.common.model.ServerValidataResult;
 import com.btxy.basis.model.AuthAppUser;
 import com.btxy.basis.model.CfgCustomProperty;
 import com.btxy.basis.model.CfgStateMachineButton;
+import com.btxy.basis.model.CfgStateMachineDefine;
 import com.btxy.basis.model.User;
 import com.btxy.basis.service.MailEngine;
 import com.btxy.basis.service.base.MgGenericManager;
@@ -98,11 +101,20 @@ public class BaseFormController implements ServletContextAware {
 		}
     }
     protected void invoke(Method setMethod, Object cfgRelative, CfgStateMachineButton button) {
+		
+	}
+    protected  <T> CfgStateMachineButton stateMachineSubmit(T bean,@PathVariable String libraryPath,@PathVariable Long objectId,@PathVariable Long machineId,@PathVariable Long buttonId){
+		//StTaskInfo task=StTaskInfoCache.getInstance().addTask(LibraryInfoCache.getInstance().getLibraryIdByPath(libraryPath),taskType, formName, objectId, new HashMap<String,Object>());
+		CfgStateMachineDefine define=CfgStateMachineDefineCache.getInstance().getEntityById(machineId);
+		CfgStateMachineButton button=CfgStateMachineValueCache.getInstance().getCfgStateMachineButton(buttonId);
+	
+		Method setMethod=CfgStateMachineDefineCache.getInstance().getStateFieldSetMethod(machineId);
 		try {
-			setMethod.invoke(cfgRelative, new Object[]{button.getTargetStat()});
+			setMethod.invoke(bean, new Object[]{button.getTargetStat()});
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+		return button;
 	}
     
     
