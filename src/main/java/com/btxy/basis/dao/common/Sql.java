@@ -30,15 +30,6 @@ public class Sql{
 		log.debug(nolimitsql);
 		return nolimitsql.replaceAll("  ", " ").trim();
 	}
-	/**
-	  * 添加排序
-	  * @param orders name desc,age asc
-	  */
-	 public void addOrder(String orders){ 
-		 if(!StringUtils.isEmpty(orders)) {
-			   orderList = " order by "+orders; 
-		 }
-	 }
 	public Object[] getLimitObject(long offset,long limit) {
 		List<Object> rtn=new ArrayList<Object>();
 		rtn.addAll(andObjs);
@@ -72,7 +63,17 @@ public class Sql{
 		}
 		return where;
 	}
-	public void addAndList(List<String>list,String dbKey) {
+	/**
+	  * 添加排序
+	  * @param orders name desc,age asc
+	  */
+	 public Sql addOrder(String orders){ 
+		 if(!StringUtils.isEmpty(orders)) {
+			   orderList = " order by "+orders; 
+		 }
+		 return this;
+	 }
+	public Sql addAndList(List<String>list,String dbKey) {
 		if(list !=null && list.size()>0) {
 			if(list.size()>1) {
 				and=_getAnd()+dbKey+" in(";
@@ -90,29 +91,32 @@ public class Sql{
 				andObjs.add(list.get(0));
 			}
 		}
+		return this;
 	}
-	public void addAnd(Object object, String dbKey) {
+	public Sql addAnd(Object object, String dbKey) {
 		if(object !=null) {
 			and=_getAnd()+dbKey+" =?";
 			andObjs.add(object);
 		}
+		return this;
 	}
 
-	public void addAndLike(String text,String dbKey) {
-		addAndLike(text,dbKey,false);
+	public Sql addAndLike(String text,String dbKey) {
+		return addAndLike(text,dbKey,false);
 	}
-	public void addAndLike(String text,String dbKey,boolean hasComma) {
+	public Sql addAndLike(String text,String dbKey,boolean hasComma) {
 		if(!StringUtils.isEmpty(text)) {
 			List<String> texts=new ArrayList<String>();
 			texts.add(text);
-			addAndLikes(texts,dbKey,false);
+			return addAndLikes(texts,dbKey,false);
 		}
+		return this;
 	}
-	public void addAndLikes(List<String> texts,String dbKey) {
-		addAndLikes(texts, dbKey,false);
+	public Sql addAndLikes(List<String> texts,String dbKey) {
+		return addAndLikes(texts, dbKey,false);
 	}
 
-	public void addAndLikes(List<String> texts,String dbKey,boolean hasComma) {
+	public Sql addAndLikes(List<String> texts,String dbKey,boolean hasComma) {
 		if (texts != null&&texts.size()>0) {
 			String _or=null;
 			for (int i = 0; i < texts.size(); i++) {
@@ -130,13 +134,14 @@ public class Sql{
 				and=_getAnd()+_or;
 			}
 		}
+		return this;
 	}
 
-	public void addOrLike(String textValue, String dbColumn) {
-		addOrLike(textValue, dbColumn, false);
+	public Sql addOrLike(String textValue, String dbColumn) {
+		return addOrLike(textValue, dbColumn, false);
 	}
 
-	public void addOrLike(String textValue, String dbColumn, boolean hasComma) {
+	public Sql addOrLike(String textValue, String dbColumn, boolean hasComma) {
 		if (textValue != null) {
 			or = _getOr() + dbColumn + " like ? ";
 			if (hasComma) {
@@ -145,6 +150,7 @@ public class Sql{
 				orObjs.add("%" + textValue + "%");
 			}
 		}
+		return this;
 	}
 	
 	
