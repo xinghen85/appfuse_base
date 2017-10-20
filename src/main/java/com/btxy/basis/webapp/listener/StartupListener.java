@@ -22,7 +22,9 @@ import com.btxy.basis.Constants;
 import com.btxy.basis.cache.LibraryInfoCache;
 import com.btxy.basis.cache.cfg.Cache;
 import com.btxy.basis.cache.ehcache.ObjectUpdateMsgCache;
+import com.btxy.basis.common.ConfigureContext;
 import com.btxy.basis.common.SpringContext;
+import com.btxy.basis.model.CfgParameter;
 
 public class StartupListener implements ServletContextListener {
     private static final Log log = LogFactory.getLog(StartupListener.class);
@@ -48,7 +50,14 @@ public class StartupListener implements ServletContextListener {
 	    	LibraryInfoCache.startUpInit(ds);
 	    	Cache.startupInit(ctx);
         PasswordEncoder passwordEncoder = null;
+        SpringContext.setApplicationContext(ctx);
         
+    		CfgParameter cfgParameter=ConfigureContext.getDbCfgParemeters("login_show_code");
+    		if(cfgParameter!=null){
+    			if(cfgParameter.getValue().equals("y")){
+                config.put("showCode", Boolean.TRUE);
+    			}
+    		}
         try {
             ProviderManager provider = (ProviderManager) ctx.getBean("org.springframework.security.authentication.ProviderManager#0");
             for (Object o : provider.getProviders()) {
@@ -65,7 +74,6 @@ public class StartupListener implements ServletContextListener {
         }
 
         context.setAttribute(Constants.CONFIG, config);
-        SpringContext.setApplicationContext(ctx);
 
         // output the retrieved values for the Init and Context Parameters
         if (log.isDebugEnabled()) {
