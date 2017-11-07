@@ -48,10 +48,11 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
 			msg=ex.getMessage();
 		}
 		if(ex instanceof org.springframework.dao.DataAccessException) {
-		    log.info(ex);
+		    log.info("ex",ex);
 		    msg="数据库访问出错";
 		}if(ex instanceof NullPointerException) {
-		    log.info(ex);
+			ex.printStackTrace();
+		    log.info("ex",ex);
 		    msg="Null";
 		}else {
 				ex.printStackTrace();
