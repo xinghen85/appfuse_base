@@ -55,7 +55,7 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
 		    log.info("ex",ex);
 		    msg="Null";
 		}else {
-				ex.printStackTrace();
+			ex.printStackTrace();
 		}
 		Rtn ResponseBean=new Rtn(-1,msg);
 		try {
