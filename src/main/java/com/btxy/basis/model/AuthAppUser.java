@@ -31,7 +31,7 @@ public class AuthAppUser implements AuthUser,Serializable, UserDetails{
 	@javax.persistence.Id
 	@FieldAnnoExtend(description="用户ID")
 	protected Long userId;
-	@FieldAnnoExtend(description="用户名")
+	@FieldAnnoExtend(description="用户名",required=true)
 	@Indexed(value=IndexDirection.ASC, name="idx_user_username", unique=true, dropDups=true,sparse = true) 
 	protected String userName;
 	@FieldAnnoExtend(description="用户姓名",required=true,textSearch=true,name=true,minlength=1,maxlength=20)
@@ -50,7 +50,8 @@ public class AuthAppUser implements AuthUser,Serializable, UserDetails{
 	protected boolean enabled;
 	@FieldAnnoExtend(description="所属业务",required=true)
 	protected String businessIds;
-	
+	@FieldAnnoExtend(description="所属频道",required=true)
+	protected String channelIds;
 	@FieldAnnoExtend(type=5,childModel="AuthUserLibraryRole")
 	List<AuthUserLibraryRole> libraryRoleList=new ArrayList<AuthUserLibraryRole>();
 	
@@ -261,6 +262,14 @@ public class AuthAppUser implements AuthUser,Serializable, UserDetails{
 	}
 	public void setBusinessIds(String businessIds) {
 		this.businessIds = businessIds;
+	}
+
+	
+	public String getChannelIds() {
+		return channelIds;
+	}
+	public void setChannelIds(String channelIds) {
+		this.channelIds = channelIds;
 	}
 	@Override
 	public String toString() {
