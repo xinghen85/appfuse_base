@@ -105,4 +105,22 @@ public class IdNameCache {
 		}
 		return rtn.toString();
 	}
+
+	
+	public static String code2Name(String idList, String separator, String label) {
+		String res = "";
+		List<String> list = new ArrayList<String>();
+		if(StringUtils.isNotBlank(idList)){
+			String [] ids = idList.split(",");
+			for(String id:ids){
+				if(StringUtils.isNotBlank(id)){
+					list.add(IdNameCache.getInstance().getMap().get(label+id));
+				}
+			}
+			if(!list.isEmpty()){
+				res = StringUtils.join(list, separator);
+			}
+		}
+		return res;
+	}
 }
