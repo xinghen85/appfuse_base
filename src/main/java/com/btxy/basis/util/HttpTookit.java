@@ -45,11 +45,11 @@ public final class HttpTookit {
 			if (method.getStatusCode() == HttpStatus.SC_OK) {
 				response =IOUtils.toString(method.getResponseBodyAsStream());
 			} else {
-				logger.error("执行HTTP Get请求" + url + "时，发生异常！" + method.getResponseBodyAsString());
+				logger.error("执行HTTP Get请求" + url + "时，返回值不是ok！" + method.getResponseBodyAsString());
 				throw new RuntimeException("StatusCode!=200");
 			}
 		} catch (IOException e) {
-			logger.error("执行HTTP Get请求" + url + "时，发生异常！", e);
+			logger.error("执行HTTP Get请求" + url + "时，发生io异常！"+ e.getMessage());
 			throw new RuntimeException("网络请求遇到异常"+e.getMessage());
 		} finally {
 			method.releaseConnection();
