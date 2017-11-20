@@ -40,7 +40,7 @@ public final class HttpTookit {
 		try {
 			HttpConnectionManagerParams params = client.getHttpConnectionManager().getParams();
 			params.setConnectionTimeout(1000 * 10);// 连接超时
-			params.setSoTimeout(1000 * 60*3);// 读数据超时
+			params.setSoTimeout(1000 * 10);// 读数据超时
 			client.executeMethod(method);
 			if (method.getStatusCode() == HttpStatus.SC_OK) {
 				response =IOUtils.toString(method.getResponseBodyAsStream());
