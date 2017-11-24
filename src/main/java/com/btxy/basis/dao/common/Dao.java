@@ -83,7 +83,7 @@ public class Dao {
 		{
 			//String sqlMsg="sql:"+sql+args==null?"":args.toString();
 			//log.error(sqlMsg);
-			throw new RuntimeException("sql exe result size>1");
+			throw new RuntimeException(sql+",sql exe result size>1");
 		}
 		else if(list.size()==0)
 			return null;
