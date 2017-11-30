@@ -48,10 +48,22 @@ public class AuthAppUser implements AuthUser,Serializable, UserDetails{
 	protected Long phoneNumber;
 	@FieldAnnoExtend(description="是否激活",required=true)
 	protected boolean enabled;
+	
+	
 	@FieldAnnoExtend(description="所属业务",required=true)
 	protected String businessIds;
 	@FieldAnnoExtend(description="所属频道",required=true)
 	protected String channelIds;
+	@FieldAnnoExtend(description="内容源类型",required=true)
+	 protected String contentSourceType;
+	
+	
+	public String getContentSourceType() {
+		return contentSourceType;
+	}
+	public void setContentSourceType(String contentSourceType) {
+		this.contentSourceType = contentSourceType;
+	}
 	@FieldAnnoExtend(type=5,childModel="AuthUserLibraryRole")
 	List<AuthUserLibraryRole> libraryRoleList=new ArrayList<AuthUserLibraryRole>();
 	
