@@ -1,7 +1,5 @@
 package com.btxy.basis.common;
 
-import javax.servlet.ServletContext;
-
 import org.mongodb.morphia.Datastore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
