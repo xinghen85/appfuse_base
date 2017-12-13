@@ -32,6 +32,16 @@ public final class HttpTookit {
      * @return 返回请求响应的HTML 
      */ 
 	public static String doGet(Logger logger, String url) {
+		return doGet(logger, url, 10);
+	}
+    /** 
+     * 执行一个HTTP GET请求，返回请求响应的HTML 
+     * 
+     * @param url                 请求的URL地址 
+     * @param readTimeOut         读超时，单位秒 
+     * @return 返回请求响应的HTML 
+     */ 
+	public static String doGet(Logger logger, String url,int readTimeOut) {
 		if (logger == null)
 			logger = log;
 		String response = null;
@@ -40,7 +50,7 @@ public final class HttpTookit {
 		try {
 			HttpConnectionManagerParams params = client.getHttpConnectionManager().getParams();
 			params.setConnectionTimeout(1000 * 10);// 连接超时
-			params.setSoTimeout(1000 * 200);// 读数据超时
+			params.setSoTimeout(1000 * readTimeOut);// 读数据超时
 			client.executeMethod(method);
 			if (method.getStatusCode() == HttpStatus.SC_OK) {
 				response =IOUtils.toString(method.getResponseBodyAsStream());
