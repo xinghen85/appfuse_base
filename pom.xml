@@ -9,6 +9,21 @@
 	</prerequisites>
 
 
+
+	<distributionManagement>
+	  	<repository>
+	  		<id>releasesId</id>
+	  		<name>Releases name</name>
+	  		<url>http://nexus.lenovopcsd.com/content/groups/public</url>
+	  	</repository>
+	  	<snapshotRepository>
+	  		<id>snapshots id</id>
+	  		<name>snapshots name</name>
+	  		<url>http://nexus.lenovopcsd.com/content/groups/public/snapshots/</url>
+	  	</snapshotRepository>
+	  </distributionManagement>
+	  
+	  
 	<build>
 		<defaultGoal>compile</defaultGoal>
 		<pluginManagement>
