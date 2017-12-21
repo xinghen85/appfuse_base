@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.galebo</groupId>
 	<artifactId>appfuse_base</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 
 	<prerequisites>
 		<maven>2.2.1</maven>
@@ -10,18 +10,14 @@
 
 
 
+
 	<distributionManagement>
-	  	<repository>
-	  		<id>releasesId</id>
-	  		<name>Releases name</name>
-	  		<url>http://nexus.lenovopcsd.com/content/groups/public</url>
-	  	</repository>
-	  	<snapshotRepository>
-	  		<id>snapshots id</id>
-	  		<name>snapshots name</name>
-	  		<url>http://nexus.lenovopcsd.com/content/groups/public/snapshots/</url>
-	  	</snapshotRepository>
-	  </distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>Nexus</name>
+			<url>http://nexus.lenovopcsd.com/content/repositories/thirdparty/</url>
+		</repository>
+	</distributionManagement>
 	  
 	  
 	<build>
