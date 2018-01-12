@@ -1,19 +1,9 @@
 package com.btxy.basis.webapp.taglib;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-
-import com.btxy.basis.cache.cfg.AuthPrivilegeInfoCache;
-import com.btxy.basis.cache.model.AuthPrivilegeView;
-import com.btxy.basis.cache.model.PrivilegeLongVO;
-import com.btxy.basis.model.AuthPrivilegeInfo;
-import com.btxy.basis.util.list.ListUtil;
 
 
 /**
@@ -62,7 +52,7 @@ public class TablePageSizeSetTag extends TagSupport {
 			 sb.append("	<span class=\"user-info\">&#x663E;&#x793A;\r\n");
 					
 			 sb.append("		<select   size=\"1\" onchange=\"setPageSizeToCookieOfForm('"+formName+"',this.value)\" value=\""+pageSize+"\">\r\n");
-			 sb.append("			<option value=\"10\" "+getSelected(pageSize,10)+">10</option>\r\n");
+//			 sb.append("			<option value=\"10\" "+getSelected(pageSize,10)+">10</option>\r\n");
 			 sb.append("			<option value=\"25\" "+getSelected(pageSize,25)+">25</option>\r\n");
 			 sb.append("			<option value=\"50\" "+getSelected(pageSize,50)+">50</option>\r\n");
 			 sb.append("			<option value=\"100\" "+getSelected(pageSize,100)+">100</option>\r\n");
