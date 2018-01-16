@@ -7,7 +7,7 @@ public class PageTools {
 
 	public static int getPageSizeOfUserForm(HttpServletRequest request,String formName) {
 		Cookie[] cookies = request.getCookies();
-		int size=10;
+		int size=25;
         for(Cookie c :cookies ){
             if(c.getName()!=null && c.getName().equals(formName+"-pageSize")){
             	size= Integer.parseInt(c.getValue());
