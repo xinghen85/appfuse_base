@@ -55,11 +55,7 @@ public class TablePageSizeSetTag extends TagSupport {
 //			 sb.append("			<option value=\"10\" "+getSelected(pageSize,10)+">10</option>\r\n");
 			 sb.append("			<option value=\"25\" "+getSelected(pageSize,25)+">25</option>\r\n");
 			 sb.append("			<option value=\"50\" "+getSelected(pageSize,50)+">50</option>\r\n");
-			 sb.append("			<option value=\"100\" "+getSelected(pageSize,100)+">100</option>\r\n");
-			 sb.append("			<option value=\"200\" "+getSelected(pageSize,200)+">200</option>\r\n");
-			 sb.append("			<option value=\"300\" "+getSelected(pageSize,300)+">300</option>\r\n");
-			 sb.append("			<option value=\"500\" "+getSelected(pageSize,500)+">500</option>\r\n");
-			 sb.append("			<option value=\"1000\" "+getSelected(pageSize,1000)+">1000</option></select>&nbsp;&#x6761;&#x8BB0;&#x5F55; \r\n");
+			 sb.append("			<option value=\"100\" "+getSelected(pageSize,100)+">100</option></select>&nbsp;&#x6761;&#x8BB0;&#x5F55; \r\n");
 			 sb.append("	</span>\r\n");
 			 sb.append("</div>\r\n");
 			
