@@ -59,6 +59,7 @@ public class LoginAuthController {
 		System.out.print(randomString);
 		session.setAttribute("loginCode", randomString.toString());
 
+		resp.setHeader("Content-type", "text/html;charset=UTF-8");
 		// 禁止图像缓存。
 		resp.setHeader("Pragma", "no-cache");
 		resp.setHeader("Cache-Control", "no-cache");
