@@ -100,7 +100,33 @@ public class Sql{
 		}
 		return this;
 	}
-
+	/**
+	 *日期（yyyy-MM-dd），大于等于 
+	 * @param object
+	 * @param dbKey
+	 * @return
+	 */
+	public Sql addAndBiggerTime(Object object, String dbKey) {
+		if(object !=null) {
+			and=_getAnd()+dbKey+" >= ?";
+			andObjs.add(object);
+		}
+		return this;
+	}
+	
+	/**
+	 * 日期(yyyy-MM-dd)： 小于等于 ，默认加入 23:59:59
+	 * @param object
+	 * @param dbKey
+	 * @return
+	 */
+	public Sql addAndSmallerTime(Object object, String dbKey) {
+		if(object !=null) {
+			and=_getAnd()+dbKey+" <= ?";
+			andObjs.add(object+" 23:59:59");
+		}
+		return this;
+	}
 	public Sql addAndLike(String text,String dbKey) {
 		return addAndLike(text,dbKey,false);
 	}
